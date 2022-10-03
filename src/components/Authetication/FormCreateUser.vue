@@ -1,14 +1,15 @@
 <template>
-  <form>
-    <span id="formTitle">Fazer Cadastro</span>
-    <input type="text" placeholder="Nome" v-model="userName">
-    <input type="email" required placeholder="E-mail" v-model="userEmail">
-    <input type="password" placeholder="Senha" v-model="userPassword">
-    <input type="password" placeholder="Confirma sua senha" v-model="userPasswordCheck">
-    <input type="button" class="formButton" value="Entrar" @click="sendData()">
-    <span id="formChange" >Já é cadastrado? <a href="/">Acessar</a></span>
-
-  </form>
+  <div class="containerFormCreate">
+    <form>
+      <span id="formTitle">Fazer Cadastro</span>
+      <input type="text" placeholder="Nome" v-model="userName">
+      <input type="email" required placeholder="E-mail" v-model="userEmail">
+      <input type="password" placeholder="Senha" v-model="userPassword">
+      <input type="password" placeholder="Confirma sua senha" v-model="userPasswordCheck">
+      <input type="button" class="formButton" value="Entrar" @click="sendData()">
+      <span id="formChange" >Já é cadastrado? <a href="/">Acessar</a></span>
+    </form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -63,8 +64,8 @@ export default defineComponent({
       this.passWordMatch()? passwordMatch = true: passwordMatch = false;
       this.emailCheck()? isEmail = true: isEmail = false;
 
-      if(isBlank[0]&&isBlank[1]&&isBlank[2]&&isBlank[3]){
-        console.log('Algo deu errado');
+      if(isBlank[0]||isBlank[1]||isBlank[2]||isBlank[3]){
+        window.alert('Preencha todos os campos para avançar');
         isBlank.forEach( e => console.log(e))
         return
       }
@@ -78,6 +79,13 @@ export default defineComponent({
         window.alert('E-mail inválido')
         return
       }
+
+      console.log(`
+        Cadastrando:
+        Nome: ${this.userName},
+        E-mail: ${this.userEmail},
+        Senha: ${this.userPassword}
+      `)
 
     },
     async sendFormData(){
@@ -93,12 +101,19 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+  .containerFormCreate{
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+  }
+
   form{
     width: 350px;
     height: 440px;
     background: #E3F6FC;
     border-radius: 14px;
-    margin: 10vh auto;
 
     display: flex;
     flex-direction: column;
