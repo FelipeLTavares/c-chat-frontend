@@ -16,7 +16,10 @@
         value="Cadastrar"
         @click="sendCreateForm()"
       />
-      <span class="formChange">Já é cadastrado? <span @click.prevent="choiceOne()">Acessar</span></span>
+      <span class="formChange"
+        >Já é cadastrado?
+        <span @click.prevent="choiceOne()">Acessar</span></span
+      >
     </form>
 
     <form v-show="login">
@@ -29,7 +32,10 @@
         value="Entrar"
         @click="sendLoginForm()"
       />
-      <span class="formChange">Não é cadastrado? <span @click.prevent="choiceOne()">Cadastre-se</span></span>
+      <span class="formChange"
+        >Não é cadastrado?
+        <span @click.prevent="choiceOne()">Cadastre-se</span></span
+      >
     </form>
   </div>
 </template>
@@ -38,7 +44,7 @@
 import { defineComponent } from "vue";
 import axios from "axios";
 
-import BlankVerify from '../../functions/FormFunctions';
+import BlankVerify from "../../functions/FormFunctions";
 
 const hotmail = /@hotmail.com$/;
 const gmail = /@gmail.com$/;
@@ -68,8 +74,8 @@ export default defineComponent({
     };
   },
   methods: {
-    choiceOne():void{
-      this.login = !this.login
+    choiceOne(): void {
+      this.login = !this.login;
     },
     passWordMatch(): boolean {
       return this.userPassword === this.userPasswordCheck;
@@ -101,20 +107,28 @@ export default defineComponent({
       await axios.post("/", formData);
     },
     sendCreateForm() {
-      let isBlank: boolean[] = BlankVerify([this.userName, this.userEmail, this.userPassword, this.userPasswordCheck]);
+      let isBlank: boolean[] = BlankVerify([
+        this.userName,
+        this.userEmail,
+        this.userPassword,
+        this.userPasswordCheck,
+      ]);
       let passwordMatch: boolean, isEmail: boolean;
 
       isBlank[0] ? (this.nameIsBlank = true) : (this.nameIsBlank = false);
       isBlank[1] ? (this.emailIsBlank = true) : (this.emailIsBlank = false);
-      isBlank[2] ? (this.passwordIsBlank = true) : (this.passwordIsBlank = false);
-      isBlank[3] ? (this.passwordCheckIsBlank = true) : (this.passwordCheckIsBlank = false);
+      isBlank[2]
+        ? (this.passwordIsBlank = true)
+        : (this.passwordIsBlank = false);
+      isBlank[3]
+        ? (this.passwordCheckIsBlank = true)
+        : (this.passwordCheckIsBlank = false);
 
       this.passWordMatch() ? (passwordMatch = true) : (passwordMatch = false);
       this.emailCheck() ? (isEmail = true) : (isEmail = false);
 
       if (isBlank[0] || isBlank[1] || isBlank[2] || isBlank[3]) {
         window.alert("Preencha todos os campos para avançar");
-        isBlank.forEach((e) => console.log(e));
         return;
       }
       if (!passwordMatch) {
@@ -136,23 +150,17 @@ export default defineComponent({
       `);
     },
     sendLoginForm() {
-      let isBlank: boolean[] = BlankVerify([this.userName, this.userEmail]);
-      let passwordMatch: boolean, isEmail: boolean;
+      let isBlank: boolean[] = BlankVerify([this.userEmail, this.userPassword]);
+      let isEmail: boolean;
 
       isBlank[0] ? (this.nameIsBlank = true) : (this.nameIsBlank = false);
       isBlank[1] ? (this.emailIsBlank = true) : (this.emailIsBlank = false);
 
-      this.passWordMatch() ? (passwordMatch = true) : (passwordMatch = false);
       this.emailCheck() ? (isEmail = true) : (isEmail = false);
 
       if (isBlank[0] || isBlank[1] || isBlank[2] || isBlank[3]) {
         window.alert("Preencha todos os campos para avançar");
-        isBlank.forEach((e) => console.log(e));
-        return;
-      }
-      if (!passwordMatch) {
-        this.passwordDontMatch = true;
-        window.alert("Senhas inseridas não batem");
+        console.log(`Nome: ${isBlank[0]}`)
         return;
       }
       if (!isEmail) {
@@ -167,8 +175,8 @@ export default defineComponent({
         E-mail: ${this.userEmail},
         Senha: ${this.userPassword}
       `);
-    }
-  }
+    },
+  },
 });
 </script>
 
@@ -239,9 +247,11 @@ form {
   margin-bottom: 32px;
   margin-top: 24px;
 
-  span{
+  span {
     color: $c-royalblue;
-    &:hover{opacity: 0.5;}
+    &:hover {
+      opacity: 0.5;
+    }
   }
 }
 </style>
