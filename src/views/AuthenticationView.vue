@@ -1,14 +1,14 @@
 <template>
-    <FormCreateUser></FormCreateUser>
+    <AuthenticationForms></AuthenticationForms>
 </template>
 
 <script lang="ts">
-import FormCreateUser from '../components/Authetication/FormCreateUser.vue'
+import AuthenticationForms from '../components/Authetication/AuthenticationForms.vue'
 
   export default{
     name: 'AuthenticationView',
     components:{
-      FormCreateUser
+      AuthenticationForms
     }
   }
 </script>
