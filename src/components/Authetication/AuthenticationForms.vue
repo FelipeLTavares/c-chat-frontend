@@ -1,5 +1,5 @@
 <template>
-  <div class="containerCreateUserForm">
+  <div class="FormContainer">
     <form v-show="!login">
       <span class="formTitle">Fazer Cadastro</span>
       <input type="text" placeholder="Nome" v-model="userName" />
@@ -35,7 +35,7 @@
       <span class="formChange"
         >Não é cadastrado?
         <span @click.prevent="choiceOne()">Cadastre-se</span></span
-      >
+      > <router-link to="/chat">TESTANDO</router-link>
     </form>
   </div>
 </template>
@@ -117,12 +117,8 @@ export default defineComponent({
 
       isBlank[0] ? (this.nameIsBlank = true) : (this.nameIsBlank = false);
       isBlank[1] ? (this.emailIsBlank = true) : (this.emailIsBlank = false);
-      isBlank[2]
-        ? (this.passwordIsBlank = true)
-        : (this.passwordIsBlank = false);
-      isBlank[3]
-        ? (this.passwordCheckIsBlank = true)
-        : (this.passwordCheckIsBlank = false);
+      isBlank[2] ? (this.passwordIsBlank = true) : (this.passwordIsBlank = false);
+      isBlank[3] ? (this.passwordCheckIsBlank = true) : (this.passwordCheckIsBlank = false);
 
       this.passWordMatch() ? (passwordMatch = true) : (passwordMatch = false);
       this.emailCheck() ? (isEmail = true) : (isEmail = false);
@@ -160,7 +156,6 @@ export default defineComponent({
 
       if (isBlank[0] || isBlank[1] || isBlank[2] || isBlank[3]) {
         window.alert("Preencha todos os campos para avançar");
-        console.log(`Nome: ${isBlank[0]}`)
         return;
       }
       if (!isEmail) {
@@ -171,7 +166,6 @@ export default defineComponent({
 
       window.alert(`
         Cadastrando:
-        Nome: ${this.userName},
         E-mail: ${this.userEmail},
         Senha: ${this.userPassword}
       `);
@@ -187,7 +181,7 @@ export default defineComponent({
   justify-content: center;
 }
 
-.containerCreateUserForm {
+.FormContainer {
   width: 100%;
   height: 100vh;
   @extend .flex-center;

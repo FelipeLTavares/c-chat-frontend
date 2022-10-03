@@ -5,6 +5,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'AuthenticationView',
     component: () => import('../views/AuthenticationView.vue')
+  },
+  {
+    path: '/chat',
+    name: 'ChatView',
+    component: ()=> import('../views/ChatView.vue')
   }
 ]
 
