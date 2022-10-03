@@ -1,13 +1,21 @@
 <template>
-  <div class="containerFormCreate">
-    <form>
-      <span id="formTitle">Fazer Cadastro</span>
+  <div class="containerCreateUserForm">
+    <form v-show="false">
+      <span class="formTitle">Fazer Cadastro</span>
       <input type="text" placeholder="Nome" v-model="userName">
       <input type="email" required placeholder="E-mail" v-model="userEmail">
       <input type="password" placeholder="Senha" v-model="userPassword">
       <input type="password" placeholder="Confirma sua senha" v-model="userPasswordCheck">
       <input type="button" class="formButton" value="Entrar" @click="sendData()">
-      <span id="formChange" >Já é cadastrado? <a href="/">Acessar</a></span>
+      <span class="formChange" >Já é cadastrado? <a href="/">Acessar</a></span>
+    </form>
+
+    <form v-show="true">
+      <span class="formTitle">Acessar chat</span>
+      <input type="email" required placeholder="E-mail" v-model="userEmail">
+      <input type="password" placeholder="Senha" v-model="userPassword">
+      <input type="button" class="formButton" value="Entrar" @click="sendData()">
+      <span class="formChange" >Já é cadastrado? <a href="/">Acessar</a></span>
     </form>
   </div>
 </template>
@@ -101,84 +109,69 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-  .containerFormCreate{
+  .flex-center{
     display: flex;
-    width: 100%;
-    height: 100vh;
     align-items: center;
     justify-content: center;
   }
 
-  form{
-    width: 350px;
-    height: 440px;
-    background: #E3F6FC;
-    border-radius: 14px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .containerCreateUserForm{
+    width: 100%;
+    height: 100vh;
+    @extend .flex-center
   }
-
-  #formTitle{
-    width: 266px;
+  
+  .formTitle{
     height: 32px;
     margin-top: 32px;
     margin-bottom: 24px;
-    font-family: 'Poppins';
-    font-style: normal;
     font-weight: 600;
     font-size: 24px;
-    line-height: 36px;
-    text-align: center;
-    color: #52585D;
+    color: $c-text-gray;
   }
-
-  form > input {
-    width: 252px;
-    height: 40px;
-    border-radius: 10px;
-
-    background: #FDFDFD;
-    border: 1px solid rgba(150, 169, 186, 0.7);
+  
+  form{
+    width: 350px;
+    background: $c-lightblue;
     border-radius: 14px;
-    margin: 8px;
-    padding-left: 17px;
+    
+    @extend .flex-center;
+    flex-direction: column;
 
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 12px;
-    line-height: 18px;
+    input{
+      width: 252px;
+      height: 40px;
+      border-radius: 10px;
+      margin: 8px;
+      padding-left: 17px;
 
-    color: #96A9BA;
+      background: $c-generalbg;
+      outline-color: $c-royalblue;
+      border: 1px solid $c-border-gray;
+
+      font-size: 12px;
+      color: $c-input-gray;
+    }
+    .formButton{
+      font-weight: 600;
+      font-size: 12px;
+      color: $c-generalbg;
+      background-color: $c-royalblue;
+      padding: 0;
+      border-radius: 14px;
+
+      &:hover{
+        opacity: 0.8;
+      }
+    }
   }
-
-  form > .formButton{
-    padding: 0;
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 18px;
-    text-align: center;
-    color: #FFFFFF;
-    background-color: black;
-    background-color: #6588DE;
-    border-radius: 14px;
-  }
-
-  #formChange{
+  .formChange{
     width: 266px;
     height: 16px;
-    font-family: 'Poppins';
-    font-style: normal;
     font-weight: 600;
     font-size: 12px;
-    line-height: 18px;
     text-align: center;
-    color: #52585D;
-
+    color: $c-text-gray;
     margin-bottom: 32px;
     margin-top: 24px;
   }
