@@ -225,6 +225,7 @@ form {
     background-color: $c-royalblue;
     padding: 0;
     border-radius: 14px;
+    cursor: pointer;
 
     &:hover {
       opacity: 0.8;
@@ -240,6 +241,7 @@ form {
   color: $c-text-gray;
   margin-bottom: 32px;
   margin-top: 24px;
+  cursor: pointer;
 
   span {
     color: $c-royalblue;

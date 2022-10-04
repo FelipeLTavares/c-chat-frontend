@@ -11,7 +11,10 @@
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.3"
+    "vue-icon": "^2.3.0",
+    "vue-material-design-icons": "^5.1.2",
+    "vue-router": "^4.0.3",
+    "vue3-icon": "^2.0.0"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.4.0",
