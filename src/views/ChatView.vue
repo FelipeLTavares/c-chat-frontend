@@ -2,7 +2,7 @@
   <div class="containerChat">
     <usersSection></usersSection>
     <div class="chat">
-      <MessagesList :propMessageList="messagesList"></MessagesList>
+      <MessagesList :propMessageList="messagesListReady"></MessagesList>
       <div class="inputMessage">
         <input
           type="text"
@@ -22,7 +22,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import messagesListFile from "./../functions/messages";
+
+/* import messagesListFile from "./../functions/messages"; */
+import newMessagesFile from './../functions/newMessages'
 
 import Send from "vue3-material-design-icons-ts/dist/Send.vue";
 import usersSection from "@/components/chat/side/usersSection/usersSection.vue";
@@ -32,18 +34,25 @@ interface messageInfo {
   userName: string;
   messageText: string;
   messageTime: string;
-  isSelf: boolean;
+  isSelf?: boolean;
+}
+
+interface newMessageInfo {
+  userName: string,
+  messageText: string,
+  messageTime: string
 }
 
 export default defineComponent({
   name: "ChatView",
   data() {
     return {
-      userName: "" as string,
+      userName: "Felipe Tavares" as string,
       messageToSend: "" as string,
       messageTime: "00:00",
 
-      messagesList: messagesListFile as messageInfo[],
+      messagesListRaw: newMessagesFile as newMessageInfo[],
+      messagesListReady: [] as messageInfo[]
     };
   },
   components: {
@@ -53,18 +62,36 @@ export default defineComponent({
   },
   methods: {
     teste() {
+      const now = new Date();
+      const current = now.getHours() + ':' + now.getMinutes();
       let x = {
         userName: "Felipe Tavares",
         messageText: this.messageToSend,
-        messageTime: "18:21",
+        messageTime: current,
         isSelf: true,
       };
 
-      this.messagesList.push(x);
+      this.messagesListReady.push(x);
       this.messageToSend = "";
-      console.log(this.$refs.fim)
+    },
+
+    checkIfIsSelf(){
+      this.messagesListRaw.forEach( msg => {
+        if(msg.userName === this.userName){
+          let msgg:messageInfo = {...msg}
+          msgg.isSelf = true
+          this.messagesListReady.push(msgg)
+        } else {
+          let msgg:messageInfo = {...msg}
+          msgg.isSelf = false
+          this.messagesListReady.push(msgg)
+        }
+      })
     }
   },
+  mounted(){
+    this.checkIfIsSelf()
+  }
 });
 </script>
 
