@@ -1,17 +1,19 @@
 <template>
 <div class="inputMessage">
   <input type="text" class="IM" placeholder="Digite sua mensagem">
-  <button>Enviar</button>
+  <button>Enviar <div class="iconeSend"><Send :size="24" /></div> </button>
 </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import Send from 'vue3-material-design-icons-ts/dist/Send.vue';
 
 export default defineComponent({
   name: "inputMessage",
   components: {
-  }
+    Send
+}
 })
 </script>
 
@@ -45,10 +47,18 @@ export default defineComponent({
       border: none;
       border-radius: 14px;
       cursor: pointer;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
-  .sendIcon{
-    width: 10px;
-    height: 18px;
+
+  .iconeSend{
+    width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 </style>
+
