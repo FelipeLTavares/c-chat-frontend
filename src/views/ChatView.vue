@@ -2,7 +2,7 @@
   <div class="containerChat">
     <usersSection></usersSection>
     <div class="chat">
-      <div></div>
+      <MessagesList></MessagesList>
       <InputMessage></InputMessage>
     </div>
   </div>
@@ -13,11 +13,13 @@ import { defineComponent } from "vue";
 
 import usersSection from "../components/chat/usersSection/usersSection.vue";
 import InputMessage from "@/components/chat/input/inputMessage.vue";
+import MessagesList from "@/components/chat/messagesList/messagesList.vue";
 
 export default defineComponent({
     components: {
     usersSection,
-    InputMessage
+    InputMessage,
+    MessagesList
 }
 })
 </script>
