@@ -9,7 +9,7 @@
   <script lang="ts">
 import { defineComponent } from "vue";
 import MessageBox from "../message/messageBox.vue";
-import messages from "@/functions/messages";
+import messages from "../../../../functions/messages";
 
 interface messageInfo {
   userName: string,
