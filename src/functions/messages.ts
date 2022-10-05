@@ -29,30 +29,6 @@ const messages: messageInfo[] = [
     messageText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
     messageTime: '00:00',
     isSelf: false
-  },
-  {
-    userName: 'Jirlan Souza',
-    messageText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at est venenatis dui tincidunt varius sit amet at purus. Nunc lacinia urna a mi facilisis, sit amet egestas lorem pretium. Quisque bibendum ut ante et suscipit. Cras fringilla purus et dignissim condimentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;`,
-    messageTime: '00:00',
-    isSelf: false
-  },
-  {
-    userName: 'Paulo Santana',
-    messageText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-    messageTime: '00:00',
-    isSelf: false
-  },
-  {
-    userName: 'Jirlan Souza',
-    messageText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at est venenatis dui tincidunt varius sit amet at purus. Nunc lacinia urna a mi facilisis, sit amet egestas lorem pretium. Quisque bibendum ut ante et suscipit. Cras fringilla purus et dignissim condimentum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;`,
-    messageTime: '00:00',
-    isSelf: false
-  },
-  {
-    userName: 'Paulo Santana',
-    messageText: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
-    messageTime: '00:00',
-    isSelf: false
   }
 ]
 export default messages;

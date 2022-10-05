@@ -3,13 +3,13 @@
     <MessageBox v-for="message in messagesList" :key="message.userName" :userName="message.userName"
       :messageText="message.messageText" :messageTime="message.messageTime" :messageSelf="message.isSelf"
     />
+    <div class="fim" ref="fim"></div>
   </div>
 </template>
   
   <script lang="ts">
 import { defineComponent } from "vue";
 import MessageBox from "../message/messageBox.vue";
-import messages from "../../../../functions/messages";
 
 interface messageInfo {
   userName: string,
@@ -23,12 +23,23 @@ export default defineComponent({
   components: {
     MessageBox,
   },
+  props:{
+    propMessageList: Array
+  },
   data(){
     return{
-      messagesList: messages as messageInfo[]
+      messagesList: this.propMessageList as messageInfo[]
     }
+  },
+  methods:{
+    onChange(){
+      (this.$refs.fim as any).scrollIntoView({behavior: "smooth"})
+    }
+  },
+  updated(){
+    this.onChange()
   }
-});
+})
 </script>
   
   <style scoped lang="scss">

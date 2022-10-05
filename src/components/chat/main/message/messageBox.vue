@@ -49,7 +49,6 @@ export default defineComponent({
         }else{
         this.messageStyle=this.other
         }
-        console.log(this.messageSelf)
       }
   },
   mounted(){

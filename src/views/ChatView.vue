@@ -2,9 +2,15 @@
   <div class="containerChat">
     <usersSection></usersSection>
     <div class="chat">
-      <MessagesList></MessagesList>
+      <MessagesList :propMessageList="messagesList"></MessagesList>
       <div class="inputMessage">
-        <input type="text" class="IM" placeholder="Digite sua mensagem" v-model="messageToSend" />
+        <input
+          type="text"
+          class="IM"
+          placeholder="Digite sua mensagem"
+          v-model="messageToSend"
+          @keyup.enter="teste()"
+        />
         <button @click="teste()">
           Enviar
           <div class="iconeSend"><Send :size="24" /></div>
@@ -16,40 +22,49 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import messagesList from './../functions/messages'
+import messagesListFile from "./../functions/messages";
 
 import Send from "vue3-material-design-icons-ts/dist/Send.vue";
 import usersSection from "@/components/chat/side/usersSection/usersSection.vue";
 import MessagesList from "@/components/chat/main/messagesList/messagesList.vue";
 
 interface messageInfo {
-  userName: string,
-  messageText: string,
-  messageTime: string,
-  isSelf: boolean
+  userName: string;
+  messageText: string;
+  messageTime: string;
+  isSelf: boolean;
 }
 
 export default defineComponent({
-  name: 'ChatView',
-  data(){
-    return{
-      userName: '' as string,
-      messageToSend: '' as string,
-      messageTime: '00:00',
-      
-      messagesList: messagesList as messageInfo[]
-    }
+  name: "ChatView",
+  data() {
+    return {
+      userName: "" as string,
+      messageToSend: "" as string,
+      messageTime: "00:00",
+
+      messagesList: messagesListFile as messageInfo[],
+    };
   },
   components: {
     usersSection,
     MessagesList,
     Send,
   },
-  methods:{
-    teste(){
-      console.log(this.messageToSend)
+  methods: {
+    teste() {
+      let x = {
+        userName: "Felipe Tavares",
+        messageText: this.messageToSend,
+        messageTime: "18:21",
+        isSelf: true,
+      };
+
+      this.messagesList.push(x);
+      this.messageToSend = "";
+      console.log(this.$refs.fim)
     }
-  }
+  },
 });
 </script>
 
@@ -109,5 +124,14 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.messagesList {
+  width: 100%;
+  height: calc(100vh - 72px);
+  padding: 5px 60px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
 }
 </style>
