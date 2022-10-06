@@ -14,7 +14,7 @@
         type="button"
         class="formButton"
         value="Cadastrar"
-        @click="sendCreateForm()"
+        @click="teste()"
       />
       <span class="formChange"
         >Já é cadastrado?
@@ -30,27 +30,41 @@
         type="button"
         class="formButton"
         value="Entrar"
-        @click="sendLoginForm()"
+        @click="teste()"
       />
       <span class="formChange"
         >Não é cadastrado?
         <span @click.prevent="choiceOne()">Cadastre-se</span></span
-      > <router-link to="/chat">TESTANDO</router-link>
+      >
+      <button @click="teste">TASDASDASDASD</button>
+      <router-link to="/chat">TESTANDO</router-link>
     </form>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapMutations, mapState } from "vuex";
 import axios from "axios";
 
-import BlankVerify from "../../functions/FormFunctions";
+import { passWordMatch, emailCheck, isSomethingBlank } from '../../functions/VerifyFunction'
 
 const hotmail = /@hotmail.com$/;
 const gmail = /@gmail.com$/;
 const outlook = /@outlook.com$/;
 const yahoo1 = /@yahoo.com.br$/;
 const yahoo2 = /@yahoo.com$/;
+
+interface UserInfo {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    avatarUrl: string;
+  };
+  token: string;
+  isLoggedIn: boolean;
+}
 
 export default defineComponent({
   name: "AuthenticationForms",
@@ -64,16 +78,19 @@ export default defineComponent({
 
       login: true as boolean,
 
-      nameIsBlank: false as boolean,
-      emailIsBlank: false as boolean,
-      passwordIsBlank: false as boolean,
-      passwordCheckIsBlank: false as boolean,
-
-      passwordDontMatch: false as boolean,
-      isNotEmail: false as boolean,
+      apiUrl: process.env.VUE_APP_URL_TESTE
     };
   },
+
+  computed:{
+    ...mapState([
+      'userInfo'
+    ])
+  },
+
   methods: {
+    ...mapMutations(["SET_USER_INFO"]),
+
     choiceOne(): void {
       this.login = !this.login;
     },
@@ -91,22 +108,91 @@ export default defineComponent({
         ? true
         : false;
     },
-    async sendCreateData() {
-      let formData = {
-        name: this.userName,
-        email: this.userEmail,
-        password: this.userPassword,
-      };
-      await axios.post("/", formData);
+    async postCreateUser() {
+      try {
+        let formData = {
+          name: this.userName,
+          email: this.userEmail,
+          password: this.userPassword,
+        };
+
+        await axios.post(`${this.apiUrl}/users`, formData)
+          .then((res) => {
+            if (res.status === 201) {
+              window.alert(
+                "Usuário cadatrado com sucesso! Agora acessa sua conta usando login e senha."
+              );
+              this.choiceOne();
+            } else {
+              window.alert(
+                "Ocorreu um erro ao registrar o formulário. Por Favor, tente novamente mais tarde."
+              );
+            }
+          })
+          .catch(() => {
+            window.alert(
+              "Ocorreu um erro ao tentar enviar o formulário. Por Favor, tente novamente mais tarde."
+            );
+          });
+      } catch (error) {
+        window.alert(
+          "Ocorreu um erro ao tentar enviar o formulário. Por Favor, tente novamente mais tarde."
+        );
+      }
     },
-    async sendLoginData() {
-      let formData = {
-        email: this.userEmail,
-        password: this.userPassword,
-      };
-      await axios.post("/", formData);
+    async postLoginUser() {
+      try {
+        let formData = {
+          email: this.userEmail,
+          password: this.userPassword,
+        };
+
+        await axios
+          .post(`${this.apiUrl}/auth`, formData)
+          .then((res) => {
+            if (res.status === 200) {
+              let userInfo: UserInfo = { ...res.data, isLoggedIn: true };
+
+              this.SET_USER_INFO(userInfo);
+            } else if (res.status === 400) {
+              window.alert("Login ou senha inválidos!");
+            } else {
+              window.alert(
+                "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
+              );
+            }
+          })
+          .catch(() => {
+            window.alert(
+              "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
+            );
+          });
+      } catch (error) {
+        window.alert(
+          "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
+        );
+      }
     },
-    sendCreateForm() {
+    isEverythingOk(){
+      if( isSomethingBlank([ this.userName, this.userEmail, this.userPassword, this.userPasswordCheck]) ){ //Verify if something is missing
+        window.alert('Preencha todos os campos!')
+        return false
+      } else if( !emailCheck( this.userEmail ) ){
+        window.alert('E-mail inválido!')
+        return false
+      } else if( !passWordMatch( this.userPassword, this.userPasswordCheck) ){
+        window.alert('As senhas inseridas não batem!')
+        return false
+      } else {
+        return true
+      }
+    },
+    teste(){
+      if(this.isEverythingOk()){
+        window.alert('Deu tudo Certo!')
+      }
+    }
+    /* createFormCheck() {
       let isBlank: boolean[] = BlankVerify([
         this.userName,
         this.userEmail,
@@ -114,11 +200,6 @@ export default defineComponent({
         this.userPasswordCheck,
       ]);
       let passwordMatch: boolean, isEmail: boolean;
-
-      isBlank[0] ? (this.nameIsBlank = true) : (this.nameIsBlank = false);
-      isBlank[1] ? (this.emailIsBlank = true) : (this.emailIsBlank = false);
-      isBlank[2] ? (this.passwordIsBlank = true) : (this.passwordIsBlank = false);
-      isBlank[3] ? (this.passwordCheckIsBlank = true) : (this.passwordCheckIsBlank = false);
 
       this.passWordMatch() ? (passwordMatch = true) : (passwordMatch = false);
       this.emailCheck() ? (isEmail = true) : (isEmail = false);
@@ -137,15 +218,8 @@ export default defineComponent({
         window.alert("E-mail inválido");
         return;
       }
-
-      window.alert(`
-        Cadastrando:
-        Nome: ${this.userName},
-        E-mail: ${this.userEmail},
-        Senha: ${this.userPassword}
-      `);
-    },
-    sendLoginForm() {
+    }, */
+/*     sendLoginForm() {
       let isBlank: boolean[] = BlankVerify([this.userEmail, this.userPassword]);
       let isEmail: boolean;
 
@@ -163,13 +237,10 @@ export default defineComponent({
         window.alert("E-mail inválido");
         return;
       }
-
-      window.alert(`
-        Cadastrando:
-        E-mail: ${this.userEmail},
-        Senha: ${this.userPassword}
-      `);
     },
+    teste(){
+      this.$router.push('chat')
+    } */
   },
 });
 </script>

@@ -7,23 +7,28 @@ interface UserInfo {
     email: string,
     avatarUrl: string
   },
-  token: string
+  token: string,
+  isLoggedIn: boolean
 }
 
 export default createStore({
+
   state: {
-    user: {
-      id: '',
-      name: '',
-      email: '',
-      avatarUrl: ''
-    },
-    token: ''
+    userInfo: {
+      user: {
+        id: '' as string,
+        name: '' as string,
+        email: '' as string,
+        avatarUrl: '' as string
+      },
+      token: '' as string,
+      isLoggedIn: false as boolean
+    }
   },
 
   mutations: {
-    SET_USER_INFO(state, userInfo:UserInfo){
-      state = userInfo
+    SET_USER_INFO(state, userInfoo: UserInfo) {
+      state.userInfo = userInfoo
     }
   }
 })
