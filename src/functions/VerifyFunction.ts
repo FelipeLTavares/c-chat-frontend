@@ -1,8 +1,8 @@
-export const passWordMatch = ( pw1:string, pw2:string ):boolean => {
+export const passWordMatch = (pw1: string, pw2: string): boolean => {
   return (pw1 === pw2)
 }
 
-export const emailCheck = (email:string):boolean => {
+export const emailCheck = (email: string): boolean => {
   const hotmail = /@hotmail.com$/
   const gmail = /@gmail.com$/
   const outlook = /@outlook.com$/
@@ -26,7 +26,7 @@ export const isSomethingBlank = (args: string[]): boolean => {
   args[2] === "" ? (isBlank[2] = true) : (isBlank[2] = false); //Password
   args[3] === "" ? (isBlank[3] = true) : (isBlank[3] = false); //Check Pw
 
-  if(isBlank[0] || isBlank[1] || isBlank[2] || isBlank[3]){
+  if (isBlank[0] || isBlank[1] || isBlank[2] || isBlank[3]) {
     return true
   } else {
     return false
