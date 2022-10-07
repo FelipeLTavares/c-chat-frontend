@@ -31,8 +31,6 @@
         >Não é cadastrado?
         <span @click.prevent="choiceOne()">Cadastre-se</span></span
       >
-      <h3 @click="isEverythingOkWithAuthForm">ASDASDASD</h3>
-      <router-link to="/chat">TESTANDO</router-link>
     </form>
   </div>
 </template>
@@ -137,7 +135,6 @@ export default defineComponent({
           await axios
             .post(`${this.apiUrl}auth`, formData)
             .then((res) => {
-              console.log(res)
               if (res.status === 200) {
                 let userInfo: UserInfo = { ...res.data, isLoggedIn: true };
 

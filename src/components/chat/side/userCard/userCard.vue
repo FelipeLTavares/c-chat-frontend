@@ -6,10 +6,6 @@
         <span class="userName">{{userName}}</span>
         <span class="userStatus">{{userStatus}}</span>
       </div>
-      <div class="userMessagesInfo">
-        <div class="time">{{MTime}}</div>
-        <div class="unread">{{MUnread}}</div>
-      </div>
     </div>
   </div>
 </template>
@@ -68,27 +64,4 @@ export default {
     line-height: 15px;
     color: $c-status-gray;
   }
-  .userMessagesInfo{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .time{
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 12px;
-  }
-  .unread{
-    width: 26px;
-    height: 18px;
-    background: #F3BA4A;
-    border-radius: 14px;
-    color: white;
-    text-align: center;
-
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 18px;
-  }
-
 </style>

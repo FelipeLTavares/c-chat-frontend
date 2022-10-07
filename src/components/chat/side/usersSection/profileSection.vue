@@ -17,7 +17,11 @@ export default defineComponent( {
   computed: {
     ...mapState(["userInfo"]),
   },
-  
+  methods:{
+    consolee(){
+      this.$router.push({name: 'Auth'})
+    }
+  }
 })
 </script>
 

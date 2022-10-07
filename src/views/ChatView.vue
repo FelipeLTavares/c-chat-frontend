@@ -9,9 +9,9 @@
           class="IM"
           placeholder="Digite sua mensagem"
           v-model="messageToSend"
-          @keyup.enter="teste()"
+          @keyup.enter="putNewMessage()"
         />
-        <button @click="teste()">
+        <button @click="putNewMessage()">
           Enviar
           <div class="iconeSend"><Send :size="24" /></div>
         </button>
@@ -64,17 +64,17 @@ export default defineComponent({
     ...mapState(["userInfo"]),
   },
   methods: {
-    teste() {
+    putNewMessage() {
       const now = new Date();
       const current = now.getHours() + ':' + now.getMinutes();
-      let x = {
+      let newMsg = {
         userName: "Felipe Tavares",
         messageText: this.messageToSend,
         messageTime: current,
         isSelf: true,
       };
 
-      this.messagesListReady.push(x);
+      this.messagesListReady.push(newMsg);
       this.messageToSend = "";
     },
 
@@ -96,11 +96,12 @@ export default defineComponent({
       if( !this.userInfo.isLoggedIn ){
         this.$router.push({name: 'Auth'})
       }
-    }
+    },
   },
 
   mounted(){
     this.isLogged()
+    this.checkIfIsSelf()
   }
 });
 </script>
