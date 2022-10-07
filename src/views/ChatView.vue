@@ -22,8 +22,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { mapState } from "vuex";
 
-/* import messagesListFile from "./../functions/messages"; */
 import newMessagesFile from './../functions/newMessages'
 
 import Send from "vue3-material-design-icons-ts/dist/Send.vue";
@@ -60,6 +60,9 @@ export default defineComponent({
     MessagesList,
     Send,
   },
+  computed: {
+    ...mapState(["userInfo"]),
+  },
   methods: {
     teste() {
       const now = new Date();
@@ -87,10 +90,17 @@ export default defineComponent({
           this.messagesListReady.push(msgg)
         }
       })
+    },
+
+    isLogged(){
+      if( !this.userInfo.isLoggedIn ){
+        this.$router.push({name: 'Auth'})
+      }
     }
   },
+
   mounted(){
-    this.checkIfIsSelf()
+    this.isLogged()
   }
 });
 </script>

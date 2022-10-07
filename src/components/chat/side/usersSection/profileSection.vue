@@ -2,7 +2,7 @@
   <div class="profileContainer">
     <div class="userPic"></div>
     <div class="userInfo">
-      <span class="userName">{{userInfo.user.name}}</span>
+      <span class="userName" @click="consolee()">{{userInfo.user.name}}</span>
       <span class="userStatus">{{userInfo.user.email}}</span>
     </div>
   </div>
@@ -16,7 +16,8 @@ export default defineComponent( {
   name: 'profileSection',
   computed: {
     ...mapState(["userInfo"]),
-  }
+  },
+  
 })
 </script>
 

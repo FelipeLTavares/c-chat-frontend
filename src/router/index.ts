@@ -3,12 +3,12 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'AuthenticationView',
+    name: 'Auth',
     component: () => import('../views/AuthenticationView.vue')
   },
   {
     path: '/chat',
-    name: 'ChatView',
+    name: 'Chat',
     component: ()=> import('../views/ChatView.vue')
   }
 ]
