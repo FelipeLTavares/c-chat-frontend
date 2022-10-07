@@ -31,6 +31,7 @@
         >Não é cadastrado?
         <span @click.prevent="choiceOne()">Cadastre-se</span></span
       >
+      <h3 @click="isEverythingOkWithAuthForm">ASDASDASD</h3>
       <router-link to="/chat">TESTANDO</router-link>
     </form>
   </div>
@@ -44,7 +45,8 @@ import axios from "axios";
 import {
   passWordMatch,
   emailCheck,
-  isSomethingBlank,
+  isSomethingBlankCreateForm,
+  isSomethingBlankAuthForm
 } from "../../functions/VerifyFunction";
 
 interface UserInfo {
@@ -66,7 +68,6 @@ export default defineComponent({
       userEmail: "" as string,
       userPassword: "" as string,
       userPasswordCheck: "" as string,
-      pwMatch: false as boolean,
 
       login: true as boolean,
 
@@ -82,11 +83,16 @@ export default defineComponent({
     ...mapMutations(["SET_USER_INFO"]),
 
     choiceOne(): void {
-      this.login = !this.login;
+      this.userName = ""
+      this.userEmail = "" 
+      this.userPassword = "" 
+      this.userPasswordCheck = ""
+
+      this.login = !this.login
     },
 
     async postCreateUser() {
-      if (this.isEverythingOk()) {
+      if (this.isEverythingOkWithCreateForm()) {
         try {
           let formData = {
             name: this.userName,
@@ -95,7 +101,7 @@ export default defineComponent({
           };
 
           await axios
-            .post(`${this.apiUrl}/users`, formData)
+            .post(`${this.apiUrl}users`, formData)
             .then((res) => {
               if (res.status === 201) {
                 window.alert(
@@ -121,7 +127,7 @@ export default defineComponent({
       }
     },
     async postLoginUser() {
-      if (this.isEverythingOk()) {
+      if (this.isEverythingOkWithAuthForm()) {
         try {
           let formData = {
             email: this.userEmail,
@@ -129,15 +135,16 @@ export default defineComponent({
           };
 
           await axios
-            .post(`${this.apiUrl}/auth`, formData)
+            .post(`${this.apiUrl}auth`, formData)
             .then((res) => {
+              console.log(res)
               if (res.status === 200) {
                 let userInfo: UserInfo = { ...res.data, isLoggedIn: true };
 
                 this.SET_USER_INFO(userInfo);
 
                 this.$router.push('/chat')
-              } else if (res.status === 400) {
+              } else if (res.status === 204) {
                 window.alert("Login ou senha inválidos!");
               } else {
                 window.alert(
@@ -157,13 +164,11 @@ export default defineComponent({
         }
       }
     },
-    isEverythingOk() {
+    isEverythingOkWithCreateForm() {
       if (
-        isSomethingBlank([
-          this.userName,
+        isSomethingBlankCreateForm([
           this.userEmail,
           this.userPassword,
-          this.userPasswordCheck,
         ])
       ) {
         window.alert("Preencha todos os campos!");
@@ -178,6 +183,25 @@ export default defineComponent({
         return true;
       }
     },
+    isEverythingOkWithAuthForm(){
+      if (
+        isSomethingBlankAuthForm([
+          this.userEmail,
+          this.userPassword,
+        ])
+      ) {
+        window.alert("Preencha todos os campos!");
+        return false;
+      } else if (!emailCheck(this.userEmail)) {
+        window.alert("E-mail inválido!");
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+
+
   },
 });
 </script>

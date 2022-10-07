@@ -18,7 +18,7 @@ export const emailCheck = (email: string): boolean => {
   return isHotmail || isGmail || isOutlook || isYahoo1 || isYahoo2 ? true : false;
 }
 
-export const isSomethingBlank = (args: string[]): boolean => {
+export const isSomethingBlankCreateForm = (args: string[]): boolean => {
   const isBlank: boolean[] = [];
 
   args[0] === "" ? (isBlank[0] = true) : (isBlank[0] = false); //name
@@ -27,6 +27,19 @@ export const isSomethingBlank = (args: string[]): boolean => {
   args[3] === "" ? (isBlank[3] = true) : (isBlank[3] = false); //Check Pw
 
   if (isBlank[0] || isBlank[1] || isBlank[2] || isBlank[3]) {
+    return true
+  } else {
+    return false
+  }
+}
+
+export const isSomethingBlankAuthForm = (args: string[]):boolean =>{
+  const isBlank: boolean[] = [];
+
+  args[0] === "" ? (isBlank[0] = true) : (isBlank[0] = false); //Email
+  args[1] === "" ? (isBlank[1] = true) : (isBlank[1] = false); //Password
+
+  if (isBlank[0] || isBlank[1]) {
     return true
   } else {
     return false
