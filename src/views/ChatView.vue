@@ -15,7 +15,6 @@
           Enviar
           <div class="iconeSend"><Send :size="24" /></div>
         </button>
-        <button @click="getFirstMessages()">TESTE</button>
       </div>
     </div>
   </div>
@@ -31,24 +30,31 @@ import axios from "axios";
 import Send from "vue3-material-design-icons-ts/dist/Send.vue";
 import usersSection from "@/components/chat/side/usersSection/usersSection.vue";
 import MessagesList from "@/components/chat/main/messagesList/messagesList.vue";
+import setupWS, { SetupWS } from "@/services/websocket";
 
-interface User {
+interface messageRaw {
   id: string;
-  name: string;
-  avatarUrl: string;
+  roomId: string;
+  user: {
+    id: string;
+    name: string;
+    avatarUrl: string;
+  };
+  text: string;
+  created: string;
 }
 
-interface newMessageInfo {
-  user: User,
-  messageText: string,
-  messageTime: string
-}
-
-interface messageInfo {
-  user: User;
-  messageText: string;
-  messageTime: string;
-  isSelf?: boolean;
+interface messageReady {
+  id: string;
+  roomId: string;
+  user: {
+    id: string;
+    name: string;
+    avatarUrl: string;
+  };
+  text: string;
+  created: string;
+  isSelf: boolean;
 }
 
 export default defineComponent({
@@ -59,8 +65,9 @@ export default defineComponent({
       messageToSend: "" as string,
       messageTime: "00:00",
 
-      messagesListRaw: [] as newMessageInfo[],
-      messagesListReady: [] as messageInfo[]
+      messagesListRaw: [] as messageRaw[],
+      messagesListReady: [] as messageReady[],
+      emitEvents: {} as SetupWS,
     };
   },
   components: {
@@ -72,58 +79,52 @@ export default defineComponent({
     ...mapState(["userInfo"]),
   },
   methods: {
-    putNewMessage() {
-      const now = new Date();
-      const current = now.getHours() + ':' + now.getMinutes();
-      let newMsg = {
-        user: {
-          id: 'asdasdasd',
-          name: 'Felipe Tavares',
-          avatarUrl: 'string'
-        },
-        messageText: this.messageToSend,
-        messageTime: current,
-        isSelf: true,
-      };
-
-      this.messagesListReady.push(newMsg);
-      this.messageToSend = "";
+    checkIfIsSelfMessageList(messagesListRaw: messageRaw[]) {
+      messagesListRaw.forEach((msg) => {
+        this.checkIsSelf(msg);
+      });
     },
 
-    checkIfIsSelf(messagesListRaw:newMessageInfo[]){
-      messagesListRaw.forEach( msg => {
-        if(msg.user.name === this.userName){
-          let msgg:messageInfo = {...msg}
-          msgg.isSelf = true
-          this.messagesListReady.push(msgg)
-        } else {
-          let msgg:messageInfo = {...msg}
-          msgg.isSelf = false
-          this.messagesListReady.push(msgg)
-        }
-      })
-    },
-
-    isLogged(){
-      if( !this.userInfo.isLoggedIn ){
-        this.$router.push({name: 'Auth'})
+    checkIsSelf(msg: messageRaw) {
+      if (msg.user.name === this.userName) {
+        let msgg = { ...msg, isSelf: true };
+        this.messagesListReady.push(msgg);
+      } else {
+        let msgg = { ...msg, isSelf: false };
+        msgg.isSelf = false;
+        this.messagesListReady.push(msgg);
       }
     },
 
-    getFirstMessages(){
-      axios.get(`${process.env.VUE_APP_URL_TESTE}chat`)
-      .then( res => {
-        console.log(res.data.messages[0].text)
+    isLogged() {
+      if (!this.userInfo.isLoggedIn) {
+        this.$router.push({ name: "Auth" });
+      }
+    },
 
-        this.checkIfIsSelf(res.data.messages)
-      })
-    }
+    getFirstMessages() {
+      axios.get(`${process.env.VUE_APP_URL_TESTE}chat`).then((res) => {
+        console.log(res.data.messages);
+
+        this.checkIfIsSelfMessageList(res.data.messages);
+      });
+    },
+
+    putNewMessage() {
+      const msg = {
+        roomId: this.messagesListRaw[0].roomId,
+        userId: this.userInfo.user.id,
+        text: this.messageToSend,
+      };
+      this.emitEvents.sendNewMessage(msg);
+    },
   },
 
-  mounted(){
-    this.isLogged()
-    /* this.checkIfIsSelf() */
-  }
+  mounted() {
+    this.isLogged();
+    this.getFirstMessages();
+    this.emitEvents = setupWS(this.userInfo.token, this.checkIsSelf.bind(this));
+  },
 });
 </script>
 

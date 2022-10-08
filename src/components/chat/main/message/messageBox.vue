@@ -1,5 +1,5 @@
 <template>
-  <div class="messageBox" :style="messageStyle" >
+  <div class="messageBox" :style="messageStyle">
     <span class="MBUser">{{ userName }}</span>
     <p class="messageBoxText">
       {{ messageText }}
@@ -12,9 +12,10 @@
 import { defineComponent } from "vue";
 
 interface messageStyle {
-  alignSelf: string,
-  borderRadius: string,
-  backgroundColor?: string
+  alignSelf: string;
+  borderRadius: string;
+  backgroundColor?: string;
+  color?: string;
 }
 
 export default defineComponent({
@@ -24,7 +25,7 @@ export default defineComponent({
     userName: String,
     messageText: String,
     messageTime: String,
-    messageSelf: Boolean
+    messageSelf: Boolean,
   },
   data() {
     return {
@@ -32,28 +33,29 @@ export default defineComponent({
       boxColor: "flex-end" as string,
       messageStyle: {} as messageStyle,
       self: {
-        alignSelf: 'flex-end',
-        borderRadius: '15px 0 15px 15px',
-        backgroundColor: 'orange'
+        alignSelf: "flex-end",
+        borderRadius: "15px 0 15px 15px",
+        backgroundColor: "orange",
+        color: "#FDFDFE",
       } as messageStyle,
       other: {
-        alignSelf: 'flex-start',
-        borderRadius: '0 15px 15px 15px'
-      } as messageStyle
+        alignSelf: "flex-start",
+        borderRadius: "0 15px 15px 15px",
+      } as messageStyle,
     };
   },
-  methods:{
-    verifyIfSelf(){
-        if(this.messageSelf){
-          this.messageStyle = this.self
-        }else{
-        this.messageStyle=this.other
-        }
+  methods: {
+    verifyIfSelf() {
+      if (this.messageSelf) {
+        this.messageStyle = this.self;
+      } else {
+        this.messageStyle = this.other;
       }
+    },
   },
-  mounted(){
+  mounted() {
     this.verifyIfSelf();
-  }
+  },
 });
 </script>
   

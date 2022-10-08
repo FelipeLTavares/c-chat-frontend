@@ -1,7 +1,12 @@
 <template>
   <div class="messagesList">
-    <MessageBox v-for="message in messagesList" :key="message.userName" :userName="message.userName"
-      :messageText="message.messageText" :messageTime="message.messageTime" :messageSelf="message.isSelf"
+    <MessageBox
+      v-for="message in messagesList"
+      :key="message.id"
+      :userName="message.user.name"
+      :messageText="message.text"
+      :messageTime="message.created"
+      :messageSelf="message.isSelf"
     />
     <div class="fim" ref="fim"></div>
   </div>
@@ -12,10 +17,16 @@ import { defineComponent } from "vue";
 import MessageBox from "../message/messageBox.vue";
 
 interface messageInfo {
-  userName: string,
-  messageText: string,
-  messageTime: string,
-  isSelf: boolean
+  id: string;
+  roomId: string;
+  user: {
+    id: string;
+    name: string;
+    avatarUrl: string;
+  };
+  text: string;
+  created: string;
+  isSelf: boolean;
 }
 
 export default defineComponent({
@@ -23,23 +34,23 @@ export default defineComponent({
   components: {
     MessageBox,
   },
-  props:{
-    propMessageList: Array
+  props: {
+    propMessageList: Array,
   },
-  data(){
-    return{
-      messagesList: this.propMessageList as messageInfo[]
-    }
+  data() {
+    return {
+      messagesList: this.propMessageList as messageInfo[],
+    };
   },
-  methods:{
-    onChange(){
-      (this.$refs.fim as any).scrollIntoView({behavior: "smooth"})
-    }
+  methods: {
+    onChange() {
+      (this.$refs.fim as any).scrollIntoView({ behavior: "smooth" });
+    },
   },
-  updated(){
-    this.onChange()
-  }
-})
+  updated() {
+    this.onChange();
+  },
+});
 </script>
   
   <style scoped lang="scss">
