@@ -71,8 +71,10 @@ export default defineComponent({
   align-items: center;
 }
 .messageBoxText {
+  max-width: 95%;
+  text-align: left;
+  overflow: hidden;
   font-family: "Roboto";
-  text-align: justify;
   font-size: 12px;
   align-self: flex-start;
 }
