@@ -61,7 +61,7 @@ export default defineComponent({
   name: "ChatView",
   data() {
     return {
-      userName: "Felipe Tavares" as string,
+      userName: "" as string,
       messageToSend: "" as string,
       messageTime: "00:00",
 
@@ -86,7 +86,7 @@ export default defineComponent({
     },
 
     checkIsSelf(msg: messageRaw) {
-      if (msg.user.name === this.userName) {
+      if (msg.user.name === this.userInfo.user.name) {
         let msgg = { ...msg, isSelf: true };
         this.messagesListReady.push(msgg);
       } else {
@@ -117,6 +117,7 @@ export default defineComponent({
         text: this.messageToSend,
       };
       this.emitEvents.sendNewMessage(msg);
+      this.messageToSend = "";
     },
   },
 
