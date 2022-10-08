@@ -15,6 +15,7 @@
           Enviar
           <div class="iconeSend"><Send :size="24" /></div>
         </button>
+        <button @click="getFirstMessages()">TESTE</button>
       </div>
     </div>
   </div>
@@ -23,24 +24,31 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState } from "vuex";
+import axios from "axios";
 
-import newMessagesFile from './../functions/newMessages'
+/* import newMessagesFile from './../functions/newMessages' */
 
 import Send from "vue3-material-design-icons-ts/dist/Send.vue";
 import usersSection from "@/components/chat/side/usersSection/usersSection.vue";
 import MessagesList from "@/components/chat/main/messagesList/messagesList.vue";
 
-interface messageInfo {
-  userName: string;
-  messageText: string;
-  messageTime: string;
-  isSelf?: boolean;
+interface User {
+  id: string;
+  name: string;
+  avatarUrl: string;
 }
 
 interface newMessageInfo {
-  userName: string,
+  user: User,
   messageText: string,
   messageTime: string
+}
+
+interface messageInfo {
+  user: User;
+  messageText: string;
+  messageTime: string;
+  isSelf?: boolean;
 }
 
 export default defineComponent({
@@ -51,7 +59,7 @@ export default defineComponent({
       messageToSend: "" as string,
       messageTime: "00:00",
 
-      messagesListRaw: newMessagesFile as newMessageInfo[],
+      messagesListRaw: [] as newMessageInfo[],
       messagesListReady: [] as messageInfo[]
     };
   },
@@ -68,7 +76,11 @@ export default defineComponent({
       const now = new Date();
       const current = now.getHours() + ':' + now.getMinutes();
       let newMsg = {
-        userName: "Felipe Tavares",
+        user: {
+          id: 'asdasdasd',
+          name: 'Felipe Tavares',
+          avatarUrl: 'string'
+        },
         messageText: this.messageToSend,
         messageTime: current,
         isSelf: true,
@@ -78,9 +90,9 @@ export default defineComponent({
       this.messageToSend = "";
     },
 
-    checkIfIsSelf(){
-      this.messagesListRaw.forEach( msg => {
-        if(msg.userName === this.userName){
+    checkIfIsSelf(messagesListRaw:newMessageInfo[]){
+      messagesListRaw.forEach( msg => {
+        if(msg.user.name === this.userName){
           let msgg:messageInfo = {...msg}
           msgg.isSelf = true
           this.messagesListReady.push(msgg)
@@ -97,11 +109,20 @@ export default defineComponent({
         this.$router.push({name: 'Auth'})
       }
     },
+
+    getFirstMessages(){
+      axios.get(`${process.env.VUE_APP_URL_TESTE}chat`)
+      .then( res => {
+        console.log(res.data.messages[0].text)
+
+        this.checkIfIsSelf(res.data.messages)
+      })
+    }
   },
 
   mounted(){
     this.isLogged()
-    this.checkIfIsSelf()
+    /* this.checkIfIsSelf() */
   }
 });
 </script>

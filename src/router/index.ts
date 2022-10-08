@@ -4,7 +4,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Auth',
-    component: () => import('../views/AuthenticationView.vue')
+    component: ()=> import('../views/AuthenticationView.vue')
   },
   {
     path: '/chat',
