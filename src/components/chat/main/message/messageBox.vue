@@ -5,18 +5,39 @@
       {{ messageText }}
     </p>
     <span class="MBtime">{{ messageTime }}</span>
+
+    <span class="MBUser">{{ message.user.name }}</span>
+    <p class="messageBoxText">
+      {{ message.text }}
+    </p>
+    <span class="MBtime">{{ message.created }}</span>
   </div>
 </template>
   
   <script lang="ts">
 import { defineComponent } from "vue";
 
-interface messageStyle {
+import { MessageInfo, MessageStyle } from "@/types";
+
+/* interface messageStyle {
   alignSelf: string;
   borderRadius: string;
   backgroundColor?: string;
   color?: string;
-}
+} */
+
+/* interface MessageInfo {
+  id: string;
+  roomId: string;
+  user: {
+    id: string;
+    name: string;
+    avatarUrl: string;
+  };
+  text: string;
+  created: string;
+  isSelf: boolean;
+} */
 
 export default defineComponent({
   name: "messageBox",
@@ -26,22 +47,24 @@ export default defineComponent({
     messageText: String,
     messageTime: String,
     messageSelf: Boolean,
+
+    message: Object as () => MessageInfo,
   },
   data() {
     return {
       selfUser: this.messageSelf,
       boxColor: "flex-end" as string,
-      messageStyle: {} as messageStyle,
+      messageStyle: {} as MessageStyle,
       self: {
         alignSelf: "flex-end",
         borderRadius: "15px 0 15px 15px",
         backgroundColor: "orange",
         color: "#FDFDFE",
-      } as messageStyle,
+      } as MessageStyle,
       other: {
         alignSelf: "flex-start",
         borderRadius: "0 15px 15px 15px",
-      } as messageStyle,
+      } as MessageStyle,
     };
   },
   methods: {
@@ -52,9 +75,14 @@ export default defineComponent({
         this.messageStyle = this.other;
       }
     },
+
+    teste() {
+      console.log(this.message);
+    },
   },
   mounted() {
     this.verifyIfSelf();
+    this.teste();
   },
 });
 </script>

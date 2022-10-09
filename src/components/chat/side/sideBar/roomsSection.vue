@@ -75,7 +75,7 @@ export default defineComponent({
   padding-top: 20px;
 }
 .roomsContainer {
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-color: $c-status-gray $c-lightblue;
   scrollbar-width: thin;
 }

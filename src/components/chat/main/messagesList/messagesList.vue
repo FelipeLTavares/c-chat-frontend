@@ -7,6 +7,7 @@
       :messageText="message.text"
       :messageTime="message.created"
       :messageSelf="message.isSelf"
+      :message="messageTest"
     />
     <div class="fim" ref="fim"></div>
   </div>
@@ -14,20 +15,9 @@
   
   <script lang="ts">
 import { defineComponent } from "vue";
-import MessageBox from "../message/messageBox.vue";
 
-interface messageInfo {
-  id: string;
-  roomId: string;
-  user: {
-    id: string;
-    name: string;
-    avatarUrl: string;
-  };
-  text: string;
-  created: string;
-  isSelf: boolean;
-}
+import MessageBox from "../message/messageBox.vue";
+import { MessageInfo } from "@/types";
 
 export default defineComponent({
   name: "messagesList",
@@ -39,7 +29,7 @@ export default defineComponent({
   },
   data() {
     return {
-      messagesList: this.propMessageList as messageInfo[],
+      messagesList: this.propMessageList as MessageInfo[],
     };
   },
   methods: {

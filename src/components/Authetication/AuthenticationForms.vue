@@ -38,21 +38,11 @@ import { defineComponent } from "vue";
 import { mapMutations, mapState } from "vuex";
 import axios from "axios";
 
+import { UserInfo } from "@/types";
 import {
   createFormValidator,
   authFormValidator,
 } from "../../functions/VerifyFunction";
-
-interface UserInfo {
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    avatarUrl: string;
-  };
-  token: string;
-  isLoggedIn: boolean;
-}
 
 export default defineComponent({
   name: "AuthenticationForms",
@@ -117,6 +107,7 @@ export default defineComponent({
         await axios
           .post(`${this.apiUrl}users`, formData)
           .then((res) => {
+            console.log(res.data);
             if (res.status === 201) {
               window.alert(
                 "Usuário cadatrado com sucesso! Agora acessa sua conta usando login e senha."
@@ -146,6 +137,7 @@ export default defineComponent({
         await axios
           .post(`${this.apiUrl}auth`, formData)
           .then((res) => {
+            console.log(res.data);
             if (res.status === 200) {
               let userInfo: UserInfo = { ...res.data, isLoggedIn: true };
 
