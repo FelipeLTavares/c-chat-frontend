@@ -45,3 +45,36 @@ export const isSomethingBlankAuthForm = (args: string[]):boolean =>{
     return false
   }
 }
+
+export const createFormValidator = (name:string, email:string, pw1:string, pw2:string):boolean => {
+  if(!isSomethingBlankCreateForm([name, email, pw1, pw2])){
+    if(emailCheck(email)){
+      if(passWordMatch(pw1, pw2)){
+        return true
+      } else {
+        window.alert('Senhas diferentes!')
+        return false
+      }
+    } else {
+      window.alert('E-mail inválido!')
+      return false
+    }
+  } else {
+    window.alert('Preencha Tudo!')
+    return false
+  }
+}
+
+export const authFormValidator = ( email:string, pw:string):boolean => {
+  if(!isSomethingBlankAuthForm([email, pw])){
+    if(emailCheck(email)){
+      return true
+    } else {
+      window.alert('E-mail Inválido!')
+      return false
+    }
+  } else {
+    window.alert('Preencha Tudo!')
+    return false
+  }
+}

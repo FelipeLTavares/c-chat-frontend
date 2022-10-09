@@ -15,19 +15,19 @@
         type="button"
         class="formButton"
         value="Cadastrar"
-        @click="postCreateUser()"
+        @click="postCreateForm()"
         v-show="login"
       />
       <input
         type="button"
         class="formButton"
         value="Entrar"
-        @click="postLoginUser()"
+        @click="postAuthForm()"
         v-show="!login"
       />
       <span class="formChange"
         >{{ formChange1 }}
-        <span @click.prevent="choiceOne()">{{ formChange2 }}</span></span
+        <span @click.prevent="changeTheForm()">{{ formChange2 }}</span></span
       >
     </form>
   </div>
@@ -39,10 +39,8 @@ import { mapMutations, mapState } from "vuex";
 import axios from "axios";
 
 import {
-  passWordMatch,
-  emailCheck,
-  isSomethingBlankCreateForm,
-  isSomethingBlankAuthForm,
+  createFormValidator, //teste
+  authFormValidator, //teste
 } from "../../functions/VerifyFunction";
 
 interface UserInfo {
@@ -66,13 +64,11 @@ export default defineComponent({
       userPasswordCheck: "" as string,
 
       login: true as boolean,
-
-      apiUrl: process.env.VUE_APP_URL_TESTE,
-
-      //testes
       formTitle: "Fazer Cadastro" as string,
       formChange1: "Já é cadastrado?" as string,
       formChange2: "Acessar" as string,
+
+      apiUrl: process.env.VUE_APP_URL_TESTE,
     };
   },
 
@@ -81,8 +77,9 @@ export default defineComponent({
   },
 
   methods: {
-    //testes
-    formChanging() {
+    ...mapMutations(["SET_USER_INFO"]),
+
+    formWordsChange() {
       if (this.login) {
         this.formTitle = "Fazer Cadastro";
         this.formChange1 = "Já é cadastrado?";
@@ -94,87 +91,72 @@ export default defineComponent({
       }
     },
 
-    ...mapMutations(["SET_USER_INFO"]),
-
-    choiceOne(): void {
+    changeTheForm(): void {
       this.userName = "";
       this.userEmail = "";
       this.userPassword = "";
       this.userPasswordCheck = "";
-
       this.login = !this.login;
     },
 
-    async postCreateUser() {
+    /*     async postCreateUser() {
       if (this.isEverythingOkWithCreateForm()) {
-        try {
-          let formData = {
-            name: this.userName,
-            email: this.userEmail,
-            password: this.userPassword,
-          };
+        let formData = {
+          name: this.userName,
+          email: this.userEmail,
+          password: this.userPassword,
+        };
 
-          await axios
-            .post(`${this.apiUrl}users`, formData)
-            .then((res) => {
-              if (res.status === 201) {
-                window.alert(
-                  "Usuário cadatrado com sucesso! Agora acessa sua conta usando login e senha."
-                );
-                this.choiceOne();
-              } else {
-                window.alert(
-                  "Ocorreu um erro ao registrar o formulário. Por Favor, tente novamente mais tarde."
-                );
-              }
-            })
-            .catch(() => {
+        await axios
+          .post(`${this.apiUrl}users`, formData)
+          .then((res) => {
+            if (res.status === 201) {
               window.alert(
-                "Ocorreu um erro ao tentar enviar o formulário. Por Favor, tente novamente mais tarde."
+                "Usuário cadatrado com sucesso! Agora acessa sua conta usando login e senha."
               );
-            });
-        } catch (error) {
-          window.alert(
-            "Ocorreu um erro ao tentar enviar o formulário. Por Favor, tente novamente mais tarde."
-          );
-        }
+              this.changeTheForm();
+            } else {
+              window.alert(
+                "Ocorreu um erro ao registrar o formulário. Por Favor, tente novamente mais tarde."
+              );
+            }
+          })
+          .catch(() => {
+            window.alert(
+              "Ocorreu um erro ao tentar enviar o formulário. Por Favor, tente novamente mais tarde."
+            );
+          });
       }
     },
     async postLoginUser() {
       if (this.isEverythingOkWithAuthForm()) {
-        try {
-          let formData = {
-            email: this.userEmail,
-            password: this.userPassword,
-          };
+        let formData = {
+          email: this.userEmail,
+          password: this.userPassword,
+        };
 
-          await axios
-            .post(`${this.apiUrl}auth`, formData)
-            .then((res) => {
-              if (res.status === 200) {
-                let userInfo: UserInfo = { ...res.data, isLoggedIn: true };
+        await axios
+          .post(`${this.apiUrl}auth`, formData)
+          .then((res) => {
+            if (res.status === 200) {
+              let userInfo: UserInfo = { ...res.data, isLoggedIn: true };
 
-                this.SET_USER_INFO(userInfo);
+              this.SET_USER_INFO(userInfo);
 
-                this.$router.push("/chat");
-              } else if (res.status === 204) {
-                window.alert("Login ou senha inválidos!");
-              } else {
-                window.alert(
-                  "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
-                );
-              }
-            })
-            .catch(() => {
+              this.$router.push("/chat");
+            } else if (res.status === 204) {
+              window.alert("Login ou senha inválidos!");
+            } else {
               window.alert(
                 "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
               );
-            });
-        } catch (error) {
-          window.alert(
-            "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
-          );
-        }
+            }
+          })
+          .catch(() => {
+            window.alert(
+              "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
+            );
+          });
       }
     },
     isEverythingOkWithCreateForm() {
@@ -201,11 +183,81 @@ export default defineComponent({
       } else {
         return true;
       }
+    }, */
+
+    //testes//////////////////////////////
+    async postCreateForm() {
+      if (
+        createFormValidator(
+          this.userName,
+          this.userEmail,
+          this.userPassword,
+          this.userPasswordCheck
+        )
+      ) {
+        let formData = {
+          name: this.userName,
+          email: this.userEmail,
+          password: this.userPassword,
+        };
+
+        await axios
+          .post(`${this.apiUrl}users`, formData)
+          .then((res) => {
+            if (res.status === 201) {
+              window.alert(
+                "Usuário cadatrado com sucesso! Agora acessa sua conta usando login e senha."
+              );
+              this.changeTheForm();
+            } else {
+              window.alert(
+                "Ocorreu um erro ao registrar o formulário. Por Favor, tente novamente mais tarde."
+              );
+            }
+          })
+          .catch(() => {
+            window.alert(
+              "Ocorreu um erro ao tentar enviar o formulário. Por Favor, tente novamente mais tarde."
+            );
+          });
+      }
+    },
+
+    async postAuthForm() {
+      if (authFormValidator(this.userEmail, this.userPassword)) {
+        let formData = {
+          email: this.userEmail,
+          password: this.userPassword,
+        };
+
+        await axios
+          .post(`${this.apiUrl}auth`, formData)
+          .then((res) => {
+            if (res.status === 200) {
+              let userInfo: UserInfo = { ...res.data, isLoggedIn: true };
+
+              this.SET_USER_INFO(userInfo);
+
+              this.$router.push("/chat");
+            } else if (res.status === 204) {
+              window.alert("Login ou senha inválidos!");
+            } else {
+              window.alert(
+                "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
+              );
+            }
+          })
+          .catch(() => {
+            window.alert(
+              "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
+            );
+          });
+      }
     },
   },
 
   updated() {
-    this.formChanging();
+    this.formWordsChange();
   },
 });
 </script>
