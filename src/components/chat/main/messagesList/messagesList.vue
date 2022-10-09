@@ -7,7 +7,6 @@
       :messageText="message.text"
       :messageTime="message.created"
       :messageSelf="message.isSelf"
-      :message="messageTest"
     />
     <div class="fim" ref="fim"></div>
   </div>

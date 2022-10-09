@@ -11,7 +11,7 @@
   <script lang="ts">
 import { defineComponent } from "vue";
 
-import { MessageInfo, MessageStyle } from "@/types";
+import { MessageStyle } from "@/types";
 
 /* interface messageStyle {
   alignSelf: string;
@@ -41,8 +41,6 @@ export default defineComponent({
     messageText: String,
     messageTime: String,
     messageSelf: Boolean,
-
-    message: Object as () => MessageInfo,
   },
   data() {
     return {
@@ -69,14 +67,9 @@ export default defineComponent({
         this.messageStyle = this.other;
       }
     },
-
-    teste() {
-      console.log(this.message);
-    },
   },
   mounted() {
     this.verifyIfSelf();
-    this.teste();
   },
 });
 </script>
