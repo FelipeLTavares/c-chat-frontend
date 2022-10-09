@@ -5,12 +5,6 @@
       {{ messageText }}
     </p>
     <span class="MBtime">{{ messageTime }}</span>
-
-    <span class="MBUser">{{ message.user.name }}</span>
-    <p class="messageBoxText">
-      {{ message.text }}
-    </p>
-    <span class="MBtime">{{ message.created }}</span>
   </div>
 </template>
   
