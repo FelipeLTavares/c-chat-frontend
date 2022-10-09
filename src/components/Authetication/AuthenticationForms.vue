@@ -1,35 +1,33 @@
 <template>
   <div class="FormContainer">
-    <form v-show="!login">
-      <span class="formTitle">Fazer Cadastro</span>
-      <input type="text" placeholder="Nome" v-model="userName" />
+    <form>
+      <span class="formTitle">{{ formTitle }}</span>
+      <input type="text" placeholder="Nome" v-model="userName" v-show="login" />
       <input type="email" required placeholder="E-mail" v-model="userEmail" />
       <input type="password" placeholder="Senha" v-model="userPassword" />
       <input
         type="password"
         placeholder="Confirma sua senha"
         v-model="userPasswordCheck"
+        v-show="login"
       />
       <input
         type="button"
         class="formButton"
         value="Cadastrar"
         @click="postCreateUser()"
+        v-show="login"
+      />
+      <input
+        type="button"
+        class="formButton"
+        value="Entrar"
+        @click="postLoginUser()"
+        v-show="!login"
       />
       <span class="formChange"
-        >Já é cadastrado?
-        <span @click.prevent="choiceOne()">Acessar</span></span
-      >
-    </form>
-
-    <form v-show="login">
-      <span class="formTitle">Acessar chat</span>
-      <input type="email" required placeholder="E-mail" v-model="userEmail" />
-      <input type="password" placeholder="Senha" v-model="userPassword" />
-      <input type="button" class="formButton" value="Entrar" @click="postLoginUser()" />
-      <span class="formChange"
-        >Não é cadastrado?
-        <span @click.prevent="choiceOne()">Cadastre-se</span></span
+        >{{ formChange1 }}
+        <span @click.prevent="choiceOne()">{{ formChange2 }}</span></span
       >
     </form>
   </div>
@@ -44,7 +42,7 @@ import {
   passWordMatch,
   emailCheck,
   isSomethingBlankCreateForm,
-  isSomethingBlankAuthForm
+  isSomethingBlankAuthForm,
 } from "../../functions/VerifyFunction";
 
 interface UserInfo {
@@ -70,6 +68,11 @@ export default defineComponent({
       login: true as boolean,
 
       apiUrl: process.env.VUE_APP_URL_TESTE,
+
+      //testes
+      formTitle: "Fazer Cadastro" as string,
+      formChange1: "Já é cadastrado?" as string,
+      formChange2: "Acessar" as string,
     };
   },
 
@@ -78,15 +81,28 @@ export default defineComponent({
   },
 
   methods: {
+    //testes
+    formChanging() {
+      if (this.login) {
+        this.formTitle = "Fazer Cadastro";
+        this.formChange1 = "Já é cadastrado?";
+        this.formChange2 = "Acessar";
+      } else {
+        this.formTitle = "Acessar chat";
+        this.formChange1 = "Não é cadastrado?";
+        this.formChange2 = "Cadastre-se";
+      }
+    },
+
     ...mapMutations(["SET_USER_INFO"]),
 
     choiceOne(): void {
-      this.userName = ""
-      this.userEmail = "" 
-      this.userPassword = "" 
-      this.userPasswordCheck = ""
+      this.userName = "";
+      this.userEmail = "";
+      this.userPassword = "";
+      this.userPasswordCheck = "";
 
-      this.login = !this.login
+      this.login = !this.login;
     },
 
     async postCreateUser() {
@@ -140,7 +156,7 @@ export default defineComponent({
 
                 this.SET_USER_INFO(userInfo);
 
-                this.$router.push('/chat')
+                this.$router.push("/chat");
               } else if (res.status === 204) {
                 window.alert("Login ou senha inválidos!");
               } else {
@@ -162,12 +178,7 @@ export default defineComponent({
       }
     },
     isEverythingOkWithCreateForm() {
-      if (
-        isSomethingBlankCreateForm([
-          this.userEmail,
-          this.userPassword,
-        ])
-      ) {
+      if (isSomethingBlankCreateForm([this.userEmail, this.userPassword])) {
         window.alert("Preencha todos os campos!");
         return false;
       } else if (!emailCheck(this.userEmail)) {
@@ -180,13 +191,8 @@ export default defineComponent({
         return true;
       }
     },
-    isEverythingOkWithAuthForm(){
-      if (
-        isSomethingBlankAuthForm([
-          this.userEmail,
-          this.userPassword,
-        ])
-      ) {
+    isEverythingOkWithAuthForm() {
+      if (isSomethingBlankAuthForm([this.userEmail, this.userPassword])) {
         window.alert("Preencha todos os campos!");
         return false;
       } else if (!emailCheck(this.userEmail)) {
@@ -195,10 +201,11 @@ export default defineComponent({
       } else {
         return true;
       }
-    }
+    },
+  },
 
-
-
+  updated() {
+    this.formChanging();
   },
 });
 </script>
