@@ -119,11 +119,11 @@ export default defineComponent({
     },
   },
 
-  /*   mounted() {
+  mounted() {
     this.isLogged();
     this.getFirstMessages();
     this.emitEvents = setupWS(this.userInfo.token, this.checkIsSelf.bind(this));
-  }, */
+  },
 });
 </script>
 
