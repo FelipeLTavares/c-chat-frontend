@@ -39,8 +39,8 @@ import { mapMutations, mapState } from "vuex";
 import axios from "axios";
 
 import {
-  createFormValidator, //teste
-  authFormValidator, //teste
+  createFormValidator,
+  authFormValidator,
 } from "../../functions/VerifyFunction";
 
 interface UserInfo {
@@ -99,93 +99,6 @@ export default defineComponent({
       this.login = !this.login;
     },
 
-    /*     async postCreateUser() {
-      if (this.isEverythingOkWithCreateForm()) {
-        let formData = {
-          name: this.userName,
-          email: this.userEmail,
-          password: this.userPassword,
-        };
-
-        await axios
-          .post(`${this.apiUrl}users`, formData)
-          .then((res) => {
-            if (res.status === 201) {
-              window.alert(
-                "Usuário cadatrado com sucesso! Agora acessa sua conta usando login e senha."
-              );
-              this.changeTheForm();
-            } else {
-              window.alert(
-                "Ocorreu um erro ao registrar o formulário. Por Favor, tente novamente mais tarde."
-              );
-            }
-          })
-          .catch(() => {
-            window.alert(
-              "Ocorreu um erro ao tentar enviar o formulário. Por Favor, tente novamente mais tarde."
-            );
-          });
-      }
-    },
-    async postLoginUser() {
-      if (this.isEverythingOkWithAuthForm()) {
-        let formData = {
-          email: this.userEmail,
-          password: this.userPassword,
-        };
-
-        await axios
-          .post(`${this.apiUrl}auth`, formData)
-          .then((res) => {
-            if (res.status === 200) {
-              let userInfo: UserInfo = { ...res.data, isLoggedIn: true };
-
-              this.SET_USER_INFO(userInfo);
-
-              this.$router.push("/chat");
-            } else if (res.status === 204) {
-              window.alert("Login ou senha inválidos!");
-            } else {
-              window.alert(
-                "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
-              );
-            }
-          })
-          .catch(() => {
-            window.alert(
-              "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
-            );
-          });
-      }
-    },
-    isEverythingOkWithCreateForm() {
-      if (isSomethingBlankCreateForm([this.userEmail, this.userPassword])) {
-        window.alert("Preencha todos os campos!");
-        return false;
-      } else if (!emailCheck(this.userEmail)) {
-        window.alert("E-mail inválido!");
-        return false;
-      } else if (!passWordMatch(this.userPassword, this.userPasswordCheck)) {
-        window.alert("As senhas inseridas não batem!");
-        return false;
-      } else {
-        return true;
-      }
-    },
-    isEverythingOkWithAuthForm() {
-      if (isSomethingBlankAuthForm([this.userEmail, this.userPassword])) {
-        window.alert("Preencha todos os campos!");
-        return false;
-      } else if (!emailCheck(this.userEmail)) {
-        window.alert("E-mail inválido!");
-        return false;
-      } else {
-        return true;
-      }
-    }, */
-
-    //testes//////////////////////////////
     async postCreateForm() {
       if (
         createFormValidator(

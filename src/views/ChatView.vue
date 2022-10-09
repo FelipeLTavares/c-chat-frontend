@@ -1,6 +1,6 @@
 <template>
   <div class="containerChat">
-    <usersSection></usersSection>
+    <sideBar />
     <div class="chat">
       <MessagesList :propMessageList="messagesListReady"></MessagesList>
       <div class="inputMessage">
@@ -22,15 +22,13 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import setupWS, { SetupWS } from "@/services/websocket";
 import { mapState } from "vuex";
 import axios from "axios";
 
-/* import newMessagesFile from './../functions/newMessages' */
-
 import Send from "vue3-material-design-icons-ts/dist/Send.vue";
-import usersSection from "@/components/chat/side/usersSection/usersSection.vue";
+import sideBar from "@/components/chat/side/sideBar/sideBar.vue";
 import MessagesList from "@/components/chat/main/messagesList/messagesList.vue";
-import setupWS, { SetupWS } from "@/services/websocket";
 
 interface messageRaw {
   id: string;
@@ -71,7 +69,7 @@ export default defineComponent({
     };
   },
   components: {
-    usersSection,
+    sideBar,
     MessagesList,
     Send,
   },
@@ -121,11 +119,11 @@ export default defineComponent({
     },
   },
 
-  mounted() {
+  /*   mounted() {
     this.isLogged();
     this.getFirstMessages();
     this.emitEvents = setupWS(this.userInfo.token, this.checkIsSelf.bind(this));
-  },
+  }, */
 });
 </script>
 

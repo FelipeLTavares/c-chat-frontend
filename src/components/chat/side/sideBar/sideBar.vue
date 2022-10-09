@@ -1,28 +1,28 @@
 <template>
   <aside>
-    <profileSection/>
-    <friendsSection/>
+    <profileSection />
+    <roomsSection />
   </aside>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import profileSection from './profileSection.vue';
-import friendsSection from './friendsSection.vue';
+import profileSection from "./profileSection.vue";
+import roomsSection from "./roomsSection.vue";
 
 export default defineComponent({
   name: "usersSection",
   components: {
     profileSection,
-    friendsSection
-}
-})
+    roomsSection,
+  },
+});
 </script>
 
 <style scoped lang="scss">
-  aside{
-    width: 350px;
-    height: 100vh;
-  }
+aside {
+  width: 350px;
+  height: 100vh;
+}
 </style>
