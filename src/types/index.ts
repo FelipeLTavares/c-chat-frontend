@@ -25,6 +25,25 @@ export interface MessageInfo {
   isSelf: boolean;
 }
 
+////Messages List
+export interface MessageRaw {
+  id: string;
+  roomId: string;
+  user: {
+    id: string;
+    name: string;
+    avatarUrl: string;
+  };
+  text: string;
+  created: string;
+}
+
+export interface SendNewMessageData {
+  roomId: string;
+  userId: string;
+  text: string;
+}
+
 ////Message Style
 export interface MessageStyle {
   alignSelf: string;

@@ -102,8 +102,6 @@ export default defineComponent({
 
     getFirstMessages() {
       axios.get(`${process.env.VUE_APP_URL_TESTE}chat`).then((res) => {
-        console.log(res.data.messages);
-
         this.checkIfIsSelfMessageList(res.data.messages);
       });
     },

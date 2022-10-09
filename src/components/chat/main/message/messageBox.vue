@@ -8,30 +8,10 @@
   </div>
 </template>
   
-  <script lang="ts">
+<script lang="ts">
 import { defineComponent } from "vue";
 
 import { MessageStyle } from "@/types";
-
-/* interface messageStyle {
-  alignSelf: string;
-  borderRadius: string;
-  backgroundColor?: string;
-  color?: string;
-} */
-
-/* interface MessageInfo {
-  id: string;
-  roomId: string;
-  user: {
-    id: string;
-    name: string;
-    avatarUrl: string;
-  };
-  text: string;
-  created: string;
-  isSelf: boolean;
-} */
 
 export default defineComponent({
   name: "messageBox",

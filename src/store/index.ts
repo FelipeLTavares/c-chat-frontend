@@ -1,15 +1,6 @@
 import { createStore } from 'vuex'
 
-export interface UserInfo {
-  user: {
-    id: string,
-    name: string,
-    email: string,
-    avatarUrl: string
-  },
-  token: string,
-  isLoggedIn: boolean
-}
+import { UserInfo } from '@/types'
 
 export default createStore({
 
