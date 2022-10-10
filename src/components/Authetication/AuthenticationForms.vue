@@ -30,7 +30,6 @@
         <span @click.prevent="changeTheForm()">{{ formChange2 }}</span></span
       >
     </form>
-    <TesteComp></TesteComp>
   </div>
 </template>
 
@@ -44,7 +43,6 @@ import {
   createFormValidator,
   authFormValidator,
 } from "../../functions/VerifyFunction";
-import TesteComp from "../TesteComp.vue";
 
 export default defineComponent({
   name: "AuthenticationForms",
@@ -151,7 +149,6 @@ export default defineComponent({
   updated() {
     this.formWordsChange();
   },
-  components: { TesteComp },
 });
 </script>
 
