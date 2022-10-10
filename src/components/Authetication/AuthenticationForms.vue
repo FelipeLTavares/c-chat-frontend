@@ -30,6 +30,7 @@
         <span @click.prevent="changeTheForm()">{{ formChange2 }}</span></span
       >
     </form>
+    <TesteComp></TesteComp>
   </div>
 </template>
 
@@ -43,6 +44,7 @@ import {
   createFormValidator,
   authFormValidator,
 } from "../../functions/VerifyFunction";
+import TesteComp from "../TesteComp.vue";
 
 export default defineComponent({
   name: "AuthenticationForms",
@@ -56,7 +58,7 @@ export default defineComponent({
       formTitle: "Fazer Cadastro" as string,
       formChange1: "Já é cadastrado?" as string,
       formChange2: "Acessar" as string,
-      apiUrl: process.env.VUE_APP_API_URL,
+      apiUrl: process.env.VUE_APP_URL_TESTE,
     };
   },
   computed: {
@@ -149,6 +151,7 @@ export default defineComponent({
   updated() {
     this.formWordsChange();
   },
+  components: { TesteComp },
 });
 </script>
 

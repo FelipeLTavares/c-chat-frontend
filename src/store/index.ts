@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 
-import { UserInfo, MessageReady, Room } from '@/types'
+import { UserInfo, MessageReady } from '@/types'
 
 export default createStore({
 
@@ -16,9 +16,7 @@ export default createStore({
       isLoggedIn: false as boolean
     },
     
-    messagesList: [] as MessageReady[],
-
-    roomList: [] as Room[]
+    messagesList: [] as MessageReady[]
   },
 
   mutations: {
@@ -28,10 +26,6 @@ export default createStore({
 
     SET_MESSAGE_ON_LIST(state, messageReady: MessageReady) {
       state.messagesList.push(messageReady)
-    },
-
-    SET_ROOMS_LIST(state, roomsList: Room[]) {
-      state.roomList = roomsList
-    },
+    }
   }
 })
