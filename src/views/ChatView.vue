@@ -54,7 +54,7 @@ export default defineComponent({
   },
 
   methods: {
-    testando(msg: MessageRaw) {
+    prepareMessage(msg: MessageRaw) {
       if (msg.user.name === this.userInfo.user.name) {
         let msgg: MessageReady = { ...msg, isSelf: true };
         this.SET_MESSAGE_ON_LIST(msgg);
@@ -75,7 +75,7 @@ export default defineComponent({
     getFirstMessages() {
       axios.get(`${process.env.VUE_APP_API_URL}chat`).then((res) => {
         res.data.messages.forEach((msg: MessageRaw) => {
-          this.testando(msg);
+          this.prepareMessage(msg);
         });
       });
     },
@@ -94,7 +94,10 @@ export default defineComponent({
   mounted() {
     this.isLogged();
     this.getFirstMessages();
-    this.emitEvents = setupWS(this.userInfo.token, this.testando.bind(this));
+    this.emitEvents = setupWS(
+      this.userInfo.token,
+      this.prepareMessage.bind(this)
+    );
   },
 });
 </script>
