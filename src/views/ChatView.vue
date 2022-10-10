@@ -83,7 +83,7 @@ export default defineComponent({
 
     pushNewMessage() {
       const msg = {
-        roomId: this.messagesListReady[0].roomId,
+        roomId: this.messagesList[0].roomId,
         userId: this.userInfo.user.id,
         text: this.messageToSend,
       };
