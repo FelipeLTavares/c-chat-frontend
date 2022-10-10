@@ -38,6 +38,19 @@ export interface MessageRaw {
   created: string;
 }
 
+export interface MessageReady {
+  id: string;
+  roomId: string;
+  user: {
+    id: string;
+    name: string;
+    avatarUrl: string;
+  };
+  text: string;
+  created: string;
+  isSelf: boolean;
+}
+
 export interface SendNewMessageData {
   roomId: string;
   userId: string;

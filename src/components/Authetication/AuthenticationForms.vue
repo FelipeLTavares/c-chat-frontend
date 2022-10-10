@@ -30,6 +30,7 @@
         <span @click.prevent="changeTheForm()">{{ formChange2 }}</span></span
       >
     </form>
+    <TesteComp></TesteComp>
   </div>
 </template>
 
@@ -43,6 +44,7 @@ import {
   createFormValidator,
   authFormValidator,
 } from "../../functions/VerifyFunction";
+import TesteComp from "../TesteComp.vue";
 
 export default defineComponent({
   name: "AuthenticationForms",
@@ -52,23 +54,18 @@ export default defineComponent({
       userEmail: "" as string,
       userPassword: "" as string,
       userPasswordCheck: "" as string,
-
       login: true as boolean,
       formTitle: "Fazer Cadastro" as string,
       formChange1: "Já é cadastrado?" as string,
       formChange2: "Acessar" as string,
-
       apiUrl: process.env.VUE_APP_URL_TESTE,
     };
   },
-
   computed: {
     ...mapState(["userInfo"]),
   },
-
   methods: {
     ...mapMutations(["SET_USER_INFO"]),
-
     formWordsChange() {
       if (this.login) {
         this.formTitle = "Fazer Cadastro";
@@ -80,7 +77,6 @@ export default defineComponent({
         this.formChange2 = "Cadastre-se";
       }
     },
-
     changeTheForm(): void {
       this.userName = "";
       this.userEmail = "";
@@ -88,7 +84,6 @@ export default defineComponent({
       this.userPasswordCheck = "";
       this.login = !this.login;
     },
-
     async postCreateForm() {
       if (
         createFormValidator(
@@ -103,11 +98,9 @@ export default defineComponent({
           email: this.userEmail,
           password: this.userPassword,
         };
-
         await axios
           .post(`${this.apiUrl}users`, formData)
           .then((res) => {
-            console.log(res.data);
             if (res.status === 201) {
               window.alert(
                 "Usuário cadatrado com sucesso! Agora acessa sua conta usando login e senha."
@@ -126,23 +119,18 @@ export default defineComponent({
           });
       }
     },
-
     async postAuthForm() {
       if (authFormValidator(this.userEmail, this.userPassword)) {
         let formData = {
           email: this.userEmail,
           password: this.userPassword,
         };
-
         await axios
           .post(`${this.apiUrl}auth`, formData)
           .then((res) => {
-            console.log(res.data);
             if (res.status === 200) {
               let userInfo: UserInfo = { ...res.data, isLoggedIn: true };
-
               this.SET_USER_INFO(userInfo);
-
               this.$router.push("/chat");
             } else if (res.status === 204) {
               window.alert("Login ou senha inválidos!");
@@ -160,10 +148,10 @@ export default defineComponent({
       }
     },
   },
-
   updated() {
     this.formWordsChange();
   },
+  components: { TesteComp },
 });
 </script>
 

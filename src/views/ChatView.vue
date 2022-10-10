@@ -2,16 +2,16 @@
   <div class="containerChat">
     <sideBar />
     <div class="chat">
-      <MessagesList :propMessageList="messagesListReady"></MessagesList>
+      <MessagesList :propMessageList="messagesList"></MessagesList>
       <div class="inputMessage">
         <input
           type="text"
           class="IM"
           placeholder="Digite sua mensagem"
           v-model="messageToSend"
-          @keyup.enter="putNewMessage()"
+          @keyup.enter="pushNewMessage()"
         />
-        <button @click="putNewMessage()">
+        <button @click="pushNewMessage()">
           Enviar
           <div class="iconeSend"><Send :size="24" /></div>
         </button>
@@ -23,37 +23,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import setupWS, { SetupWS } from "@/services/websocket";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import axios from "axios";
 
 import Send from "vue3-material-design-icons-ts/dist/Send.vue";
 import sideBar from "@/components/chat/side/sideBar/sideBar.vue";
 import MessagesList from "@/components/chat/main/messagesList/messagesList.vue";
 
-interface messageRaw {
-  id: string;
-  roomId: string;
-  user: {
-    id: string;
-    name: string;
-    avatarUrl: string;
-  };
-  text: string;
-  created: string;
-}
-
-interface messageReady {
-  id: string;
-  roomId: string;
-  user: {
-    id: string;
-    name: string;
-    avatarUrl: string;
-  };
-  text: string;
-  created: string;
-  isSelf: boolean;
-}
+import { MessageReady, MessageRaw } from "@/types";
 
 export default defineComponent({
   name: "ChatView",
@@ -61,10 +38,9 @@ export default defineComponent({
     return {
       userName: "" as string,
       messageToSend: "" as string,
-      messageTime: "00:00",
 
-      messagesListRaw: [] as messageRaw[],
-      messagesListReady: [] as messageReady[],
+      messagesListRaw: [] as MessageRaw[],
+      messagesListReady: [] as MessageReady[],
       emitEvents: {} as SetupWS,
     };
   },
@@ -73,26 +49,23 @@ export default defineComponent({
     MessagesList,
     Send,
   },
-  computed: {
-    ...mapState(["userInfo"]),
-  },
-  methods: {
-    checkIfIsSelfMessageList(messagesListRaw: messageRaw[]) {
-      messagesListRaw.forEach((msg) => {
-        this.checkIsSelf(msg);
-      });
-    },
 
-    checkIsSelf(msg: messageRaw) {
+  computed: {
+    ...mapState(["userInfo", "messagesList"]),
+  },
+
+  methods: {
+    testando(msg: MessageRaw) {
       if (msg.user.name === this.userInfo.user.name) {
-        let msgg = { ...msg, isSelf: true };
-        this.messagesListReady.push(msgg);
+        let msgg: MessageReady = { ...msg, isSelf: true };
+        this.SET_MESSAGE_ON_LIST(msgg);
       } else {
-        let msgg = { ...msg, isSelf: false };
-        msgg.isSelf = false;
-        this.messagesListReady.push(msgg);
+        let msgg: MessageReady = { ...msg, isSelf: false };
+        this.SET_MESSAGE_ON_LIST(msgg);
       }
     },
+
+    ...mapMutations(["SET_MESSAGE_ON_LIST"]),
 
     isLogged() {
       if (!this.userInfo.isLoggedIn) {
@@ -102,11 +75,13 @@ export default defineComponent({
 
     getFirstMessages() {
       axios.get(`${process.env.VUE_APP_URL_TESTE}chat`).then((res) => {
-        this.checkIfIsSelfMessageList(res.data.messages);
+        res.data.messages.forEach((msg: MessageRaw) => {
+          this.testando(msg);
+        });
       });
     },
 
-    putNewMessage() {
+    pushNewMessage() {
       const msg = {
         roomId: this.messagesListReady[0].roomId,
         userId: this.userInfo.user.id,
@@ -120,7 +95,7 @@ export default defineComponent({
   mounted() {
     this.isLogged();
     this.getFirstMessages();
-    this.emitEvents = setupWS(this.userInfo.token, this.checkIsSelf.bind(this));
+    this.emitEvents = setupWS(this.userInfo.token, this.testando.bind(this));
   },
 });
 </script>
