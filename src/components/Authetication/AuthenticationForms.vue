@@ -56,7 +56,7 @@ export default defineComponent({
       formTitle: "Fazer Cadastro" as string,
       formChange1: "Já é cadastrado?" as string,
       formChange2: "Acessar" as string,
-      apiUrl: process.env.VUE_APP_URL_TESTE,
+      apiUrl: process.env.VUE_APP_API_URL,
     };
   },
   computed: {

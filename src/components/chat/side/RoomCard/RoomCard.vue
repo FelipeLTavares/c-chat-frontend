@@ -1,65 +1,58 @@
 <template>
-  <div class="userCardContainer">
-    <div class="userPic"></div>
+  <div class="roomCard">
+    <div class="roomPic">
+      <img :src="roomAvatar" alt="roomName" />
+    </div>
     <div class="cardInfo">
-      <div class="userInfo">
-        <span class="userName">{{ userName }}</span>
-        <span class="userStatus">{{ userStatus }}</span>
-      </div>
+      <span class="roomName">{{ roomName }}</span>
+      <span class="roomTime">{{ roomLastMsgTime }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 export default {
-  name: "userCard",
+  name: "roomCard",
   props: {
-    userName: String,
-    userStatus: String,
-    MTime: String,
-    MUnread: String,
+    roomName: String,
+    roomAvatar: String,
+    roomLastMsgTime: String,
   },
 };
 </script>
 
 <style scoped lang="scss">
-.userCardContainer {
-  width: 300px;
+.roomCard {
+  width: 310px;
   height: 74px;
   background-color: $c-royalblue-01;
   border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-items: flex-start;
   margin: 10px;
+  display: grid;
+  grid-template: auto / 73px 237px;
 }
-.userPic {
+.roomPic {
   background-color: black;
   width: 44px;
   height: 44px;
   border-radius: 50%;
   margin: 15px;
-}
-.userInfo {
-  min-width: 40px;
-  display: flex;
-  flex-direction: column;
+  overflow: hidden;
 }
 .cardInfo {
-  width: 221px;
   display: flex;
   justify-content: space-between;
-}
-.userName {
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 21px;
-  color: $c-text-gray;
-}
-.userStatus {
-  font-weight: 300;
-  font-size: 10px;
-  line-height: 15px;
-  color: $c-status-gray;
+  align-items: center;
+
+  .roomName {
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  .roomTime {
+    margin-right: 15px;
+    font-weight: 400;
+    font-size: 10px;
+  }
 }
 </style>

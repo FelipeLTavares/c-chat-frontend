@@ -64,3 +64,11 @@ export interface MessageStyle {
   backgroundColor?: string;
   color?: string;
 }
+
+//Room
+export interface Room {
+  id: string,
+  name: string,
+  avatarUrl: string,
+  lastMessageDatetime: string
+}

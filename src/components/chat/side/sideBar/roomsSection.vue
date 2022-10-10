@@ -2,65 +2,47 @@
   <div class="roomsSection">
     <div class="roomsContainer">
       <RoomCard
-        userName="Felipe"
-        userStatus="Estudando Front-end"
-        MTime="00:00"
-        MUnread="4"
-      />
-      <RoomCard
-        userName="Jirlan"
-        userStatus="Estudando Front-end"
-        MTime="00:00"
-        MUnread="4"
-      />
-      <RoomCard
-        userName="Felipe"
-        userStatus="Estudando Front-end"
-        MTime="00:00"
-        MUnread="4"
-      />
-      <RoomCard
-        userName="Jirlan"
-        userStatus="Estudando Front-end"
-        MTime="00:00"
-        MUnread="4"
-      />
-      <RoomCard
-        userName="Felipe"
-        userStatus="Estudando Front-end"
-        MTime="00:00"
-        MUnread="4"
-      />
-      <RoomCard
-        userName="Jirlan"
-        userStatus="Estudando Front-end"
-        MTime="00:00"
-        MUnread="4"
-      />
-      <RoomCard
-        userName="Felipe"
-        userStatus="Estudando Front-end"
-        MTime="00:00"
-        MUnread="4"
-      />
-      <RoomCard
-        userName="Jirlan"
-        userStatus="Estudando Front-end"
-        MTime="00:00"
-        MUnread="4"
+        v-for="room in listOfRooms"
+        :key="room.id"
+        :roomName="room.name"
+        :roomLastMsgTime="room.lastMessageDatetime"
+        :roomAvatar="room.avatarUrl"
       />
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { Room } from "@/types";
+import axios from "axios";
 import { defineComponent } from "vue";
+import { mapMutations, mapState } from "vuex";
 
 import RoomCard from "../RoomCard/RoomCard.vue";
 
 export default defineComponent({
   name: "friendsSection",
+  data() {
+    return {
+      listOfRooms: this.roomsList,
+    };
+  },
   components: { RoomCard },
+  computed: {
+    ...mapState(["roomsList", "userInfo"]),
+  },
+  methods: {
+    ...mapMutations(["SET_ROOMS_AT_LIST"]),
+
+    async getRooms() {
+      await axios
+        .get(`${process.env.VUE_APP_API_URL}/rooms/${this.userInfo}`)
+        .then((res) => {
+          const rooms: Room[] = res.data.rooms;
+          this.SET_ROOMS_AT_LIST(rooms);
+        });
+    },
+  },
 });
 </script>
 
