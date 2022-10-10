@@ -40,7 +40,6 @@ export default defineComponent({
       messageToSend: "" as string,
 
       messagesListRaw: [] as MessageRaw[],
-      messagesListReady: [] as MessageReady[],
       emitEvents: {} as SetupWS,
     };
   },
@@ -74,7 +73,7 @@ export default defineComponent({
     },
 
     getFirstMessages() {
-      axios.get(`${process.env.VUE_APP_URL_TESTE}chat`).then((res) => {
+      axios.get(`${process.env.VUE_APP_API_URL}chat`).then((res) => {
         res.data.messages.forEach((msg: MessageRaw) => {
           this.testando(msg);
         });
