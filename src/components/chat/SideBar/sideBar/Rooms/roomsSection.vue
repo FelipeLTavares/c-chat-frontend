@@ -8,20 +8,23 @@
         :roomLastMsgTime="room.lastMessageDatetime"
         :roomAvatar="room.avatarUrl"
       />
+      <RoomCard
+        roomName="room.name"
+        roomLastMsgTime="room.lastMessageDatetime"
+        roomAvatar="room.avatarUrl"
+      ></RoomCard>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Room } from "@/types";
-import axios from "axios";
 import { defineComponent } from "vue";
-import { mapMutations, mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
-import RoomCard from "../RoomCard/RoomCard.vue";
+import RoomCard from "@/components/Chat/SideBar/RoomCard/RoomCard.vue";
 
 export default defineComponent({
-  name: "friendsSection",
+  name: "roomsSection",
   data() {
     return {
       listOfRooms: this.roomsList,
@@ -31,17 +34,13 @@ export default defineComponent({
   computed: {
     ...mapState(["roomsList", "userInfo"]),
   },
-  methods: {
-    ...mapMutations(["SET_ROOMS_AT_LIST"]),
 
-    async getRooms() {
-      await axios
-        .get(`${process.env.VUE_APP_API_URL}/rooms/${this.userInfo}`)
-        .then((res) => {
-          const rooms: Room[] = res.data.rooms;
-          this.SET_ROOMS_AT_LIST(rooms);
-        });
-    },
+  methods: {
+    ...mapActions(["SET_ROOMS"]),
+  },
+
+  mounted() {
+    this.SET_ROOMS();
   },
 });
 </script>

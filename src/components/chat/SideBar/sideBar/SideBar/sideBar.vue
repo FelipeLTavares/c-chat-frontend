@@ -8,11 +8,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import profileSection from "./profileSection.vue";
-import roomsSection from "./roomsSection.vue";
+import profileSection from "@/components/Chat/SideBar/sideBar/Profile/profileSection.vue";
+import roomsSection from "../Rooms/roomsSection.vue";
 
 export default defineComponent({
-  name: "usersSection",
+  name: "SideBar",
   components: {
     profileSection,
     roomsSection,

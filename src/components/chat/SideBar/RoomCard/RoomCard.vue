@@ -15,7 +15,7 @@
 
 <script lang="ts">
 export default {
-  name: "roomCard",
+  name: "RoomCard",
   props: {
     roomName: String,
     roomAvatar: String,
