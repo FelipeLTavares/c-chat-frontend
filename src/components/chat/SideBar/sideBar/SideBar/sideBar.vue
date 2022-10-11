@@ -9,7 +9,7 @@
 import { defineComponent } from "vue";
 
 import profileSection from "@/components/Chat/SideBar/sideBar/Profile/profileSection.vue";
-import roomsSection from "../Rooms/roomsSection.vue";
+import roomsSection from "@/components/Chat/SideBar/sideBar/Rooms/roomsSection.vue";
 
 export default defineComponent({
   name: "SideBar",
