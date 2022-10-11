@@ -1,8 +1,11 @@
 <template>
   <div class="roomCard">
-    <div class="roomPic">
-      <img :src="roomAvatar" alt="roomName" />
-    </div>
+    <img
+      class="roomPic"
+      src="https://i.picsum.photos/id/996/4272/2848.jpg?hmac=yqRTUY4WFeUSayrtW0dHKMoWx8hd3NQw5TOOKaxZueY"
+      alt="roomName"
+    />
+
     <div class="cardInfo">
       <span class="roomName">{{ roomName }}</span>
       <span class="roomTime">{{ roomLastMsgTime }}</span>
@@ -32,12 +35,12 @@ export default {
   grid-template: auto / 73px 237px;
 }
 .roomPic {
-  background-color: black;
   width: 44px;
   height: 44px;
   border-radius: 50%;
   margin: 15px;
   overflow: hidden;
+  object-fit: cover;
 }
 .cardInfo {
   display: flex;
