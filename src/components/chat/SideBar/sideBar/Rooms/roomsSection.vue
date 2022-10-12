@@ -21,7 +21,7 @@
 import { defineComponent } from "vue";
 import { mapActions, mapState } from "vuex";
 
-import RoomCard from "@/components/Chat/SideBar/RoomCard/RoomCard.vue";
+import RoomCard from "@/components/chat/SideBar/RoomCard/RoomCard.vue";
 
 export default defineComponent({
   name: "roomsSection",
