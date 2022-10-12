@@ -1,6 +1,6 @@
 <template>
   <div class="FormContainer">
-    <form>
+    <form @submit.prevent="submitForm()">
       <span class="formTitle">{{ formTitle }}</span>
       <input type="text" placeholder="Nome" v-model="userName" v-show="login" />
       <input type="email" required placeholder="E-mail" v-model="userEmail" />
@@ -11,25 +11,28 @@
         v-model="userPasswordCheck"
         v-show="login"
       />
-      <input
-        type="button"
+      <button
+        type="submit"
         class="formButton"
-        value="Cadastrar"
-        @click="postCreateForm()"
         v-show="login"
-      />
-      <input
-        type="button"
+        :disabled="loading"
+      >
+        <span><LoadingComponent v-show="loading" /> Cadastrar</span>
+      </button>
+      <button
+        type="submit"
         class="formButton"
-        value="Entrar"
-        @click="postAuthForm()"
         v-show="!login"
-      />
+        :disabled="loading"
+      >
+        <span><LoadingComponent v-show="loading" /> Entrar</span>
+      </button>
       <span class="formChange"
         >{{ formChange1 }}
         <span @click.prevent="changeTheForm()">{{ formChange2 }}</span></span
       >
     </form>
+    <!-- <img class="loadGif" src="../../assets/loadgif.gif" alt="loading..." /> -->
   </div>
 </template>
 
@@ -43,6 +46,7 @@ import {
   createFormValidator,
   authFormValidator,
 } from "../../functions/VerifyFunction";
+import LoadingComponent from "../Loading/LoadingComponent.vue";
 
 export default defineComponent({
   name: "AuthenticationForms",
@@ -57,13 +61,24 @@ export default defineComponent({
       formChange1: "Já é cadastrado?" as string,
       formChange2: "Acessar" as string,
       apiUrl: process.env.VUE_APP_API_URL,
+      loading: false as boolean,
     };
   },
+
+  components: { LoadingComponent },
+
   computed: {
     ...mapState(["userInfo"]),
   },
   methods: {
     ...mapMutations(["SET_USER_INFO"]),
+    submitForm(): void {
+      if (!this.login) {
+        this.postAuthForm();
+        return;
+      }
+      this.postCreateForm();
+    },
     formWordsChange() {
       if (this.login) {
         this.formTitle = "Fazer Cadastro";
@@ -83,6 +98,7 @@ export default defineComponent({
       this.login = !this.login;
     },
     async postCreateForm() {
+      this.loading = true;
       if (
         createFormValidator(
           this.userName,
@@ -123,26 +139,22 @@ export default defineComponent({
           email: this.userEmail,
           password: this.userPassword,
         };
-        await axios
-          .post(`${this.apiUrl}auth`, formData)
-          .then((res) => {
-            if (res.status === 200) {
-              let userInfo: UserInfo = { ...res.data, isLoggedIn: true };
-              this.SET_USER_INFO(userInfo);
-              this.$router.push("/chat");
-            } else if (res.status === 204) {
-              window.alert("Login ou senha inválidos!");
-            } else {
-              window.alert(
-                "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
-              );
-            }
-          })
-          .catch(() => {
-            window.alert(
-              "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
-            );
-          });
+        this.loading = true;
+
+        const response = await axios.post(`${this.apiUrl}auth`, formData);
+
+        if (response.status === 200) {
+          let userInfo: UserInfo = { ...response.data, isLoggedIn: true };
+          this.SET_USER_INFO(userInfo);
+          this.$router.push("/chat");
+          this.loading = false;
+        } else if (response.status === 204) {
+          window.alert("Login ou senha inválidos!");
+        } else {
+          window.alert(
+            "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
+          );
+        }
       }
     },
   },
@@ -195,6 +207,28 @@ form {
 
     font-size: 12px;
     color: $c-input-gray;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    @extend input;
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+    }
   }
   .formButton {
     font-weight: 600;

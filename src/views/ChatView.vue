@@ -16,7 +16,6 @@
           <div class="iconeSend"><Send :size="24" /></div>
         </button>
       </div>
-      <InputMessage></InputMessage>
     </div>
   </div>
 </template>
@@ -31,7 +30,6 @@ import Send from "vue3-material-design-icons-ts/dist/Send.vue";
 import MessagesList from "@/components/chat/main/messagesList/messagesList.vue";
 
 import { MessageReady, MessageRaw } from "@/types";
-import InputMessage from "@/components/chat/main/InputMessage/InputMessage.vue";
 import SideBar from "@/components/chat/SideBar/sideBar/SideBar/sideBar.vue";
 
 export default defineComponent({
@@ -49,7 +47,6 @@ export default defineComponent({
   components: {
     MessagesList,
     Send,
-    InputMessage,
     SideBar,
   },
 
