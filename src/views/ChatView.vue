@@ -1,6 +1,6 @@
 <template>
   <div class="containerChat">
-    <SideBar />
+    <SideBar></SideBar>
     <div class="chat">
       <MessagesList :propMessageList="messagesList"></MessagesList>
       <div class="inputMessage">
@@ -28,11 +28,11 @@ import { mapState, mapMutations } from "vuex";
 import axios from "axios";
 
 import Send from "vue3-material-design-icons-ts/dist/Send.vue";
-import SideBar from "@/components/Chat/SideBar/sideBar/SideBar/sideBar.vue";
 import MessagesList from "@/components/Chat/Main/MessagesList/messagesList.vue";
 
 import { MessageReady, MessageRaw } from "@/types";
 import InputMessage from "@/components/Chat/Main/InputMessage/InputMessage.vue";
+import SideBar from "@/components/Chat/SideBar/sideBar/SideBar/sideBar.vue";
 
 export default defineComponent({
   name: "ChatView",
@@ -47,10 +47,10 @@ export default defineComponent({
     };
   },
   components: {
-    SideBar,
     MessagesList,
     Send,
     InputMessage,
+    SideBar,
   },
 
   computed: {
