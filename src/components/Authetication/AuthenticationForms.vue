@@ -52,7 +52,7 @@ export default defineComponent({
       userEmail: "" as string,
       userPassword: "" as string,
       userPasswordCheck: "" as string,
-      login: true as boolean,
+      login: false as boolean,
       formTitle: "Fazer Cadastro" as string,
       formChange1: "Já é cadastrado?" as string,
       formChange2: "Acessar" as string,

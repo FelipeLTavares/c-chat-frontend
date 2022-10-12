@@ -35,6 +35,7 @@ export default createStore({
 
     SET_ROOMS_AT_LIST(state, roomsList:Room[]){
       state.roomsList = roomsList
+      console.log(roomsList)
     },
 
     SET_ACTUAL_ROOM(state, room){
@@ -50,6 +51,12 @@ export default createStore({
       const rooms: Room[] = response.data.rooms;
       context.commit('SET_ROOMS_AT_LIST', rooms )
       console.log(rooms)
+    }
+  },
+
+  getters: {
+    getRoomsList(state){
+      return state.roomsList
     }
   }
 })

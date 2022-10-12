@@ -2,7 +2,7 @@
   <div class="roomsSection">
     <div class="roomsContainer">
       <RoomCard
-        v-for="room in listOfRooms"
+        v-for="room in roomsList"
         :key="room.id"
         :roomName="room.name"
         :roomLastMsgTime="room.lastMessageDatetime"
@@ -14,20 +14,16 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 import RoomCard from "@/components/chat/SideBar/RoomCard/RoomCard.vue";
 
 export default defineComponent({
   name: "roomsSection",
-  data() {
-    return {
-      listOfRooms: this.roomsList,
-    };
-  },
   components: { RoomCard },
   computed: {
-    ...mapState(["roomsList", "userInfo"]),
+    ...mapState(["roomsList"]),
+    ...mapGetters(["getRoomsList"]),
   },
 
   methods: {

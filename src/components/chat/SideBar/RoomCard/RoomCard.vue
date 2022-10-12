@@ -1,10 +1,6 @@
 <template>
   <div class="roomCard">
-    <img
-      class="roomPic"
-      src="https://i.picsum.photos/id/996/4272/2848.jpg?hmac=yqRTUY4WFeUSayrtW0dHKMoWx8hd3NQw5TOOKaxZueY"
-      alt="roomName"
-    />
+    <img class="roomPic" :src="roomAvatar" alt="roomName" />
 
     <div class="cardInfo">
       <span class="roomName">{{ roomName }}</span>
