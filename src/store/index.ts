@@ -45,7 +45,7 @@ export default createStore({
   actions: {
     async SET_ROOMS( context ){
       await axios
-      .get(`${process.env.VUE_APP_API_URL}/rooms/${context.state.userInfo.user.id}`)
+      .get(`${process.env.VUE_APP_API_URL}rooms/${context.state.userInfo.user.id}`)
       .then( res => {
         const rooms: Room[] = res.data.rooms;
         context.commit('SET_ROOMS_AT_LIST', rooms )

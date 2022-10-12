@@ -8,11 +8,6 @@
         :roomLastMsgTime="room.lastMessageDatetime"
         :roomAvatar="room.avatarUrl"
       />
-      <RoomCard
-        roomName="room.name"
-        roomLastMsgTime="room.lastMessageDatetime"
-        roomAvatar="room.avatarUrl"
-      ></RoomCard>
     </div>
   </div>
 </template>
