@@ -44,13 +44,12 @@ export default createStore({
 
   actions: {
     async SET_ROOMS( context ){
-      await axios
-      .get(`${process.env.VUE_APP_API_URL}rooms/${context.state.userInfo.user.id}`)
-      .then( res => {
-        const rooms: Room[] = res.data.rooms;
-        context.commit('SET_ROOMS_AT_LIST', rooms )
-        console.log(rooms)
-      });
+      const response = await axios
+      .get(`${process.env.VUE_APP_API_URL}chat/rooms/${context.state.userInfo.user.id}`)
+
+      const rooms: Room[] = response.data.rooms;
+      context.commit('SET_ROOMS_AT_LIST', rooms )
+      console.log(rooms)
     }
   }
 })
