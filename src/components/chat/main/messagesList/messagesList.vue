@@ -15,7 +15,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import MessageBox from "@/components/Chat/Main/Message/messageBox.vue";
+import MessageBox from "@/components/chat/main/message/messageBox.vue";
 import { MessageInfo } from "@/types";
 
 export default defineComponent({
