@@ -42,13 +42,6 @@ export default defineComponent({
 });
 </script>
   
-  <style scoped lang="scss">
-.messagesList {
-  width: 100%;
-  height: calc(100vh - 72px);
-  padding: 5px 60px;
-  display: flex;
-  flex-direction: column;
-  overflow-y: scroll;
-}
+<style scoped lang="scss">
+@import "./messagesList.scss";
 </style>

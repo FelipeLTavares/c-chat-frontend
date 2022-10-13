@@ -21,8 +21,5 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-aside {
-  width: 350px;
-  height: 100vh;
-}
+@import "./sideBar.scss";
 </style>

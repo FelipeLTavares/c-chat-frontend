@@ -55,36 +55,5 @@ export default defineComponent({
 </script>
   
 <style scoped lang="scss">
-.messageBox {
-  max-width: 50%;
-  padding: 10px 3%;
-  margin: 5px 0;
-  background-color: $c-lightblue;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.messageBoxText {
-  max-width: 95%;
-  text-align: left;
-  overflow: hidden;
-  font-family: "Roboto";
-  font-size: 12px;
-  align-self: flex-start;
-}
-.MBUser {
-  align-self: flex-start;
-  font-family: "Poppins";
-  text-decoration: underline;
-  padding-bottom: 6px;
-  font-weight: 600;
-  font-size: 13px;
-}
-.MBtime {
-  align-self: flex-end;
-  font-family: "Roboto";
-  font-size: 10px;
-  margin-top: 6px;
-}
+@import "./messageBox.scss";
 </style>
