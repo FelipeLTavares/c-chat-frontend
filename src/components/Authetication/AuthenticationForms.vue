@@ -15,33 +15,30 @@
         type="submit"
         class="formButton"
         v-show="login"
-        :disabled="loading"
+        :disabled="createdUserInfo.isLoading"
       >
-        <span><LoadingComponent v-show="loading" /> Cadastrar</span>
+        <span><LoadingComponent v-show="createdUserInfo.isLoading" /> Cadastrar</span>
       </button>
       <button
         type="submit"
         class="formButton"
         v-show="!login"
-        :disabled="loading"
+        :disabled="userInfo.isLogedLoading"
       >
-        <span><LoadingComponent v-show="loading" /> Entrar</span>
+        <span><LoadingComponent v-show="userInfo.isLogedLoading" /> Entrar</span>
       </button>
       <span class="formChange"
         >{{ formChange1 }}
         <span @click.prevent="changeTheForm()">{{ formChange2 }}</span></span
       >
     </form>
-    <!-- <img class="loadGif" src="../../assets/loadgif.gif" alt="loading..." /> -->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapMutations, mapState } from "vuex";
-import axios from "axios";
+import { mapActions, mapState } from "vuex";
 
-import { UserInfo } from "@/types";
 import {
   createFormValidator,
   authFormValidator,
@@ -52,26 +49,25 @@ export default defineComponent({
   name: "AuthenticationForms",
   data() {
     return {
-      userName: "" as string,
-      userEmail: "" as string,
-      userPassword: "" as string,
-      userPasswordCheck: "" as string,
-      login: false as boolean,
-      formTitle: "Fazer Cadastro" as string,
-      formChange1: "Já é cadastrado?" as string,
-      formChange2: "Acessar" as string,
-      apiUrl: process.env.VUE_APP_API_URL,
-      loading: false as boolean,
+      userName: "",
+      userEmail: "",
+      userPassword: "",
+      userPasswordCheck: "",
+      login: false,
+      formTitle: "Acessar chat",
+      formChange1: "Não é cadastrado?",
+      formChange2: "Cadastre-se",
+      createUserSubmetedForm: false,
     };
   },
 
   components: { LoadingComponent },
 
   computed: {
-    ...mapState(["userInfo"]),
+    ...mapState(["createdUserInfo","userInfo"]),
   },
   methods: {
-    ...mapMutations(["SET_USER_INFO"]),
+    ...mapActions(["CREATE_USER", "SIGNIN"]),
     submitForm(): void {
       if (!this.login) {
         this.postAuthForm();
@@ -98,7 +94,7 @@ export default defineComponent({
       this.login = !this.login;
     },
     async postCreateForm() {
-      this.loading = true;
+      
       if (
         createFormValidator(
           this.userName,
@@ -112,25 +108,9 @@ export default defineComponent({
           email: this.userEmail,
           password: this.userPassword,
         };
-        await axios
-          .post(`${this.apiUrl}users`, formData)
-          .then((res) => {
-            if (res.status === 201) {
-              window.alert(
-                "Usuário cadatrado com sucesso! Agora acessa sua conta usando login e senha."
-              );
-              this.changeTheForm();
-            } else {
-              window.alert(
-                "Ocorreu um erro ao registrar o formulário. Por Favor, tente novamente mais tarde."
-              );
-            }
-          })
-          .catch(() => {
-            window.alert(
-              "Ocorreu um erro ao tentar enviar o formulário. Por Favor, tente novamente mais tarde."
-            );
-          });
+        
+        this.createUserSubmetedForm = true;
+        await this.CREATE_USER(formData);
       }
     },
     async postAuthForm() {
@@ -139,27 +119,38 @@ export default defineComponent({
           email: this.userEmail,
           password: this.userPassword,
         };
-        this.loading = true;
 
-        const response = await axios.post(`${this.apiUrl}auth`, formData);
-
-        if (response.status === 200) {
-          let userInfo: UserInfo = { ...response.data, isLoggedIn: true };
-          this.SET_USER_INFO(userInfo);
-          this.$router.push("/chat");
-          this.loading = false;
-        } else if (response.status === 204) {
-          window.alert("Login ou senha inválidos!");
-        } else {
-          window.alert(
-            "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
-          );
-        }
+        await this.SIGNIN(formData);
       }
     },
   },
   updated() {
-    this.formWordsChange();
+    this.formWordsChange();    
+
+    if(this.userInfo.isLoggedIn) {
+      this.$router.push("/chat");
+      return
+    }
+    
+    if (this.userInfo.isLoggedError) {
+      window.alert(
+        "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
+      );
+    }
+
+    if (this.createUserSubmetedForm && !this.createdUserInfo.isLoading) {
+      if (this.createdUserInfo.createdSuccess) {
+        window.alert(
+          "Usuário cadatrado com sucesso! Agora acessa sua conta usando login e senha."
+        );
+        this.changeTheForm();
+      } else {
+        window.alert(
+          "Ocorreu um erro ao registrar o formulário. Por Favor, tente novamente mais tarde."
+        );
+      }
+      this.createUserSubmetedForm = false;
+    }
   },
 });
 </script>
