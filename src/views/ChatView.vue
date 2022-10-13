@@ -22,26 +22,17 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import setupWS, { SetupWS } from "@/services/websocket";
-import { mapState, mapMutations } from "vuex";
-import axios from "axios";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 import Send from "vue3-material-design-icons-ts/dist/Send.vue";
 import MessagesList from "@/components/chat/main/messagesList/messagesList.vue";
-
-import { MessageReady, MessageRaw } from "@/types";
 import SideBar from "@/components/chat/SideBar/sideBar/SideBar/sideBar.vue";
 
 export default defineComponent({
   name: "ChatView",
   data() {
     return {
-      userName: "" as string,
-      messageToSend: "" as string,
-
-      messagesListRaw: [] as MessageRaw[],
-      messagesListReady: [] as MessageReady[],
-      emitEvents: {} as SetupWS,
+      messageToSend: "",
     };
   },
   components: {
@@ -55,30 +46,13 @@ export default defineComponent({
   },
 
   methods: {
-    prepareMessage(msg: MessageRaw) {
-      if (msg.user.name === this.userInfo.user.name) {
-        let msgg: MessageReady = { ...msg, isSelf: true };
-        this.SET_MESSAGE_ON_LIST(msgg);
-      } else {
-        let msgg: MessageReady = { ...msg, isSelf: false };
-        this.SET_MESSAGE_ON_LIST(msgg);
-      }
-    },
-
     ...mapMutations(["SET_MESSAGE_ON_LIST"]),
+    ...mapActions(["GET_FIRST_MESSAGES", "SEND_NEW_MESSAGE"]),
 
     isLogged() {
       if (!this.userInfo.isLoggedIn) {
         this.$router.push({ name: "Auth" });
       }
-    },
-
-    async getFirstMessages() {
-      await axios.get(`${process.env.VUE_APP_API_URL}chat`).then((res) => {
-        res.data.messages.forEach((msg: MessageRaw) => {
-          this.prepareMessage(msg);
-        });
-      });
     },
 
     pushNewMessage() {
@@ -87,18 +61,14 @@ export default defineComponent({
         userId: this.userInfo.user.id,
         text: this.messageToSend,
       };
-      this.emitEvents.sendNewMessage(msg);
+      this.SEND_NEW_MESSAGE(msg);
       this.messageToSend = "";
     },
   },
 
   mounted() {
     this.isLogged();
-    this.emitEvents = setupWS(
-      this.userInfo.token,
-      this.prepareMessage.bind(this)
-    );
-    this.getFirstMessages();
+    this.GET_FIRST_MESSAGES();
   },
 });
 </script>

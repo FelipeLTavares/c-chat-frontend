@@ -1,4 +1,21 @@
+//CREATE USER
+export interface CreateUserData {
+  name: string;
+  email: string;
+  password: string;
+}
+
 //AUTH
+export interface SignInData {
+  user: {
+    id: string;
+    name: string;
+    email: string;
+    avatarUrl: string;
+  };
+  token: string;
+}
+
 export interface UserInfo {
   user: {
     id: string;
@@ -8,6 +25,8 @@ export interface UserInfo {
   };
   token: string;
   isLoggedIn: boolean;
+  isLogedLoading: boolean;
+  isLogedError: boolean;
 }
 
 //CHAT
@@ -67,8 +86,8 @@ export interface MessageStyle {
 
 //Room
 export interface Room {
-  id: string,
-  name: string,
-  avatarUrl: string,
-  lastMessageDatetime: string
+  id: string;
+  name: string;
+  avatarUrl: string;
+  lastMessageDatetime: string;
 }
