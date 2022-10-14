@@ -87,9 +87,13 @@ export default createStore({
       state.roomsList = roomsList;
     },
 
-    SET_ACTUAL_ROOM(state, room) {
-      state.actualRoom = room;
+    SET_ACTUAL_ROOM(state, roomInfo) {
+      state.actualRoom = roomInfo;
     },
+
+    SET_NEW_ROOM(state, room:Room){
+      state.roomsList.push(room)
+    }
   },
 
   actions: {
