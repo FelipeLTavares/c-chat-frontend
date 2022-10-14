@@ -2,7 +2,12 @@
   <div class="FormContainer">
     <form @submit.prevent="submitForm()">
       <span class="formTitle">{{ formTitle }}</span>
-      <input type="text" placeholder="Nome" v-model="userName" v-show="login" />
+      <input
+        type="text"
+        placeholder="Nome 2"
+        v-model="userName"
+        v-show="login"
+      />
       <input type="email" required placeholder="E-mail" v-model="userEmail" />
       <input type="password" placeholder="Senha" v-model="userPassword" />
       <input
