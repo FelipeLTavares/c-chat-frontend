@@ -2,6 +2,7 @@
   <aside>
     <profileSection />
     <roomsSection />
+    <Options></Options>
   </aside>
 </template>
 
@@ -10,16 +11,18 @@ import { defineComponent } from "vue";
 
 import profileSection from "@/components/chat/SideBar/sideBar/Profile/profileSection.vue";
 import roomsSection from "@/components/chat/SideBar/sideBar/Rooms/roomsSection.vue";
+import Options from "../Options/Options.vue";
 
 export default defineComponent({
   name: "SideBar",
   components: {
     profileSection,
     roomsSection,
+    Options,
   },
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 @import "./sideBar.scss";
 </style>
