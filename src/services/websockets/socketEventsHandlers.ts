@@ -7,7 +7,7 @@ export class ChatMessageEvents {
 
   newMessage() {
     this.socket.on<MessageRaw>("NEW_MESSAGE", (msg) => {
-      store.dispatch("SET_MESSAGE_ON_LIST", [msg]);
+      store.commit("SET_MESSAGE_ON_LIST", [msg]);
     });
   }
 
