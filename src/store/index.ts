@@ -11,7 +11,6 @@ import { createRoom } from "@/services/api/createRoom";
 
 const socketClient = new SocketClient();
 const chatMessageEvents = new ChatMessageEvents(socketClient);
-chatMessageEvents.newMessage();
 
 const httpClient = HttpClient.getInstance()
 
@@ -134,7 +133,8 @@ export default createStore({
       if (signInData) {
         context.commit("SET_USER_INFO", signInData);
         socketClient.connect(signInData.token);
-        httpClient.setToken(signInData.token)
+        chatMessageEvents.newMessage();
+        httpClient.setToken(signInData.token);
         return;
       }
 
