@@ -1,10 +1,11 @@
 import { SignInData } from "@/types";
-import axios from "axios";
-const apiUrl = process.env.VUE_APP_API_URL;
+import { HttpClient } from "../HttpClient";
+
+const httpClient = HttpClient.getInstance()
 
 export async function signIn(email: string, password: string): Promise<SignInData | undefined> {
   try {
-    const response = await axios.post<SignInData>(`${apiUrl}auth`, { email, password });
+    const response = await httpClient.client.post<SignInData>(`/auth`, { email, password });
 
     if (response.status === 200) {
       return response.data;
