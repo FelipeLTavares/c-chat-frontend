@@ -25,7 +25,7 @@ export default defineComponent({
   name: "roomsSection",
   components: { RoomCard, SideModal },
   computed: {
-    ...mapState(["roomsList", "modal"]),
+    ...mapState(["roomsList", "modal", "userInfo"]),
     ...mapGetters(["getRoomsList"]),
   },
 
@@ -34,6 +34,9 @@ export default defineComponent({
   },
 
   mounted() {
+    /*     if(this.userInfo.isLoggedIn){
+
+    } */
     this.SET_ROOMS();
   },
 });
