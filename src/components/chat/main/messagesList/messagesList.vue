@@ -1,7 +1,7 @@
 <template>
   <div class="messagesList">
     <MessageBox
-      v-for="message in messagesList"
+      v-for="message in propMessageList"
       :key="message.id"
       :userName="message.user.name"
       :messageText="message.text"
@@ -24,12 +24,7 @@ export default defineComponent({
     MessageBox,
   },
   props: {
-    propMessageList: Array,
-  },
-  data() {
-    return {
-      messagesList: this.propMessageList as MessageInfo[],
-    };
+    propMessageList: Object as () => MessageInfo[],
   },
   methods: {
     onChange() {
