@@ -1,17 +1,28 @@
-import store from "@/store";
-import { CreateRoomData } from "@/types";
-import newRoom from "../axiosNewRoom";
+import { CreateRoomData, CreateRoomResponse } from "@/types";
+import { HttpClient } from "../HttpClient";
+
+const httpClient = HttpClient.getInstance()
 
 
-export async function createRoom(data:CreateRoomData) {
+export async function createRoom(data:CreateRoomData): Promise<CreateRoomResponse> {
   try {
-    const response = await newRoom.post( '/', data);
-
+    const response = await httpClient.client.post('/chat/rooms', data)
     if (response.status === 201) {
-      store.commit('SET_NEW_ROOM', response );
+      const createdRoom: CreateRoomResponse = {
+        createSuccsess: true,
+        roomInfo: response.data
+      }
+      return createdRoom
     }
-    window.alert('Erro ao criar sala. Tente novamente mais tarde!')
+    const createFail: CreateRoomResponse = {
+      createSuccsess: false
+    }
+    return createFail
+    
   } catch {
-    window.alert('Erro ao criar sala. Tente novamente mais tarde!')
+    const createFail: CreateRoomResponse = {
+      createSuccsess: false
+    }
+    return createFail
   }
-}
+}      
