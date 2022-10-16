@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 
-import { CreateUserData, MessageRaw, MessageReady, Room, SignInData } from "@/types";
+import { CreateUserData, MessageRaw, MessageReady, Room, SendNewMessageData, SignInData } from "@/types";
 import { SocketClient } from "@/services/websockets/socketClient";
 import { signIn } from "@/services/api/signIn";
 import { createUser } from "@/services/api/createUser";
@@ -11,6 +11,7 @@ import { createRoom } from "@/services/api/createRoom";
 
 const socketClient = new SocketClient();
 const chatMessageEvents = new ChatMessageEvents(socketClient);
+chatMessageEvents.newMessage();
 
 const httpClient = HttpClient.getInstance()
 
@@ -177,6 +178,10 @@ export default createStore({
         context.dispatch('GET_FIRST_MESSAGES')
       }
     },
+
+    async SEND_NEW_MESSAGE(context, message: SendNewMessageData){
+      chatMessageEvents.sendNewMessage(message)
+    }
 
   },
 
