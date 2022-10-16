@@ -1,15 +1,15 @@
-import axios from "axios";
 import { MessageRaw } from "@/types";
+import { HttpClient } from "../HttpClient";
+
+const httpClient = HttpClient.getInstance()
 
 interface GetFirstMessagesResponse {
   messages: MessageRaw[];
 }
 
-export async function getFisrtMessages(): Promise<MessageRaw[]> {
+export async function getFisrtMessages(roomId: string): Promise<MessageRaw[]> {
   try {
-    const response = await axios.get<GetFirstMessagesResponse>(
-      `${process.env.VUE_APP_API_URL}chat`
-    );
+    const response = await httpClient.client.get<GetFirstMessagesResponse>(`/chat?room-id=${roomId}`);
 
     if (response.status === 200) {
       return response.data.messages;
