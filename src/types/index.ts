@@ -5,6 +5,16 @@ export interface CreateUserData {
   password: string;
 }
 
+//CREATE ROOM
+export interface CreateRoomData {
+  roomName: string;
+}
+
+export interface CreateRoomResponse {
+  createSuccsess: boolean;
+  roomInfo?: Room
+}
+
 //AUTH
 export interface SignInData {
   user: {

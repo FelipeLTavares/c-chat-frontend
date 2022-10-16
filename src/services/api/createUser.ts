@@ -1,11 +1,12 @@
-import axios from "axios";
 import { CreateUserData } from "@/types";
+import { HttpClient } from "../HttpClient";
 
-const apiUrl = process.env.VUE_APP_API_URL;
+const httpClient = HttpClient.getInstance()
 
 export async function createUser(userData: CreateUserData): Promise<boolean> {
   try {
-    const response = await axios.post(`${apiUrl}users`, userData);
+
+    const response = await httpClient.client.post(`/users`, userData);
 
     if (response.status === 201) {
       return true;

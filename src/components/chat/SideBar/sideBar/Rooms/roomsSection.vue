@@ -1,9 +1,11 @@
 <template>
   <div class="roomsSection">
-    <div class="roomsContainer">
+    <SideModal v-show="modal.showModal" />
+    <div class="roomsContainer" v-show="!modal.showModal">
       <RoomCard
         v-for="room in roomsList"
         :key="room.id"
+        :roomId="room.id"
         :roomName="room.name"
         :roomLastMsgTime="room.lastMessageDatetime"
         :roomAvatar="room.avatarUrl"
@@ -17,12 +19,13 @@ import { defineComponent } from "vue";
 import { mapActions, mapGetters, mapState } from "vuex";
 
 import RoomCard from "@/components/chat/SideBar/RoomCard/RoomCard.vue";
+import SideModal from "../Options/Modal/SideModal.vue";
 
 export default defineComponent({
   name: "roomsSection",
-  components: { RoomCard },
+  components: { RoomCard, SideModal },
   computed: {
-    ...mapState(["roomsList"]),
+    ...mapState(["roomsList", "modal"]),
     ...mapGetters(["getRoomsList"]),
   },
 
@@ -37,27 +40,5 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.roomsSection {
-  height: calc(100vh - 110px);
-  background-color: $c-lightblue;
-  border-radius: 14px 14px 0px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px;
-}
-.roomsContainer {
-  overflow-y: auto;
-  scrollbar-color: $c-status-gray $c-lightblue;
-  scrollbar-width: thin;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  background: $c-lightblue;
-}
-
-::-webkit-scrollbar-thumb {
-  background: $c-status-gray;
-}
+@import "./roomsSection.scss";
 </style>

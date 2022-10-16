@@ -2,7 +2,7 @@
   <div class="containerChat">
     <SideBar></SideBar>
     <div class="chat">
-      <MessagesList :propMessageList="messagesList"></MessagesList>
+      <MessagesList :propMessageList="messagesList[actualRoom]"></MessagesList>
       <div class="inputMessage">
         <input
           type="text"
@@ -42,7 +42,7 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapState(["userInfo", "messagesList"]),
+    ...mapState(["userInfo", "messagesList", "actualRoom"]),
   },
 
   methods: {
@@ -68,7 +68,6 @@ export default defineComponent({
 
   mounted() {
     this.isLogged();
-    this.GET_FIRST_MESSAGES();
   },
 });
 </script>

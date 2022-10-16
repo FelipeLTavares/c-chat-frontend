@@ -17,7 +17,10 @@
         v-show="login"
         :disabled="createdUserInfo.isLoading"
       >
-        <span><LoadingComponent v-show="createdUserInfo.isLoading" /> Cadastrar</span>
+        <span
+          ><LoadingComponent v-show="createdUserInfo.isLoading" />
+          Cadastrar</span
+        >
       </button>
       <button
         type="submit"
@@ -25,7 +28,9 @@
         v-show="!login"
         :disabled="userInfo.isLogedLoading"
       >
-        <span><LoadingComponent v-show="userInfo.isLogedLoading" /> Entrar</span>
+        <span
+          ><LoadingComponent v-show="userInfo.isLogedLoading" /> Entrar</span
+        >
       </button>
       <span class="formChange"
         >{{ formChange1 }}
@@ -64,7 +69,7 @@ export default defineComponent({
   components: { LoadingComponent },
 
   computed: {
-    ...mapState(["createdUserInfo","userInfo"]),
+    ...mapState(["createdUserInfo", "userInfo"]),
   },
   methods: {
     ...mapActions(["CREATE_USER", "SIGNIN"]),
@@ -94,7 +99,6 @@ export default defineComponent({
       this.login = !this.login;
     },
     async postCreateForm() {
-      
       if (
         createFormValidator(
           this.userName,
@@ -108,7 +112,7 @@ export default defineComponent({
           email: this.userEmail,
           password: this.userPassword,
         };
-        
+
         this.createUserSubmetedForm = true;
         await this.CREATE_USER(formData);
       }
@@ -125,13 +129,13 @@ export default defineComponent({
     },
   },
   updated() {
-    this.formWordsChange();    
+    this.formWordsChange();
 
-    if(this.userInfo.isLoggedIn) {
+    if (this.userInfo.isLoggedIn) {
       this.$router.push("/chat");
-      return
+      return;
     }
-    
+
     if (this.userInfo.isLoggedError) {
       window.alert(
         "Ocorreu um erro ao tentar realizar o login. Por Favor, tente novamente mais tarde."
@@ -156,101 +160,5 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.FormContainer {
-  width: 100%;
-  height: 100vh;
-  @extend .flex-center;
-}
-
-.formTitle {
-  height: 32px;
-  margin-top: 32px;
-  margin-bottom: 24px;
-  font-weight: 600;
-  font-size: 24px;
-  color: $c-text-gray;
-}
-
-form {
-  width: 350px;
-  background: $c-lightblue;
-  border-radius: 14px;
-
-  @extend .flex-center;
-  flex-direction: column;
-
-  input {
-    width: 252px;
-    height: 40px;
-    border-radius: 10px;
-    margin: 8px;
-    padding-left: 17px;
-
-    background: $c-generalbg;
-    outline-color: $c-royalblue;
-    border: 1px solid $c-border-gray;
-
-    font-size: 12px;
-    color: $c-input-gray;
-  }
-
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    @extend input;
-
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-
-      &:hover {
-        opacity: 0.7;
-      }
-    }
-
-    span {
-      display: flex;
-      align-items: center;
-    }
-  }
-  .formButton {
-    font-weight: 600;
-    font-size: 12px;
-    color: $c-generalbg;
-    background-color: $c-royalblue;
-    padding: 0;
-    border-radius: 14px;
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-}
-.formChange {
-  width: 266px;
-  height: 16px;
-  font-weight: 600;
-  font-size: 12px;
-  text-align: center;
-  color: $c-text-gray;
-  margin-bottom: 32px;
-  margin-top: 24px;
-  cursor: pointer;
-
-  span {
-    color: $c-royalblue;
-    &:hover {
-      opacity: 0.5;
-    }
-  }
-}
+@import "./AuthenticationForms.scss";
 </style>
