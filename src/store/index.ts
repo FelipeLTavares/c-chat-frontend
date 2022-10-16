@@ -1,5 +1,4 @@
 import { createStore } from "vuex";
-import axios from "axios";
 
 import { CreateUserData, MessageRaw, MessageReady, Room, SignInData } from "@/types";
 import { SocketClient } from "@/services/websockets/socketClient";
@@ -7,9 +6,13 @@ import { signIn } from "@/services/api/signIn";
 import { createUser } from "@/services/api/createUser";
 import { ChatMessageEvents } from "@/services/websockets/socketEventsHandlers";
 import { getFisrtMessages } from "@/services/api/getFirstMessages";
+import { HttpClient } from "@/services/HttpClient";
+import { createRoom } from "@/services/api/createRoom";
 
 const socketClient = new SocketClient();
 const chatMessageEvents = new ChatMessageEvents(socketClient);
+
+const httpClient = HttpClient.getInstance()
 
 export default createStore({
   state: {
@@ -31,11 +34,17 @@ export default createStore({
       isLogedError: false,
     },
 
-    messagesList: [] as MessageReady[],
+    messagesList: {} as Record<string, MessageReady[]>,
 
     roomsList: [] as Room[],
 
     actualRoom: "",
+
+    modal: {
+      showModal: false,
+      roomName: '',
+      loading: false
+    }
   },
 
   mutations: {
@@ -71,28 +80,40 @@ export default createStore({
     },
 
     SET_MESSAGE_ON_LIST(state, messages: MessageRaw[]) {
+      if(!state.messagesList[state.actualRoom]){
+        state.messagesList[state.actualRoom] = []
+      }
       for (const message of messages) {
         if (message.user.id === state.userInfo.user.id) {
           const currentMessage: MessageReady = { ...message, isSelf: true };
-          state.messagesList.push(currentMessage);
+          state.messagesList[state.actualRoom].push(currentMessage);
           continue;
         }
 
         const currentMessage: MessageReady = { ...message, isSelf: false };
-        state.messagesList.push(currentMessage);
+        state.messagesList[state.actualRoom].push(currentMessage);
       }
     },
 
     SET_ROOMS_AT_LIST(state, roomsList: Room[]) {
       state.roomsList = roomsList;
+      state.actualRoom = roomsList[0].id
     },
 
-    SET_ACTUAL_ROOM(state, roomInfo) {
-      state.actualRoom = roomInfo;
+    SET_ACTUAL_ROOM(state, roomId: string) {
+      state.actualRoom = roomId;
     },
 
     SET_NEW_ROOM(state, room:Room){
       state.roomsList.push(room)
+    },
+
+    CHANGE_MODAL_SHOW(state){
+      state.modal.showModal = !state.modal.showModal
+    },
+
+    MODAL_LOADING(state){
+      state.modal.loading = !state.modal.loading
     }
   },
 
@@ -112,6 +133,7 @@ export default createStore({
       if (signInData) {
         context.commit("SET_USER_INFO", signInData);
         socketClient.connect(signInData.token);
+        httpClient.setToken(signInData.token)
         return;
       }
 
@@ -119,18 +141,43 @@ export default createStore({
     },
 
     async GET_FIRST_MESSAGES(context) {
-      const messages = await getFisrtMessages();
+      const messages = await getFisrtMessages(context.state.actualRoom);
       context.commit("SET_MESSAGE_ON_LIST", messages);
     },
 
     async SET_ROOMS(context) {
-      const response = await axios.get(
-        `${process.env.VUE_APP_API_URL}chat/rooms/${context.state.userInfo.user.id}`
+      const response = await httpClient.client.get(
+        `/chat/rooms/${context.state.userInfo.user.id}`
       );
 
       const rooms: Room[] = response.data.rooms;
       context.commit("SET_ROOMS_AT_LIST", rooms);
+      context.dispatch('GET_FIRST_MESSAGES')
     },
+
+    async CREATE_NEW_ROOM(context, roomName:string){
+      context.commit('MODAL_LOADING')
+
+      const response = await createRoom({roomName})
+      
+      if(response.createSuccsess === true){
+        context.commit( 'SET_NEW_ROOM', response.roomInfo )
+        context.commit('MODAL_LOADING')
+        return
+      }
+      context.commit('MODAL_LOADING')
+      window.alert('Problema ao criar sala... Tente Novamente mais tarde.')
+    },
+
+    async CHANGE_ACTUAL_ROOM(context, roomId: string){
+
+      context.commit("SET_ACTUAL_ROOM", roomId)
+
+      if(!context.state.messagesList[roomId]){
+        context.dispatch('GET_FIRST_MESSAGES')
+      }
+    },
+
   },
 
   getters: {
