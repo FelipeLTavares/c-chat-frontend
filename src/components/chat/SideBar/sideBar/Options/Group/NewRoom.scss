@@ -6,3 +6,17 @@
     cursor: pointer;
   }
 }
+
+.NewRoom{
+  display: flex;
+  position: relative;
+}
+
+.CreateRoomModal{
+  position: absolute;
+  z-index: 20;
+  top: calc(-100vh + 60px);
+  background-color: gray;
+  height: 100vh;
+  width: 100%;
+}
