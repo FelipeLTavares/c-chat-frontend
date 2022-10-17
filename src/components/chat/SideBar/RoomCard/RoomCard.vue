@@ -1,10 +1,12 @@
 <template>
-  <div class="roomCard" @click="selectRoom()">
-    <img class="roomPic" :src="roomAvatar" alt="roomName" />
+  <div :class="{ roomCard: true, selected }">
+    <div class="roomContainer" @click="selectRoom()">
+      <img class="roomPic" :src="roomAvatar" alt="roomName" />
 
-    <div class="cardInfo">
-      <span class="roomName">{{ roomName }}</span>
-      <span class="roomTime">{{ roomLastMsgTime }}</span>
+      <div class="cardInfo">
+        <span class="roomName">{{ roomName }}</span>
+        <span class="roomTime">{{ roomLastMsgTime }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -15,12 +17,20 @@ import { mapActions } from "vuex";
 
 export default defineComponent({
   name: "RoomCard",
+  data() {
+    return {
+      newMember: "",
+      showInput: false,
+    };
+  },
   props: {
-    roomId: String, /////////Lembrar disso
+    roomId: String,
     roomName: String,
     roomAvatar: String,
     roomLastMsgTime: String,
+    selected: Boolean,
   },
+  components: {},
   methods: {
     ...mapActions(["CHANGE_ACTUAL_ROOM"]),
     selectRoom() {
