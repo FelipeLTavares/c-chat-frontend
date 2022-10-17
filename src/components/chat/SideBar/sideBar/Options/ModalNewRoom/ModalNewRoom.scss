@@ -1,0 +1,74 @@
+.newGroupModal {
+  width: 100%;
+
+  form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    padding: 0 16px;
+    row-gap: 12px;
+
+    h3{
+      color: $c-text-gray;
+      justify-self: flex-start;
+    }
+
+    
+    input{
+      height: 40px;
+      padding: 10px;
+      flex: 1;
+      border-radius: 10px;
+      padding-left: 17px;
+      background: $c-generalbg;
+      outline-color: $c-royalblue;
+      border: 1px solid $c-border-gray;
+      font-size: 12px;
+      cursor: pointer;
+      
+    }
+    
+    .buttonsContainer{
+      display: flex;
+      justify-content: space-between;
+      column-gap: 16px;
+      flex: 1;
+    }
+    
+    .buttonContained{
+      background-color: transparent !important;
+      border: 1px solid $c-royalblue !important;
+      color: $c-royalblue !important;
+    }
+    
+    .modalButton{
+      @extend input;
+      width: 140px;
+      padding-left: 0;
+      background-color: $c-royalblue;
+      color: white;
+
+      span{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      &:hover{
+        opacity: 0.7;
+      }
+
+      &:disabled{
+        cursor: not-allowed;
+        opacity: 0.7;
+      }
+    }
+    
+  }
+}
+
+.buttonContained{
+  background-color: transparent;
+  border: 1px solid $c-royalblue;
+}
