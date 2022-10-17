@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 
-import { CreateUserData, MessageRaw, MessageReady, Room, SendNewMessageData, SignInData } from "@/types";
+import { CreateUserData, MessageRaw, MessageReady, NewMemberData, Room, SendNewMessageData, SignInData } from "@/types";
 import { SocketClient } from "@/services/websockets/socketClient";
 import { signIn } from "@/services/api/signIn";
 import { createUser } from "@/services/api/createUser";
@@ -8,9 +8,13 @@ import { ChatMessageEvents } from "@/services/websockets/socketEventsHandlers";
 import { getFisrtMessages } from "@/services/api/getFirstMessages";
 import { HttpClient } from "@/services/HttpClient";
 import { createRoom } from "@/services/api/createRoom";
+import { addMember } from "@/services/api/addMember";
+import { RoomEvents } from "@/services/websockets/userAddedToRoom";
+import { saveToken } from "@/services/localStorage/AuthStorage";
 
 const socketClient = new SocketClient();
 const chatMessageEvents = new ChatMessageEvents(socketClient);
+const roomEvents = new RoomEvents(socketClient)
 
 const httpClient = HttpClient.getInstance()
 
@@ -40,11 +44,16 @@ export default createStore({
 
     actualRoom: "",
 
-    modal: {
-      showModal: false,
-      roomName: '',
-      loading: false
-    }
+    modal: [
+      {
+        showNewRoomModal: false,
+        loading: false
+      },
+      {
+        showNewMemberModal: false,
+        loading: false
+      }
+    ]
   },
 
   mutations: {
@@ -108,13 +117,22 @@ export default createStore({
       state.roomsList.push(room)
     },
 
-    CHANGE_MODAL_SHOW(state){
-      state.modal.showModal = !state.modal.showModal
+    CHANGE__NEWROOM_MODAL_SHOW(state){
+      state.modal[0].showNewRoomModal = !state.modal[0].showNewRoomModal
     },
 
-    MODAL_LOADING(state){
-      state.modal.loading = !state.modal.loading
-    }
+    MODAL_NEWROOM_LOADING(state){
+      state.modal[0].loading = !state.modal[0].loading
+    },
+
+    CHANGE_NEWMEMBER_MODAL_SHOW(state){
+      state.modal[1].showNewMemberModal = !state.modal[1].showNewMemberModal;
+      console.log(state.modal[1].showNewMemberModal)
+    },
+
+    MODAL_NEWMEMBER_LOADING(state){
+      state.modal[1].loading = !state.modal[1].loading
+    },
   },
 
   actions: {
@@ -132,8 +150,10 @@ export default createStore({
 
       if (signInData) {
         context.commit("SET_USER_INFO", signInData);
+/*         saveToken(signInData.token) */
         socketClient.connect(signInData.token);
         chatMessageEvents.newMessage();
+        roomEvents.userAddedToRoom();
         httpClient.setToken(signInData.token);
         return;
       }
@@ -157,17 +177,33 @@ export default createStore({
     },
 
     async CREATE_NEW_ROOM(context, roomName:string){
-      context.commit('MODAL_LOADING')
+      context.commit('MODAL_NEWROOM_LOADING')
 
       const response = await createRoom({roomName})
       
       if(response.createSuccsess === true){
         context.commit( 'SET_NEW_ROOM', response.roomInfo )
-        context.commit('MODAL_LOADING')
+        context.commit('MODAL_NEWROOM_LOADING')
+        context.commit('CHANGE__NEWROOM_MODAL_SHOW')
         return
       }
-      context.commit('MODAL_LOADING')
+      context.commit('MODAL_NEWROOM_LOADING')
       window.alert('Problema ao criar sala... Tente Novamente mais tarde.')
+    },
+
+    async ADD_NEW_MEMBER (context, newMember:NewMemberData) {
+      context.commit('MODAL_NEWMEMBER_LOADING')
+
+      const response = await addMember(newMember)
+      
+      if(response){
+        context.commit('MODAL_NEWMEMBER_LOADING')
+        context.commit('CHANGE_NEWMEMBER_MODAL_SHOW')
+        return
+      }
+
+      context.commit('MODAL_NEWMEMBER_LOADING')
+      window.alert('Problema ao adicionar membro... Tente Novamente mais tarde.')
     },
 
     async CHANGE_ACTUAL_ROOM(context, roomId: string){
@@ -181,6 +217,21 @@ export default createStore({
 
     async SEND_NEW_MESSAGE(context, message: SendNewMessageData){
       chatMessageEvents.sendNewMessage(message)
+    },
+
+    async SET_TOKEN(context, token: string){
+      httpClient.setToken(token)
+      const userData = {
+        user: {
+          id: "633f5dbaecff91eba2dcd64d",
+          name: "Teste",
+          email: "",
+          avatarUrl: "",
+        },
+        token,
+      }
+
+      context.commit("SET_USER_INFO", userData);
     }
 
   },
