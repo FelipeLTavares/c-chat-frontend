@@ -1,7 +1,11 @@
 <template>
   <div class="roomsSection">
-    <SideModal v-show="modal.showModal" />
-    <div class="roomsContainer" v-show="!modal.showModal">
+    <ModalNewRoom v-show="modal[0].showNewRoomModal" />
+    <ModalNewMembers v-show="modal[1].showNewMemberModal" />
+    <div
+      class="roomsContainer"
+      v-show="!modal[1].showNewMemberModal && !modal[0].showNewRoomModal"
+    >
       <RoomCard
         v-for="room in roomsList"
         :key="room.id"
@@ -9,6 +13,7 @@
         :roomName="room.name"
         :roomLastMsgTime="room.lastMessageDatetime"
         :roomAvatar="room.avatarUrl"
+        :selected="actualRoom === room.id"
       />
     </div>
   </div>
@@ -16,27 +21,29 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions, mapGetters, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 
 import RoomCard from "@/components/chat/SideBar/RoomCard/RoomCard.vue";
-import SideModal from "../Options/Modal/SideModal.vue";
+import ModalNewRoom from "../Options/ModalNewRoom/ModalNewRoom.vue";
+import ModalNewMembers from "../Options/ModalNewMembers/ModalNewMembers.vue";
 
 export default defineComponent({
   name: "roomsSection",
-  components: { RoomCard, SideModal },
+  components: { RoomCard, ModalNewRoom, ModalNewMembers },
   computed: {
-    ...mapState(["roomsList", "modal", "userInfo"]),
-    ...mapGetters(["getRoomsList"]),
+    ...mapState(["roomsList", "modal", "userInfo", "actualRoom"]),
   },
 
   methods: {
     ...mapActions(["SET_ROOMS"]),
+    ...mapMutations([
+      "CHANGE__NEWROOM_MODAL_SHOW",
+      "CHANGE_NEWMEMBER_MODAL_SHOW",
+    ]),
   },
 
   mounted() {
-    /*     if(this.userInfo.isLoggedIn){
-
-    } */
+    console.log(this.modal[0].showNewRoomModal);
     this.SET_ROOMS();
   },
 });
