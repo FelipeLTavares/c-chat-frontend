@@ -1,3 +1,4 @@
+import { getToken } from '@/services/localStorage/AuthStorage'
 import store from '@/store'
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
@@ -20,6 +21,16 @@ const router = createRouter({
 })
 
 router.beforeEach( (to, from) => {
+  if( !store.state.userInfo.isLoggedIn && to.name === 'Auth'){
+    const token = getToken()
+    if(token){
+      store.dispatch('SET_TOKEN', token)
+      return {
+        name: 'Chat'
+      } 
+    }
+  }
+
   if(!store.state.userInfo.isLoggedIn && to.name !== 'Auth'){
     return {
       name: 'Auth'
