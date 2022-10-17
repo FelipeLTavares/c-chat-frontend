@@ -15,6 +15,18 @@ export interface CreateRoomResponse {
   roomInfo?: Room
 }
 
+//ADD MEMBER
+export interface NewMemberData {
+    roomId: string,
+    userEmail: string
+}
+
+//ADD USER TO ROOM MESSAGE DATA
+export interface AddUserToRoomMessageData{
+  userId: string,
+  room: Room
+}
+
 //AUTH
 export interface SignInData {
   user: {
