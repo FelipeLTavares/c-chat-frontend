@@ -1,41 +1,56 @@
-import { getToken } from '@/services/localStorage/AuthStorage'
-import store from '@/store'
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { getToken } from "@/services/localStorage/AuthStorage";
+import store from "@/store";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    name: 'Auth',
-    component: ()=> import('../views/AuthenticationView.vue')
+    path: "/",
+    name: "Auth",
+    component: () => import("../views/AuthenticationView.vue"),
+    async beforeEnter(_, __, next) {
+      if (!store.state.userInfo.isLoggedIn) {
+        const token = getToken();
+        console.log(token);
+        if (token) {
+          await store.dispatch("SET_TOKEN", token);
+          next({
+            name: "Chat",
+          });
+        }
+        next({
+          name: "Auth",
+        });
+      }
+    },
   },
   {
-    path: '/chat',
-    name: 'Chat',
-    component: ()=> import('../views/ChatView.vue')
-  }
-]
+    path: "/chat",
+    name: "Chat",
+    component: () => import("../views/ChatView.vue"),
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-router.beforeEach( (to, from) => {
-  if( !store.state.userInfo.isLoggedIn && to.name === 'Auth'){
-    const token = getToken()
-    if(token){
-      store.dispatch('SET_TOKEN', token)
-      return {
-        name: 'Chat'
-      } 
+/* router.beforeEach(async (to, from, next) => {
+  console.log("Estou aqui:", store.state.userInfo);
+  console.log(to.name, from.name);
+  if (!store.state.userInfo.isLoggedIn) {
+    const token = getToken();
+    console.log(token);
+    if (token) {
+      await store.dispatch("SET_TOKEN", token);
+      next({
+        name: "Chat",
+      });
     }
+    next({
+      name: "Auth",
+    });
   }
+}); */
 
-  if(!store.state.userInfo.isLoggedIn && to.name !== 'Auth'){
-    return {
-      name: 'Auth'
-    }
-  }
-} )
-
-export default router
+export default router;

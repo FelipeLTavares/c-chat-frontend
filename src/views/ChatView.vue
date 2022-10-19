@@ -49,12 +49,6 @@ export default defineComponent({
     ...mapMutations(["SET_MESSAGE_ON_LIST"]),
     ...mapActions(["GET_FIRST_MESSAGES", "SEND_NEW_MESSAGE"]),
 
-    isLogged() {
-      if (!this.userInfo.isLoggedIn) {
-        this.$router.push({ name: "Auth" });
-      }
-    },
-
     pushNewMessage() {
       const msg = {
         roomId: this.actualRoom,
@@ -64,10 +58,6 @@ export default defineComponent({
       this.SEND_NEW_MESSAGE(msg);
       this.messageToSend = "";
     },
-  },
-
-  mounted() {
-    this.isLogged();
   },
 });
 </script>
