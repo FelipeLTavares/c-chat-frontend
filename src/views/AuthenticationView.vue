@@ -17,14 +17,14 @@ export default defineComponent({
     ...mapState(["userInfo"]),
   },
   methods: {
-    isLoggedIn(){
-      if( this.userInfo.isLoggedIn ){
-        this.$router.push('/chat')
+    isLoggedIn() {
+      if (this.userInfo.isLoggedIn) {
+        this.$router.push("/");
       }
-    }
+    },
   },
-  mounted(){
-    this.isLoggedIn()
-  }
+  mounted() {
+    this.isLoggedIn();
+  },
 });
 </script>

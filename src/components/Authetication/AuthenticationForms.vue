@@ -132,7 +132,7 @@ export default defineComponent({
     this.formWordsChange();
 
     if (this.userInfo.isLoggedIn) {
-      this.$router.push("/chat");
+      this.$router.push("/");
       return;
     }
 

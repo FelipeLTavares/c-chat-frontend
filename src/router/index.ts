@@ -8,13 +8,13 @@ import Chat from "../views/ChatView.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "Auth",
-    component: Auth,
-  },
-  {
-    path: "/chat",
     name: "Chat",
     component: Chat,
+  },
+  {
+    path: "/auth",
+    name: "Auth",
+    component: Auth,
   },
 ];
 
@@ -23,23 +23,39 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, from, next) => {
-  if (to.name !== "Auth" && !store.state.userInfo.isLoggedIn) {
-    console.log("está em chat");
-    const token = getToken();
-    console.log(token);
-    if (token) {
-      await store.dispatch("SET_TOKEN", token);
-      next();
-    } else {
-      next({
-        path: "/",
-        replace: true,
-      });
-    }
-  } else {
-    next();
+async function verifyToken() {
+  const token = getToken();
+  if (token) {
+    await store.dispatch("SET_TOKEN", token);
+    return true;
   }
+  return false;
+}
+
+router.beforeEach(async (to, from, next) => {
+  if (
+    !store.state.userInfo.isLoggedIn &&
+    to.name === "Auth" &&
+    (await verifyToken())
+  ) {
+    next({
+      path: "/",
+      replace: true,
+    });
+    return;
+  }
+  if (
+    !store.state.userInfo.isLoggedIn &&
+    to.name !== "Auth" &&
+    !(await verifyToken())
+  ) {
+    next({
+      path: "/auth",
+      replace: true,
+    });
+    return;
+  }
+  next();
 });
 
 export default router;
