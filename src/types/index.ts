@@ -12,19 +12,19 @@ export interface CreateRoomData {
 
 export interface CreateRoomResponse {
   createSuccsess: boolean;
-  roomInfo?: Room
+  roomInfo?: Room;
 }
 
 //ADD MEMBER
 export interface NewMemberData {
-    roomId: string,
-    userEmail: string
+  roomId: string;
+  userEmail: string;
 }
 
 //ADD USER TO ROOM MESSAGE DATA
-export interface AddUserToRoomMessageData{
-  userId: string,
-  room: Room
+export interface AddUserToRoomMessageData {
+  userId: string;
+  room: Room;
 }
 
 //AUTH
@@ -62,8 +62,17 @@ export interface MessageInfo {
     avatarUrl: string;
   };
   text: string;
+  files?: MessageFile[];
   created: string;
   isSelf: boolean;
+}
+
+export interface MessageFile {
+  id: string;
+  name: string;
+  type: string;
+  size: string;
+  fileUrl: string;
 }
 
 ////Messages List
