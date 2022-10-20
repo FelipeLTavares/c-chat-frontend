@@ -1,5 +1,5 @@
 import { UserInfo } from "@/types";
-import { HttpClient } from "../HttpClient";
+import { HttpClient } from "./HttpClient";
 
 const httpClient = HttpClient.getInstance();
 

@@ -1,18 +1,20 @@
-import {  NewMemberData } from "@/types";
-import { HttpClient } from "../HttpClient";
+import { NewMemberData } from "@/types";
+import { HttpClient } from "./HttpClient";
 
-const httpClient = HttpClient.getInstance()
+const httpClient = HttpClient.getInstance();
 
-
-export async function addMember(newMember:NewMemberData): Promise<boolean> {
+export async function addMember(newMember: NewMemberData): Promise<boolean> {
   try {
-    const response = await httpClient.client.post('/chat/rooms/users', newMember)
+    const response = await httpClient.client.post(
+      "/chat/rooms/users",
+      newMember
+    );
     if (response.status === 204) {
-      return true
+      return true;
     }
-    
-    return false
+
+    return false;
   } catch {
-    return false
+    return false;
   }
-}      
+}

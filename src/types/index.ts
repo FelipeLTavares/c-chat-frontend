@@ -72,6 +72,7 @@ export interface MessageFile {
   name: string;
   type: string;
   size: string;
+  available: boolean;
   fileUrl: string;
 }
 
@@ -105,6 +106,13 @@ export interface SendNewMessageData {
   roomId: string;
   userId: string;
   text: string;
+  files?: FileMessageData[];
+}
+
+export interface FileMessageData {
+  name: string;
+  type: string;
+  size: string;
 }
 
 ////Message Style

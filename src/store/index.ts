@@ -12,12 +12,12 @@ import {
 import { SocketClient } from "@/services/websockets/socketClient";
 import { signIn } from "@/services/api/signIn";
 import { createUser } from "@/services/api/createUser";
-import { ChatMessageEvents } from "@/services/websockets/socketEventsHandlers";
+import { ChatMessageEvents } from "@/services/websockets/ChatMessageEvents";
 import { getFisrtMessages } from "@/services/api/getFirstMessages";
-import { HttpClient } from "@/services/HttpClient";
+import { HttpClient } from "@/services/api/HttpClient";
 import { createRoom } from "@/services/api/createRoom";
 import { addMember } from "@/services/api/addMember";
-import { RoomEvents } from "@/services/websockets/userAddedToRoom";
+import { RoomEvents } from "@/services/websockets/userAddedToRoomEvents";
 import { removeToken, saveToken } from "@/services/localStorage/AuthStorage";
 import { getUserInfo } from "@/services/api/getUserInfo";
 
