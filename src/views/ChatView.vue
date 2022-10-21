@@ -3,61 +3,28 @@
     <SideBar></SideBar>
     <div class="chat">
       <MessagesList :propMessageList="messagesList[actualRoom]"></MessagesList>
-      <div class="inputMessage">
-        <input
-          type="text"
-          class="IM"
-          placeholder="Digite sua mensagem"
-          v-model="messageToSend"
-          @keyup.enter="pushNewMessage()"
-        />
-        <button @click="pushNewMessage()">
-          Enviar
-          <div class="iconeSend"><Send :size="24" /></div>
-        </button>
-      </div>
+      <SendMessage></SendMessage>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState } from "vuex";
 
-import Send from "vue3-material-design-icons-ts/dist/Send.vue";
 import MessagesList from "@/components/chat/main/messagesList/messagesList.vue";
 import SideBar from "@/components/chat/SideBar/sideBar/SideBar/sideBar.vue";
+import SendMessage from "@/components/chat/main/InputMessage/SendMessage/SendMessage.vue";
 
 export default defineComponent({
-  name: "ChatView",
-  data() {
-    return {
-      messageToSend: "",
-    };
-  },
   components: {
     MessagesList,
-    Send,
     SideBar,
+    SendMessage,
   },
 
   computed: {
-    ...mapState(["userInfo", "messagesList", "actualRoom"]),
-  },
-
-  methods: {
-    ...mapMutations(["SET_MESSAGE_ON_LIST"]),
-    ...mapActions(["GET_FIRST_MESSAGES", "SEND_NEW_MESSAGE"]),
-
-    pushNewMessage() {
-      const msg = {
-        roomId: this.actualRoom,
-        userId: this.userInfo.user.id,
-        text: this.messageToSend,
-      };
-      this.SEND_NEW_MESSAGE(msg);
-      this.messageToSend = "";
-    },
+    ...mapState(["messagesList", "actualRoom"]),
   },
 });
 </script>
