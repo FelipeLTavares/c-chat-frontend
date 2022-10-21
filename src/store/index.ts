@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 
 import {
   CreateUserData,
+  FilePreviewData,
   MessageRaw,
   MessageReady,
   NewMemberData,
@@ -64,6 +65,10 @@ export default createStore({
         loading: false,
       },
     ],
+
+    filesList: [] as FilePreviewData[],
+
+    inputFilesModal: [{ files: false }],
   },
 
   mutations: {
@@ -159,6 +164,14 @@ export default createStore({
       };
       removeToken();
       router.push("/auth");
+    },
+
+    SET_FILES_LIST(state, files: FilePreviewData[]) {
+      state.filesList = files;
+    },
+
+    SHOW_MODAL_INPUT_FILE(state) {
+      state.inputFilesModal[0].files = !state.inputFilesModal[0].files;
     },
   },
 
