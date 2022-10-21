@@ -52,6 +52,13 @@ export interface UserInfo {
 }
 
 //CHAT
+////FilePreviewData
+export interface FilePreviewData {
+  name: string;
+  size: number;
+  type: string;
+}
+
 ////Message itself
 export interface MessageInfo {
   id: string;
