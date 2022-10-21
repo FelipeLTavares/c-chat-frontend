@@ -20,6 +20,7 @@ import { addMember } from "@/services/api/addMember";
 import { RoomEvents } from "@/services/websockets/userAddedToRoomEvents";
 import { removeToken, saveToken } from "@/services/localStorage/AuthStorage";
 import { getUserInfo } from "@/services/api/getUserInfo";
+import router from "@/router";
 
 const socketClient = new SocketClient();
 const chatMessageEvents = new ChatMessageEvents(socketClient);
@@ -141,6 +142,23 @@ export default createStore({
 
     MODAL_NEWMEMBER_LOADING(state) {
       state.modal[1].loading = !state.modal[1].loading;
+    },
+
+    ACCOUNT_LOGOUT(state) {
+      state.userInfo = {
+        user: {
+          id: "",
+          name: "",
+          email: "",
+          avatarUrl: "",
+        },
+        token: "",
+        isLoggedIn: false,
+        isLogedLoading: false,
+        isLogedError: false,
+      };
+      removeToken();
+      router.push("/auth");
     },
   },
 

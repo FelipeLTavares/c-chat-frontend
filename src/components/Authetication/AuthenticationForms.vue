@@ -63,6 +63,7 @@ export default defineComponent({
       formChange1: "Não é cadastrado?",
       formChange2: "Cadastre-se",
       createUserSubmetedForm: false,
+      items: [{ title: "Teste1" }, { title: "Teste1" }, { title: "Teste1" }],
     };
   },
 
