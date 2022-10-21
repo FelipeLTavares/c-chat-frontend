@@ -1,0 +1,22 @@
+.DocumentsComp{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 10px 0;
+  
+  .DocumentIcon{
+    margin-bottom: -3px;
+  }
+
+  span{
+    font-size: 8px;
+    margin-top: -3px;
+    max-width: 75px;
+    text-align: center;
+    display:inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
