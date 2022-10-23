@@ -27,7 +27,7 @@
 import { NewMemberData } from "@/types";
 import { defineComponent } from "vue";
 import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
-import LoadingComponent from "../../../../../Loading/LoadingComponent.vue";
+import LoadingComponent from "../../../../UI/Loading/LoadingComponent.vue";
 
 export default defineComponent({
   name: "ModalNewMembers",

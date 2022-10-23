@@ -48,7 +48,7 @@ import {
   createFormValidator,
   authFormValidator,
 } from "../../functions/VerifyFunction";
-import LoadingComponent from "../Loading/LoadingComponent.vue";
+import LoadingComponent from "../UI/Loading/LoadingComponent.vue";
 
 export default defineComponent({
   name: "AuthenticationForms",

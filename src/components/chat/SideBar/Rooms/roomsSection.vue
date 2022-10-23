@@ -43,7 +43,6 @@ export default defineComponent({
   },
 
   mounted() {
-    console.log(this.modal[0].showNewRoomModal);
     this.SET_ROOMS();
   },
 });

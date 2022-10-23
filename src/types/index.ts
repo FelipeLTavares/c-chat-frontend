@@ -52,28 +52,7 @@ export interface UserInfo {
 }
 
 //CHAT
-////FilePreviewData
-export interface FilePreviewData {
-  name: string;
-  size: number;
-  type: string;
-}
-
-////Message itself
-export interface MessageInfo {
-  id: string;
-  roomId: string;
-  user: {
-    id: string;
-    name: string;
-    avatarUrl: string;
-  };
-  text: string;
-  files?: MessageFile[];
-  created: string;
-  isSelf: boolean;
-}
-
+////Message
 export interface MessageFile {
   id: string;
   name: string;
@@ -83,7 +62,6 @@ export interface MessageFile {
   fileUrl: string;
 }
 
-////Messages List
 export interface MessageRaw {
   id: string;
   roomId: string;
@@ -93,6 +71,7 @@ export interface MessageRaw {
     avatarUrl: string;
   };
   text: string;
+  files?: MessageFile[];
   created: string;
 }
 
@@ -105,6 +84,7 @@ export interface MessageReady {
     avatarUrl: string;
   };
   text: string;
+  files?: MessageFile[];
   created: string;
   isSelf: boolean;
 }

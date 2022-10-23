@@ -47,20 +47,5 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.menuu {
-  min-width: 150px;
-  box-shadow: none;
-  border-radius: 14px;
-}
-.menuItem {
-  cursor: pointer;
-  border-radius: 12px;
-  &:hover {
-    background-color: $c-lightblue;
-  }
-}
-
-.MenuItemTitle {
-  font-size: 12px;
-}
+@import "./ProfileMenu.scss";
 </style>

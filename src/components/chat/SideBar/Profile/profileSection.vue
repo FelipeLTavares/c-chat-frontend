@@ -5,21 +5,23 @@
       <span class="userName">{{ userInfo.user.name }}</span>
       <span class="userStatus">{{ userInfo.user.email }}</span>
     </div>
-    <ButtonMenu class="menuBtn"></ButtonMenu>
+    <ProfileMenu class="menuBtn"></ProfileMenu>
+    <!-- <ButtonMenu class="menuBtn"></ButtonMenu> -->
   </div>
 </template>
  
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState } from "vuex";
-import ButtonMenu from "../../../../UI/teste/ButtonMenu.vue";
+import ButtonMenu from "../../../UI/MenuButton/MenuButton.vue";
+import ProfileMenu from "@/components/UI/ProfileMenu/ProfileMenu.vue";
 
 export default defineComponent({
   name: "profileSection",
   computed: {
     ...mapState(["userInfo"]),
   },
-  components: { ButtonMenu },
+  components: { ProfileMenu },
 });
 </script>
 

@@ -7,11 +7,15 @@ export class ChatMessageEvents {
 
   newMessage() {
     this.socket.on<MessageRaw>("NEW_MESSAGE", (msg) => {
-      store.commit("SET_MESSAGE_ON_LIST", [msg]);
+      store.dispatch("RECEIVE_NEW_MESSAGE", msg);
     });
   }
 
   sendNewMessage(msg: SendNewMessageData) {
     this.socket.emit("NEW_MESSAGE", msg);
+  }
+
+  uploadMessageFile(msgData: any) {
+    this.socket.emit("UPLOAD_MESSAGE_FILE", msgData);
   }
 }

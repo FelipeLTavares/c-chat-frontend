@@ -1,9 +1,32 @@
 .DocumentsComp{
+  width: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   margin: 10px 0;
+  padding: 5px;
+  position: relative;
+  @keyframes deleteButtonAnimation {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+  }
+  
+  &:hover{
+    .close{
+      display: flex;
+    }
+  }
+  
+  .close{
+    position: absolute;
+    top: 0;
+    right: 8px;
+    color: $c-red;
+    display: none;
+    cursor: pointer;
+    animation: deleteButtonAnimation 0.3s;
+  }
   
   .DocumentIcon{
     margin-bottom: -3px;

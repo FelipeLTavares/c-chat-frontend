@@ -26,7 +26,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapActions, mapMutations, mapState } from "vuex";
-import LoadingComponent from "../../../../../Loading/LoadingComponent.vue";
+import LoadingComponent from "../../../../UI/Loading/LoadingComponent.vue";
 
 export default defineComponent({
   name: "SideModal",

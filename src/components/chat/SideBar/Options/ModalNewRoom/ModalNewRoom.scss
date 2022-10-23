@@ -10,7 +10,7 @@
     row-gap: 12px;
 
     h3{
-      color: $c-text-gray;
+      color: $c-gray;
       justify-self: flex-start;
     }
 
@@ -21,9 +21,9 @@
       flex: 1;
       border-radius: 10px;
       padding-left: 17px;
-      background: $c-generalbg;
+      background: $c-white;
       outline-color: $c-royalblue;
-      border: 1px solid $c-border-gray;
+      border: 1px solid $c-lightgray;
       font-size: 12px;
       cursor: pointer;
       

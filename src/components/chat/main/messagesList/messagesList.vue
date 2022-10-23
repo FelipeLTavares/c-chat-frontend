@@ -16,7 +16,7 @@
 import { defineComponent } from "vue";
 
 import MessageBox from "@/components/chat/main/message/messageBox.vue";
-import { MessageInfo } from "@/types";
+import { MessageReady } from "@/types";
 
 export default defineComponent({
   name: "messagesList",
@@ -24,7 +24,7 @@ export default defineComponent({
     MessageBox,
   },
   props: {
-    propMessageList: Object as () => MessageInfo[],
+    propMessageList: Object as () => MessageReady[],
   },
   methods: {
     onChange() {

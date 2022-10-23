@@ -9,7 +9,7 @@
 }
 .roomsContainer {
   overflow-y: auto;
-  scrollbar-color: $c-status-gray $c-lightblue;
+  scrollbar-color: $c-lightgray $c-lightblue;
   scrollbar-width: thin;
 }
 
@@ -19,5 +19,5 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $c-status-gray;
+  background: $c-lightgray;
 }

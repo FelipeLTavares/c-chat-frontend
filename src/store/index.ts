@@ -2,7 +2,6 @@ import { createStore } from "vuex";
 
 import {
   CreateUserData,
-  FilePreviewData,
   MessageRaw,
   MessageReady,
   NewMemberData,
@@ -66,7 +65,7 @@ export default createStore({
       },
     ],
 
-    filesList: [] as FilePreviewData[],
+    filesList: [] as File[],
 
     inputFilesModal: [{ files: false }],
   },
@@ -142,7 +141,6 @@ export default createStore({
 
     CHANGE_NEWMEMBER_MODAL_SHOW(state) {
       state.modal[1].showNewMemberModal = !state.modal[1].showNewMemberModal;
-      console.log(state.modal[1].showNewMemberModal);
     },
 
     MODAL_NEWMEMBER_LOADING(state) {
@@ -166,8 +164,15 @@ export default createStore({
       router.push("/auth");
     },
 
-    SET_FILES_LIST(state, files: FilePreviewData[]) {
+    SET_FILES_LIST(state, files: File[]) {
       state.filesList = files;
+    },
+
+    DELETE_FILE_OF_THE_LIST(state, index: number) {
+      console.log("Comecou: ", state.filesList);
+      state.filesList.splice(index, 1);
+      state.filesList = [...state.filesList];
+      console.log("Terminou: ", state.filesList);
     },
 
     SHOW_MODAL_INPUT_FILE(state) {
@@ -266,7 +271,6 @@ export default createStore({
     async SET_TOKEN(context, token: string) {
       httpClient.setToken(token);
       const user = await getUserInfo();
-      console.log("Dentro da mutation");
       if (!user) {
         removeToken();
         return;
@@ -277,6 +281,31 @@ export default createStore({
       };
 
       context.commit("SET_USER_INFO", userData);
+      socketClient.connect(token);
+      chatMessageEvents.newMessage();
+      roomEvents.userAddedToRoom();
+    },
+
+    async RECEIVE_NEW_MESSAGE(context, messagegData: MessageRaw) {
+      if (messagegData.id === context.state.userInfo.user.id) {
+        if (!!messagegData.files && messagegData.files.length) {
+          for (const file of messagegData.files) {
+            const currentFile = context.state.filesList.find(
+              (fileItem) => fileItem.name === file.name
+            );
+
+            const sendFileData = {
+              fileId: file.id,
+              data: currentFile,
+            };
+
+            chatMessageEvents.uploadMessageFile(sendFileData);
+          }
+        }
+        return;
+      }
+
+      context.commit("SET_MESSAGE_ON_LIST", [messagegData]);
     },
   },
 

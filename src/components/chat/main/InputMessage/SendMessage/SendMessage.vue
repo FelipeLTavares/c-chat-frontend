@@ -1,7 +1,12 @@
 <template>
   <div class="SendMessage">
     <div class="inputMessage">
-      <Paperclip class="paperclip" @click="SHOW_MODAL_INPUT_FILE()" />
+      <div class="InputFiles">
+        <Paperclip class="paperclip" @click="SHOW_MODAL_INPUT_FILE()" />
+        <span :class="{ InputFilesSpan: true, hide: !filesList.length }">{{
+          filesList.length
+        }}</span>
+      </div>
       <input
         type="text"
         class="IM"
@@ -40,7 +45,13 @@ export default defineComponent({
   },
 
   computed: {
-    ...mapState(["userInfo", "messagesList", "inputFilesModal"]),
+    ...mapState([
+      "userInfo",
+      "messagesList",
+      "inputFilesModal",
+      "filesList",
+      "actualRoom",
+    ]),
   },
 
   methods: {
@@ -54,10 +65,17 @@ export default defineComponent({
     },
 
     pushNewMessage() {
+      const files = [...this.filesList].map((file) => ({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+      }));
+
       const msg = {
-        roomId: this.messagesList[0].roomId,
+        roomId: this.actualRoom,
         userId: this.userInfo.user.id,
         text: this.messageToSend,
+        files,
       };
       this.SEND_NEW_MESSAGE(msg);
       this.messageToSend = "";

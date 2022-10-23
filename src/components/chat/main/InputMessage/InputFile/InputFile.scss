@@ -1,0 +1,69 @@
+.InputFileContainer {
+  width: calc(96% - 350px);
+  position: absolute;
+  bottom: 70px;
+  display: flex;
+}
+.InputFile {
+  background: $c-royalblue;
+  border-radius: 14px;
+  width: 100%;
+  min-height: 120px;
+  color: $c-white;
+  position: relative;
+
+  display: flex;
+
+  div {
+    input[type="file"] {
+      display: none;
+    }
+    label {
+      width: 70px;
+      height: 70px;
+      background-color: $c-royalblue;
+      color: $c-white;
+      border: 2px dashed $c-white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 14px;
+      margin: 5px;
+      transition: all ease 0.3s;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+.closeButton {
+  width: 40px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  grid-area: FIclose;
+}
+
+.InputsContainer {
+  width: calc(100% - 40px);
+  grid-area: FInputs;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  padding: 8px;
+  flex-flow: row;
+  flex-wrap: wrap;
+}
+
+.InputFile:after {
+  content: "";
+  position: absolute;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid $c-royalblue;
+  bottom: -10px;
+  left: 20px;
+}

@@ -3,7 +3,8 @@
     <div class="InputFile">
       <div class="InputsContainer">
         <DocumentsComp
-          v-for="item in filesList"
+          v-for="(item, index) in filesList"
+          :index="index"
           :name="item.name"
           :key="item.name"
         />
@@ -49,79 +50,21 @@ export default defineComponent({
   },
 
   methods: {
-    ...mapMutations(["SET_FILES_LIST", "SHOW_MODAL_INPUT_FILE"]),
+    ...mapMutations([
+      "SET_FILES_LIST",
+      "SHOW_MODAL_INPUT_FILE",
+      "DELETE_FILE_OF_THE_LIST",
+    ]),
     fileUpdload() {
-      this.SET_FILES_LIST((this.$refs.filesUploaded as any).files);
+      this.SET_FILES_LIST([...(this.$refs.filesUploaded as any).files]);
     },
     clearFiles() {
       this.SHOW_MODAL_INPUT_FILE();
-      this.SET_FILES_LIST([]);
     },
   },
 });
 </script>
 
 <style lang="scss">
-.InputFileContainer {
-  width: calc(96% - 350px);
-  position: absolute;
-  bottom: 70px;
-  display: flex;
-}
-.InputFile {
-  background: $c-royalblue;
-  border-radius: 14px;
-  width: 100%;
-  min-height: 120px;
-  color: #fff;
-  position: relative;
-
-  display: flex;
-
-  div {
-    input[type="file"] {
-      display: none;
-    }
-    label {
-      width: 70px;
-      height: 70px;
-      background-color: $c-royalblue;
-      color: #fff;
-      border: 2px dashed white;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 14px;
-      margin: 5px;
-    }
-  }
-}
-
-.closeButton {
-  width: 40px;
-  padding-top: 10px;
-  display: flex;
-  justify-content: center;
-  grid-area: FIclose;
-}
-
-.InputsContainer {
-  width: calc(100% - 40px);
-  grid-area: FInputs;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  align-items: center;
-  justify-items: center;
-}
-
-.InputFile:after {
-  content: "";
-  position: absolute;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 10px solid $c-royalblue;
-  bottom: -10px;
-  left: 5%;
-}
+@import "./InputFile.scss";
 </style>

@@ -9,8 +9,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import profileSection from "@/components/chat/SideBar/sideBar/Profile/profileSection.vue";
-import roomsSection from "@/components/chat/SideBar/sideBar/Rooms/roomsSection.vue";
+import profileSection from "../Profile/profileSection.vue";
+import roomsSection from "../Rooms/roomsSection.vue";
 import Options from "../Options/Options/Options.vue";
 
 export default defineComponent({
@@ -24,5 +24,5 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "./sideBar.scss";
+@import "./SideBarComponent.scss";
 </style>
