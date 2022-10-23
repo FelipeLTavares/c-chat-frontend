@@ -287,7 +287,8 @@ export default createStore({
     },
 
     async RECEIVE_NEW_MESSAGE(context, messagegData: MessageRaw) {
-      if (messagegData.id === context.state.userInfo.user.id) {
+      console.log("Receive");
+      if (messagegData.user.id === context.state.userInfo.user.id) {
         if (!!messagegData.files && messagegData.files.length) {
           for (const file of messagegData.files) {
             const currentFile = context.state.filesList.find(
@@ -302,7 +303,6 @@ export default createStore({
             chatMessageEvents.uploadMessageFile(sendFileData);
           }
         }
-        return;
       }
 
       context.commit("SET_MESSAGE_ON_LIST", [messagegData]);
