@@ -11,12 +11,21 @@
   align-items: center;
   justify-items: center;
 }
+
+.avatar{
+  grid-area: b;
+}
+
 .userPic {
   grid-area: b;
   background-color: $c-black;
   width: 44px;
   height: 44px;
   border-radius: 50%;
+
+  span{
+    font-size: 25px;
+  }
 }
 .userInfo {
   justify-self: flex-start;

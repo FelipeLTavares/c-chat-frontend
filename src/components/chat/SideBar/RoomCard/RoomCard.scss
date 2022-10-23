@@ -22,21 +22,15 @@
   .roomContainer{
     display: grid;
     grid-template: auto / 73px 217px;
-    
-    .roomPic {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      margin: 15px;
-      overflow: hidden;
-      object-fit: cover;
-    }
+    align-items: center;
+    justify-items: center;
 
     .cardInfo {
       display: grid;
       grid-template-columns: auto auto;
       justify-content: space-between;
       align-items: center;
+      width: 100%;
     
       .roomName {
         font-weight: 600;

@@ -1,0 +1,21 @@
+.AvatarContainer{
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .avatarPic{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    object-fit: cover;
+  }
+
+  .avatarLetter{
+    span{
+      font-size: 25px;
+    }
+  }
+}

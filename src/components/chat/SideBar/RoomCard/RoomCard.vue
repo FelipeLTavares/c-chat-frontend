@@ -1,8 +1,11 @@
 <template>
   <div :class="{ roomCard: true, selected }">
     <div class="roomContainer" @click="selectRoom()">
-      <img class="roomPic" :src="roomAvatar" alt="roomName" />
-
+      <AvatarComponent
+        class="roomPic"
+        :componentName="roomName"
+        :avatarUrl="roomAvatar"
+      />
       <div class="cardInfo">
         <span class="roomName">{{ roomName }}</span>
         <span class="roomTime">{{ roomLastMsgTime }}</span>
@@ -14,6 +17,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapActions } from "vuex";
+import AvatarComponent from "@/components/UI/Avatar/AvatarComponent.vue";
 
 export default defineComponent({
   name: "RoomCard",
@@ -30,7 +34,7 @@ export default defineComponent({
     roomLastMsgTime: String,
     selected: Boolean,
   },
-  components: {},
+  components: { AvatarComponent },
   methods: {
     ...mapActions(["CHANGE_ACTUAL_ROOM"]),
     selectRoom() {
