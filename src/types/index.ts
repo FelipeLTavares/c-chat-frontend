@@ -59,7 +59,6 @@ export interface MessageFile {
   type: string;
   size: string;
   available: boolean;
-  fileUrl: string;
 }
 
 export interface MessageRaw {
@@ -102,12 +101,28 @@ export interface FileMessageData {
   size: string;
 }
 
+////UploadFileFinishData
+export interface UploadFileFinishData {
+  roomId: string;
+  messageId: string;
+  file: MessageFile;
+}
+
 ////Message Style
 export interface MessageStyle {
   alignSelf: string;
   borderRadius: string;
   backgroundColor?: string;
   color?: string;
+}
+
+//
+export interface GetFileDownloadUrlData {
+  fileId: string;
+}
+
+export interface GetFileDownloadUrlResponse {
+  url: string;
 }
 
 //Room

@@ -3,7 +3,7 @@
     <div class="InputFile">
       <div class="InputsContainer">
         <DocumentsComp
-          v-for="(item, index) in filesList"
+          v-for="(item, index) in sendFilesData.files"
           :index="index"
           :name="item.name"
           :key="item.name"
@@ -35,18 +35,13 @@ import { mapMutations, mapState } from "vuex";
 
 export default defineComponent({
   name: "InputFile",
-  data() {
-    return {
-      list: [{ name: "teste" }, { name: "teste" }, { name: "teste" }],
-    };
-  },
   components: {
     PlusCircleOutline,
     CloseCircleOutline,
     DocumentsComp,
   },
   computed: {
-    ...mapState(["filesList"]),
+    ...mapState(["sendFilesData"]),
   },
 
   methods: {

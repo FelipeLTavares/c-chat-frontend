@@ -12,7 +12,6 @@ export class SocketClient {
   private handlers: EventHandler[] = [];
 
   connect(token: string) {
-    console.log("Hello");
     this.socketIo = socketIo(SocketClient.wsUrl, {
       auth: {
         token,

@@ -2,12 +2,14 @@ import { createStore } from "vuex";
 
 import {
   CreateUserData,
+  MessageFile,
   MessageRaw,
   MessageReady,
   NewMemberData,
   Room,
   SendNewMessageData,
   SignInData,
+  UploadFileFinishData,
 } from "@/types";
 import { SocketClient } from "@/services/websockets/socketClient";
 import { signIn } from "@/services/api/signIn";
@@ -21,6 +23,9 @@ import { RoomEvents } from "@/services/websockets/userAddedToRoomEvents";
 import { removeToken, saveToken } from "@/services/localStorage/AuthStorage";
 import { getUserInfo } from "@/services/api/getUserInfo";
 import router from "@/router";
+import { getFileDownloadUrl } from "@/services/api/getFileDownloadUrl";
+
+/* import { modalNewMember, modalNewRoom } from "@/store/StoreModules/ModalStore"; */
 
 const socketClient = new SocketClient();
 const chatMessageEvents = new ChatMessageEvents(socketClient);
@@ -65,9 +70,14 @@ export default createStore({
       },
     ],
 
-    filesList: [] as File[],
+    sendFilesData: {
+      roomId: "",
+      files: [] as File[],
+    },
 
     inputFilesModal: [{ files: false }],
+
+    fileUrls: "",
   },
 
   mutations: {
@@ -165,18 +175,43 @@ export default createStore({
     },
 
     SET_FILES_LIST(state, files: File[]) {
-      state.filesList = files;
+      state.sendFilesData.files = files;
     },
 
     DELETE_FILE_OF_THE_LIST(state, index: number) {
-      console.log("Comecou: ", state.filesList);
-      state.filesList.splice(index, 1);
-      state.filesList = [...state.filesList];
-      console.log("Terminou: ", state.filesList);
+      state.sendFilesData.files.splice(index, 1);
+      state.sendFilesData.files = [...state.sendFilesData.files];
     },
 
     SHOW_MODAL_INPUT_FILE(state) {
       state.inputFilesModal[0].files = !state.inputFilesModal[0].files;
+    },
+
+    SET_FILE_URL(state, payload) {
+      state.fileUrls = payload;
+    },
+
+    UPDATE_MESSAGE_FILE(state, payload: UploadFileFinishData) {
+      /*       payload.roomId = "6340b7c8d488fad1000d2458";
+      payload.messageId = "63573a23143ab4d142f59ba0";
+      payload.file.available = false; */
+
+      const room = state.messagesList[payload.roomId];
+      const messageIndex = room.findIndex(
+        (message) => message.id === payload.messageId
+      );
+      if (messageIndex === -1) return;
+
+      if (!room[messageIndex].files) return;
+      const fileIndex = room[messageIndex]?.files?.findIndex(
+        (file) => file.id === payload.file.id
+      );
+
+      if (fileIndex === -1 || fileIndex === undefined) return;
+      if (room[messageIndex].files) {
+        room[messageIndex].files as MessageFile[];
+        room[messageIndex].files[fileIndex] = { ...payload.file };
+      }
     },
   },
 
@@ -201,6 +236,7 @@ export default createStore({
         saveToken(signInData.token);
         socketClient.connect(signInData.token);
         chatMessageEvents.newMessage();
+        chatMessageEvents.uploadMessageFileFinish();
         roomEvents.userAddedToRoom();
         httpClient.setToken(signInData.token);
         return;
@@ -283,19 +319,20 @@ export default createStore({
       context.commit("SET_USER_INFO", userData);
       socketClient.connect(token);
       chatMessageEvents.newMessage();
+      chatMessageEvents.uploadMessageFileFinish();
       roomEvents.userAddedToRoom();
     },
 
     async RECEIVE_NEW_MESSAGE(context, messagegData: MessageRaw) {
-      console.log("Receive");
       if (messagegData.user.id === context.state.userInfo.user.id) {
         if (!!messagegData.files && messagegData.files.length) {
           for (const file of messagegData.files) {
-            const currentFile = context.state.filesList.find(
+            const currentFile = context.state.sendFilesData.files.find(
               (fileItem) => fileItem.name === file.name
             );
 
             const sendFileData = {
+              roomId: context.state.actualRoom,
               fileId: file.id,
               data: currentFile,
             };
@@ -306,6 +343,13 @@ export default createStore({
       }
 
       context.commit("SET_MESSAGE_ON_LIST", [messagegData]);
+    },
+
+    async DOWNLOAD_FILE(context, fileId: string) {
+      const fileUrl = await getFileDownloadUrl({ fileId });
+      return fileUrl;
+
+      console.log(fileUrl);
     },
   },
 

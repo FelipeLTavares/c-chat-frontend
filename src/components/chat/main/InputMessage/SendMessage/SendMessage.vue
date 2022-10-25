@@ -3,9 +3,10 @@
     <div class="inputMessage">
       <div class="InputFiles">
         <Paperclip class="paperclip" @click="SHOW_MODAL_INPUT_FILE()" />
-        <span :class="{ InputFilesSpan: true, hide: !filesList.length }">{{
-          filesList.length
-        }}</span>
+        <span
+          :class="{ InputFilesSpan: true, hide: !sendFilesData.files.length }"
+          >{{ sendFilesData.files.length }}</span
+        >
       </div>
       <input
         type="text"
@@ -49,7 +50,7 @@ export default defineComponent({
       "userInfo",
       "messagesList",
       "inputFilesModal",
-      "filesList",
+      "sendFilesData",
       "actualRoom",
     ]),
   },
@@ -65,7 +66,7 @@ export default defineComponent({
     },
 
     pushNewMessage() {
-      const files = [...this.filesList].map((file) => ({
+      const filesData = [...this.sendFilesData.files].map((file) => ({
         name: file.name,
         type: file.type,
         size: file.size,
@@ -75,7 +76,7 @@ export default defineComponent({
         roomId: this.actualRoom,
         userId: this.userInfo.user.id,
         text: this.messageToSend,
-        files,
+        files: filesData,
       };
       this.SEND_NEW_MESSAGE(msg);
       this.messageToSend = "";

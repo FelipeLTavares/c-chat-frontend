@@ -1,6 +1,8 @@
 <template>
   <div class="messageBox" :style="messageStyle">
     <span class="MBUser">{{ userName }}</span>
+    <MBFileComponent v-show="messageFiles" :list="messageFiles" />
+    <!-- <TesteComp :list="teste"></TesteComp> -->
     <p class="messageBoxText">
       {{ messageText }}
     </p>
@@ -11,19 +13,30 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import { MessageStyle } from "@/types";
+import { MessageFile, MessageStyle } from "@/types";
+import MBFileComponent from "../MBFileComponent/MBFileComponent.vue";
+/* import TesteComp from "../MBFileComponent/TesteComp.vue"; */
 
 export default defineComponent({
   name: "messageBox",
-  components: {},
+  components: { MBFileComponent /* TesteComp */ },
   props: {
     userName: String,
     messageText: String,
     messageTime: String,
     messageSelf: Boolean,
+    messageFiles: {
+      type: Object as () => MessageFile[],
+      required: false,
+    },
   },
   data() {
     return {
+      teste: [
+        { name: "Teste", type: "PDF", size: "4 MB" },
+        { name: "Teste", type: "PDF", size: "4 MB" },
+        { name: "Teste", type: "PDF", size: "4 MB" },
+      ],
       selfUser: this.messageSelf,
       boxColor: "flex-end" as string,
       messageStyle: {} as MessageStyle,

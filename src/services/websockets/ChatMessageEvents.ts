@@ -1,5 +1,5 @@
 import store from "@/store";
-import { MessageRaw, SendNewMessageData } from "@/types";
+import { MessageFile, MessageRaw, SendNewMessageData } from "@/types";
 import { SocketClient } from "./socketClient";
 
 export class ChatMessageEvents {
@@ -17,5 +17,11 @@ export class ChatMessageEvents {
 
   uploadMessageFile(msgData: any) {
     this.socket.emit("UPLOAD_MESSAGE_FILE", msgData);
+  }
+
+  uploadMessageFileFinish() {
+    this.socket.on<MessageFile>("UPLOAD_MESSAGE_FILE_FINISH", (file) => {
+      store.commit("UPDATE_MESSAGE_FILE", { file });
+    });
   }
 }

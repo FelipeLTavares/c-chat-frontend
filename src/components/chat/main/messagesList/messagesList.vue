@@ -7,6 +7,7 @@
       :messageText="message.text"
       :messageTime="message.created"
       :messageSelf="message.isSelf"
+      :messageFiles="message.files"
     />
     <div class="fim" ref="fim"></div>
   </div>
