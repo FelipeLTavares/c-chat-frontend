@@ -80,6 +80,7 @@ export default defineComponent({
       };
       this.SEND_NEW_MESSAGE(msg);
       this.messageToSend = "";
+      this.SHOW_MODAL_INPUT_FILE();
     },
   },
 
