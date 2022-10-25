@@ -192,14 +192,15 @@ export default createStore({
     },
 
     UPDATE_MESSAGE_FILE(state, payload: UploadFileFinishData) {
-      /*       payload.roomId = "6340b7c8d488fad1000d2458";
+      /* payload.roomId = "6340b7c8d488fad1000d2458";
       payload.messageId = "63573a23143ab4d142f59ba0";
       payload.file.available = false; */
 
-      const room = state.messagesList[payload.roomId];
-      const messageIndex = room.findIndex(
-        (message) => message.id === payload.messageId
-      );
+      const roomId = payload.roomId;
+      const msgid = payload.messageId;
+
+      const room = state.messagesList[roomId];
+      const messageIndex = room.findIndex((message) => message.id === msgid);
       if (messageIndex === -1) return;
 
       if (!room[messageIndex].files) return;
@@ -209,10 +210,27 @@ export default createStore({
 
       if (fileIndex === -1 || fileIndex === undefined) return;
       if (room[messageIndex].files) {
-        room[messageIndex].files as MessageFile[];
-        room[messageIndex].files[fileIndex] = { ...payload.file };
+        const file = payload.file;
+        state.messagesList[payload.roomId][messageIndex].files![fileIndex] =
+          file;
       }
     },
+
+    /*  TESTEE(state, payload: UploadFileFinishData) {
+      const roomId = "6340b7c8d488fad1000d2458";
+      const messageId = "635744be143ab4d142f59ba8";
+
+      const messageIndex = state.messagesList[roomId].findIndex(
+        (msg) => msg.id === messageId
+      );
+
+      if (
+        state.messagesList[roomId][messageIndex].files !== undefined &&
+        state.messagesList[roomId][messageIndex].files !== null
+      ) {
+        console.log(state.messagesList[roomId][messageIndex].files![0]);
+      }
+    }, */
   },
 
   actions: {

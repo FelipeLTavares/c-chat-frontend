@@ -21,6 +21,10 @@ export default defineComponent({
   computed: {
     ...mapState(["messagesList", "actualRoom"]),
   },
+
+  updated() {
+    this.$router.push({ name: "Auth" });
+  },
 });
 </script>
 
