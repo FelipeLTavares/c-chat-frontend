@@ -20,7 +20,7 @@
           />
         </div>
       </div>
-      <CloseCircleOutline class="closeButton" @click="clearFiles()" />
+      <CloseCircleOutline class="closeButton" @click="closeFilesModal()" />
     </div>
   </div>
 </template>
@@ -53,7 +53,7 @@ export default defineComponent({
     fileUpdload() {
       this.SET_FILES_LIST([...(this.$refs.filesUploaded as any).files]);
     },
-    clearFiles() {
+    closeFilesModal() {
       this.SHOW_MODAL_INPUT_FILE();
     },
   },
