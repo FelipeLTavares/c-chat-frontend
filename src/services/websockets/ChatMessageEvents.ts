@@ -20,8 +20,11 @@ export class ChatMessageEvents {
   }
 
   uploadMessageFileFinish() {
-    this.socket.on<MessageFile>("UPLOAD_MESSAGE_FILE_FINISH", (file) => {
-      store.commit("UPDATE_MESSAGE_FILE", { file });
-    });
+    this.socket.on<MessageFile>(
+      "UPLOAD_MESSAGE_FILE_FINISH",
+      (fileFinishData) => {
+        store.commit("UPDATE_MESSAGE_FILE", fileFinishData);
+      }
+    );
   }
 }
