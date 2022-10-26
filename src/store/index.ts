@@ -2,7 +2,6 @@ import { createStore } from "vuex";
 
 import {
   CreateUserData,
-  MessageFile,
   MessageRaw,
   MessageReady,
   NewMemberData,
@@ -192,10 +191,6 @@ export default createStore({
     },
 
     UPDATE_MESSAGE_FILE(state, payload: UploadFileFinishData) {
-      /* payload.roomId = "6340b7c8d488fad1000d2458";
-      payload.messageId = "63573a23143ab4d142f59ba0";
-      payload.file.available = false; */
-
       const roomId = payload.roomId;
       const msgid = payload.messageId;
 
@@ -215,22 +210,6 @@ export default createStore({
           file;
       }
     },
-
-    /*  TESTEE(state, payload: UploadFileFinishData) {
-      const roomId = "6340b7c8d488fad1000d2458";
-      const messageId = "635744be143ab4d142f59ba8";
-
-      const messageIndex = state.messagesList[roomId].findIndex(
-        (msg) => msg.id === messageId
-      );
-
-      if (
-        state.messagesList[roomId][messageIndex].files !== undefined &&
-        state.messagesList[roomId][messageIndex].files !== null
-      ) {
-        console.log(state.messagesList[roomId][messageIndex].files![0]);
-      }
-    }, */
   },
 
   actions: {
