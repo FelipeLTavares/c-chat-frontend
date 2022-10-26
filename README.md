@@ -1,9 +1,5 @@
 # C-CHAT Front-end
 
-## Apresentação
-
-![Alt Teste](images/Step 1.png)
-
 ## O que é o C-CHAT?
 > Em um mundo onde os aplicativos de mensagens se tornaram indispensáveis, surge a proposta de desenvolver uma nova opção. C-Chat é um aplicativo de troca de mensagens em tempo real, desenvolvido por mim, Felipe Tavares, e pelo Jirlan Souza, com o objetivo permitir que os usuários possam usufruir de um aplicativo amigável, gratuito e que preze pela privacidade.
 
