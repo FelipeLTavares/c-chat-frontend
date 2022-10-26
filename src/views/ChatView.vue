@@ -17,13 +17,13 @@ export default defineComponent({
     SideBar,
     ChatComponent,
   },
-
   computed: {
-    ...mapState(["messagesList", "actualRoom"]),
+    ...mapState(["messagesList", "actualRoom", "userInfo"]),
   },
-
   updated() {
-    this.$router.push({ name: "Auth" });
+    if (!this.userInfo.isLoggedIn) {
+      this.$router.push({ path: "/auth" });
+    }
   },
 });
 </script>

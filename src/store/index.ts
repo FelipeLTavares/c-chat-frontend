@@ -24,8 +24,6 @@ import { getUserInfo } from "@/services/api/getUserInfo";
 import router from "@/router";
 import { getFileDownloadUrl } from "@/services/api/getFileDownloadUrl";
 
-/* import { modalNewMember, modalNewRoom } from "@/store/StoreModules/ModalStore"; */
-
 const socketClient = new SocketClient();
 const chatMessageEvents = new ChatMessageEvents(socketClient);
 const roomEvents = new RoomEvents(socketClient);

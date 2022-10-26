@@ -13,9 +13,7 @@ export default defineComponent({
   name: "App",
 
   data() {
-    return {
-      //
-    };
+    return {};
   },
 });
 </script>
