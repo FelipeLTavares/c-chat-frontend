@@ -73,11 +73,7 @@ export default defineComponent({
   .Container {
     width: 100%;
     display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    scrollbar-color: $c-lightgray $c-lightblue;
-    scrollbar-width: thin;
-
+    flex-direction: column;
     ::-webkit-scrollbar {
       width: 10px;
       background: $c-lightblue;
@@ -94,6 +90,7 @@ export default defineComponent({
       grid-template-areas: "a b c" "a b d";
       justify-items: center;
       align-items: center;
+      margin: 10px 0;
 
       .downloadIcon {
         grid-area: a;
