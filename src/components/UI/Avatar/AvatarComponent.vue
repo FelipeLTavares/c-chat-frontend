@@ -6,7 +6,7 @@
       size="52"
       v-show="!avatarUrl"
     >
-      <span>{{ componentName[0].toUpperCase() }}</span>
+      <span>{{ componentName?.charAt(0) }}</span>
     </v-avatar>
     <img
       class="avatarPic"
