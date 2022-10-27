@@ -6,7 +6,7 @@
           class="downloadIcon"
           :size="30"
           v-show="item.available"
-          @click="downloadUrl(item.id, item.name)"
+          @click="downloadFile(item.id, item.name, item.type)"
         />
         <FileDocumentOutline
           :class="{ documentIcon: true, notAvailable: !item.available }"
@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts">
+import { downloadFile } from "@/services/api/downloadFile";
 import { MessageFile } from "@/types";
-import axios from "axios";
 import { defineComponent } from "vue";
 
 import DownloadCircleOutline from "vue3-material-design-icons-ts/dist/DownloadCircleOutline.vue";
@@ -48,89 +48,15 @@ export default defineComponent({
     ...mapActions(["DOWNLOAD_FILE"]),
     ...mapMutations(["SET_FILE_URL"]),
 
-    async downloadUrl(id: string, name: string) {
-      const response = await this.DOWNLOAD_FILE(id);
-      this.SET_FILE_URL(response.url);
-
-      const responseFile = await axios.get(response.url);
-      const fileUrl = URL.createObjectURL(new Blob([responseFile.data]));
-
-      const linkDownload = this.$refs.linkDownload as any;
-      linkDownload.href = fileUrl;
-      linkDownload.download = name;
-      linkDownload.click();
-
-      URL.revokeObjectURL(fileUrl);
+    async downloadFile(id: string, name: string, type: string) {
+      const { url } = await this.DOWNLOAD_FILE(id);
+      this.SET_FILE_URL(url);
+      await downloadFile(url, name, type);
     },
   },
 });
 </script>
 
 <style lang="scss">
-.MBFileComp {
-  width: 100%;
-
-  .Container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    ::-webkit-scrollbar {
-      width: 10px;
-      background: $c-lightblue;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: $c-lightgray;
-    }
-
-    .Document {
-      width: 200px;
-      display: grid;
-      grid-template: auto auto/40px 50px 110px;
-      grid-template-areas: "a b c" "a b d";
-      justify-items: center;
-      align-items: center;
-      margin: 10px 0;
-
-      .downloadIcon {
-        grid-area: a;
-
-        &:hover {
-          color: $c-royalblue;
-          cursor: pointer;
-        }
-      }
-
-      .documentIcon {
-        grid-area: b;
-
-        &.notAvailable {
-          opacity: 0.6;
-        }
-      }
-
-      .spanTest {
-        width: 100%;
-        text-align: center;
-        font-size: 12px;
-        text-align: start;
-        display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding-left: 5px;
-      }
-      .name {
-        @extend .spanTest;
-        grid-area: c;
-        font-weight: bold;
-      }
-
-      .typeAndSize {
-        @extend .spanTest;
-        grid-area: d;
-      }
-    }
-  }
-}
+@import "./MBFileComponent.scss";
 </style>
