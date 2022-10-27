@@ -7,7 +7,6 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapState } from "vuex";
 
 import SideBar from "../components/chat/SideBar/SideBarComponent/SideBarComponent.vue";
 import ChatComponent from "@/components/chat/main/chatComponent/ChatComponent.vue";
@@ -16,14 +15,6 @@ export default defineComponent({
   components: {
     SideBar,
     ChatComponent,
-  },
-  computed: {
-    ...mapState(["messagesList", "actualRoom", "userInfo"]),
-  },
-  updated() {
-    if (!this.userInfo.isLoggedIn) {
-      this.$router.push({ path: "/auth" });
-    }
   },
 });
 </script>

@@ -348,9 +348,5 @@ export default createStore({
     },
   },
 
-  getters: {
-    getRoomsList(state) {
-      return state.roomsList;
-    },
-  },
+  getters: {},
 });
