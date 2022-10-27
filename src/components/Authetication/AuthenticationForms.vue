@@ -48,7 +48,7 @@ import {
   createFormValidator,
   authFormValidator,
 } from "../../functions/VerifyFunction";
-import LoadingComponent from "../Loading/LoadingComponent.vue";
+import LoadingComponent from "../UI/Loading/LoadingComponent.vue";
 
 export default defineComponent({
   name: "AuthenticationForms",
@@ -63,6 +63,7 @@ export default defineComponent({
       formChange1: "Não é cadastrado?",
       formChange2: "Cadastre-se",
       createUserSubmetedForm: false,
+      items: [{ title: "Teste1" }, { title: "Teste1" }, { title: "Teste1" }],
     };
   },
 
@@ -132,7 +133,7 @@ export default defineComponent({
     this.formWordsChange();
 
     if (this.userInfo.isLoggedIn) {
-      this.$router.push("/chat");
+      this.$router.push("/");
       return;
     }
 

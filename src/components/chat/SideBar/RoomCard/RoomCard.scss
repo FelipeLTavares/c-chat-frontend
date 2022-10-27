@@ -5,30 +5,48 @@
   border-radius: 14px;
   margin: 10px;
   display: grid;
-  grid-template: auto / 73px 237px;
+  grid-template: auto / 280px 30px;
   cursor: pointer;
-}
-.roomPic {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  margin: 15px;
-  overflow: hidden;
-  object-fit: cover;
-}
-.cardInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  transition: all ease 0.3s;
 
-  .roomName {
-    font-weight: 600;
-    font-size: 12px;
+  &.selected{
+    background-color: $c-royalblue;
+    color: $c-white;
+    filter: none !important;
   }
 
-  .roomTime {
-    margin-right: 15px;
-    font-weight: 400;
-    font-size: 10px;
+  &:hover{
+    filter: brightness(0.92);
+  }
+
+  .roomContainer{
+    display: grid;
+    grid-template: auto / 73px 217px;
+    align-items: center;
+    justify-items: center;
+
+    .cardInfo {
+      display: grid;
+      grid-template-columns: auto auto;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    
+      .roomName {
+        font-weight: 600;
+        font-size: 12px;
+      }
+    
+      .roomTime {
+        font-weight: 400;
+        font-size: 10px;
+      }
+    }
   }
 }
+
+
+
+
+
+

@@ -1,10 +1,15 @@
 <template>
-  <div class="roomCard" @click="selectRoom()">
-    <img class="roomPic" :src="roomAvatar" alt="roomName" />
-
-    <div class="cardInfo">
-      <span class="roomName">{{ roomName }}</span>
-      <span class="roomTime">{{ roomLastMsgTime }}</span>
+  <div :class="{ roomCard: true, selected }">
+    <div class="roomContainer" @click="selectRoom()">
+      <AvatarComponent
+        class="roomPic"
+        :componentName="roomName"
+        :avatarUrl="roomAvatar"
+      />
+      <div class="cardInfo">
+        <span class="roomName">{{ roomName }}</span>
+        <span class="roomTime">{{ roomLastMsgTime }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -12,15 +17,24 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapActions } from "vuex";
+import AvatarComponent from "@/components/UI/Avatar/AvatarComponent.vue";
 
 export default defineComponent({
   name: "RoomCard",
+  data() {
+    return {
+      newMember: "",
+      showInput: false,
+    };
+  },
   props: {
-    roomId: String, /////////Lembrar disso
+    roomId: String,
     roomName: String,
     roomAvatar: String,
     roomLastMsgTime: String,
+    selected: Boolean,
   },
+  components: { AvatarComponent },
   methods: {
     ...mapActions(["CHANGE_ACTUAL_ROOM"]),
     selectRoom() {

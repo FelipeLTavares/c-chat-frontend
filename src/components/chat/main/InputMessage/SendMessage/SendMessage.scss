@@ -1,0 +1,90 @@
+.SendMessage{
+  width: 95%;
+  overflow: auto;
+  
+}
+.inputMessage {
+  width: 100%;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(150, 169, 186, 0.7);
+  background-color: $c-white-bg;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  padding-left: 12px;
+
+  .InputFiles{
+    position: relative;
+    
+    .paperclip{
+      margin-left: 5px;
+      display: flex;
+      justify-content: end;
+      transform: rotate(45deg);
+      cursor: pointer;
+      color: $c-royalblue;
+      transition: all ease 0.3s;
+  
+      &:hover{
+        opacity: 0.8;
+      }
+    }
+  
+    .InputFilesSpan{
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background-color: $c-green;
+      top: -5px;
+      right: -7px;
+      border-radius: 8px;
+      border: 2px solid $c-white-bg;
+      font-size: 8px;
+      color: $c-white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &.hide{
+        display: none;
+      }
+    }
+  }
+
+
+  input {
+    height: 40px;
+    background: $c-white-bg;
+    border: none;
+    padding: 16px;
+    flex: 1;
+    outline: none;
+  }
+  button {
+    width: 108px;
+    height: 40px;
+    background: $c-royalblue;
+    color: $c-white;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 18px;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.iconeSend {
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

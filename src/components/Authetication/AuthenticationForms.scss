@@ -16,7 +16,7 @@
   margin-bottom: 24px;
   font-weight: 600;
   font-size: 24px;
-  color: $c-text-gray;
+  color: $c-gray;
 }
 
 form {
@@ -34,12 +34,12 @@ form {
     margin: 8px;
     padding-left: 17px;
 
-    background: $c-generalbg;
+    background: $c-white;
     outline-color: $c-royalblue;
-    border: 1px solid $c-border-gray;
+    border: 1px solid $c-lightgray;
 
     font-size: 12px;
-    color: $c-input-gray;
+    color: $c-lightgray;
   }
 
   button {
@@ -66,7 +66,7 @@ form {
   .formButton {
     font-weight: 600;
     font-size: 12px;
-    color: $c-generalbg;
+    color: $c-white;
     background-color: $c-royalblue;
     padding: 0;
     border-radius: 14px;
@@ -83,7 +83,7 @@ form {
   font-weight: 600;
   font-size: 12px;
   text-align: center;
-  color: $c-text-gray;
+  color: $c-gray;
   margin-bottom: 32px;
   margin-top: 24px;
   cursor: pointer;

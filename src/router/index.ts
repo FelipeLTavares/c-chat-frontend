@@ -1,30 +1,61 @@
-import store from '@/store'
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { getToken } from "@/services/localStorage/AuthStorage";
+import store from "@/store";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+
+import Auth from "../views/AuthenticationView.vue";
+import Chat from "../views/ChatView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    name: 'Auth',
-    component: ()=> import('../views/AuthenticationView.vue')
+    path: "/",
+    name: "Chat",
+    component: Chat,
   },
   {
-    path: '/chat',
-    name: 'Chat',
-    component: ()=> import('../views/ChatView.vue')
-  }
-]
+    path: "/auth",
+    name: "Auth",
+    component: Auth,
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-router.beforeEach( (to, from) => {
-  if(!store.state.userInfo.isLoggedIn && to.name !== 'Auth'){
-    return {
-      name: 'Auth'
-    }
+async function verifyToken() {
+  const token = getToken();
+  if (token) {
+    await store.dispatch("SET_TOKEN", token);
+    return true;
   }
-} )
+  return false;
+}
 
-export default router
+router.beforeEach(async (to, from, next) => {
+  if (
+    !store.state.userInfo.isLoggedIn &&
+    to.name === "Auth" &&
+    (await verifyToken())
+  ) {
+    next({
+      path: "/",
+      replace: true,
+    });
+    return;
+  }
+  if (
+    !store.state.userInfo.isLoggedIn &&
+    to.name !== "Auth" &&
+    !(await verifyToken())
+  ) {
+    next({
+      path: "/auth",
+      replace: true,
+    });
+    return;
+  }
+  next();
+});
+
+export default router;

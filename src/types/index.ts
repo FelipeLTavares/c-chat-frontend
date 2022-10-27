@@ -12,7 +12,19 @@ export interface CreateRoomData {
 
 export interface CreateRoomResponse {
   createSuccsess: boolean;
-  roomInfo?: Room
+  roomInfo?: Room;
+}
+
+//ADD MEMBER
+export interface NewMemberData {
+  roomId: string;
+  userEmail: string;
+}
+
+//ADD USER TO ROOM MESSAGE DATA
+export interface AddUserToRoomMessageData {
+  userId: string;
+  room: Room;
 }
 
 //AUTH
@@ -40,21 +52,15 @@ export interface UserInfo {
 }
 
 //CHAT
-////Message itself
-export interface MessageInfo {
+////Message
+export interface MessageFile {
   id: string;
-  roomId: string;
-  user: {
-    id: string;
-    name: string;
-    avatarUrl: string;
-  };
-  text: string;
-  created: string;
-  isSelf: boolean;
+  name: string;
+  type: string;
+  size: string;
+  available: boolean;
 }
 
-////Messages List
 export interface MessageRaw {
   id: string;
   roomId: string;
@@ -64,6 +70,7 @@ export interface MessageRaw {
     avatarUrl: string;
   };
   text: string;
+  files?: MessageFile[];
   created: string;
 }
 
@@ -76,6 +83,7 @@ export interface MessageReady {
     avatarUrl: string;
   };
   text: string;
+  files?: MessageFile[];
   created: string;
   isSelf: boolean;
 }
@@ -84,6 +92,20 @@ export interface SendNewMessageData {
   roomId: string;
   userId: string;
   text: string;
+  files?: FileMessageData[];
+}
+
+export interface FileMessageData {
+  name: string;
+  type: string;
+  size: string;
+}
+
+////UploadFileFinishData
+export interface UploadFileFinishData {
+  roomId: string;
+  messageId: string;
+  file: MessageFile;
 }
 
 ////Message Style
@@ -92,6 +114,15 @@ export interface MessageStyle {
   borderRadius: string;
   backgroundColor?: string;
   color?: string;
+}
+
+//
+export interface GetFileDownloadUrlData {
+  fileId: string;
+}
+
+export interface GetFileDownloadUrlResponse {
+  url: string;
 }
 
 //Room
